@@ -1,7 +1,7 @@
 ## Especificidades
 
 - **Requisitante**: Instituição que necessita de propostas de preços para realização de uma aquisição ou estudo dos preços de mercado;
-- **Fornecedora**: Empresa que fornecerá a proposta para instituição requisitante;
+- **Fornecedor**: Empresa que fornecerá a proposta para instituição requisitante;
 
 ## Regras de Negócio
 
@@ -9,22 +9,23 @@
 
 - O requisitante deve poder cadastrar um modelo de proposta, que dará origem a uma proposta.
 - Um modelo de proposta deve ter os seguintes atributos:
-	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, telefone e setor;
-	* Os materiais cadastrados pelo requisitante: descrição, unidade e quantidade;
-	* A quantidade de fornecedoras que o modelo está disponível.
-- A partir de um modelo de proposta o requisitante deve ser capaz de gerar um link para cada fornecedora, que possibilitará cadastrar uma única proposta.
+	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, emails, telefones, setor e responsável;
+	* Os materiais cadastrados pelo requisitante: descrição, unidade, quantidade, preço e se foi adquirido ou não;
+	* Observações gerais sobre a proposta;
+	* A quantidade de Fornecedores que o modelo está disponível.
+- A partir de um modelo de proposta o requisitante deve ser capaz de gerar um link para cada Fornecedor, que possibilitará cadastrar uma única proposta.
 - Após o cadastro da proposta ou passados 5 dias uteis o link supracitado deve ser invalidado.
 - O requisitante deve poder invalidar o link a qualquer tempo.
 - Uma proposta deve ter os seguintes atributos:
-	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, telefone e setor;
-	* Dados da empresa fornecedora da proposta: nome, CNPJ, endereço e telefone;
-	* Os materiais cadastrados pelo requisitante: descrição, unidade, quantidade e preço;
+	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, emails, telefones e responsável;
+	* Dados da empresa Fornecedor da proposta: nome, CNPJ, endereço e telefone;
+	* Os materiais cadastrados pelo requisitante: descrição, unidade, quantidade, preço e se foi adquirido ou não;
 	* Porcentagem de desconto a ser aplicado no somatório dos preços totais dos materiais;
 	* Endereço de entrega dos materiais;
-	* Se os materiais desta proposta foram adquiridos ou não;
-	* Um documento em pdf ou imagem, contendo a proposta preenchida e assinada pela 	fornecedora.
+	* Observações gerais sobre a proposta;
+	* Um documento em pdf ou imagem, contendo a proposta preenchida e assinada pela Fornecedor.
 - Com exceção da porcentagem de desconto, o preenchimento de todos os dados da proposta devem ser obrigatórios.
-- O próprio requisitante também deve ser capaz de cadastrar uma proposta, no caso de preços coletados em sites especializados na internet, em tabelas de preços como as da SINAPI ou devido impossibilidade da fornecedora preencher a proposta.
+- O próprio requisitante também deve ser capaz de cadastrar uma proposta, no caso de preços coletados em sites especializados na internet, em tabelas de preços como as da SINAPI ou devido impossibilidade da Fornecedor preencher a proposta.
 
 ### 2. Calculo Preço Global da Proposta
 
