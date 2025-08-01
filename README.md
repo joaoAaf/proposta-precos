@@ -1,6 +1,6 @@
-# Sistema de Cadastro de Propostas de Preço para Materiais de Construção
+# Sistema de Cadastro de Propostas de Preço
 
-Este projeto é um sistema web para cadastro, envio e comparação de propostas de preço de materiais de construção. Ele permite que requisitantes criem modelos de propostas, enviem links para empresas preencherem os dados e preços, e armazenem as propostas recebidas para consulta e comparação.
+Este projeto é um sistema web para cadastro, envio e comparação de propostas de preço. Ele permite que requisitantes criem modelos de propostas, enviem links para empresas preencherem os dados e preços, e armazenem as propostas recebidas para consulta e comparação.
 
 ## Funcionalidades
 
