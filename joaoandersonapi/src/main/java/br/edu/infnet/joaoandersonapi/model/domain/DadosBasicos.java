@@ -3,12 +3,12 @@ package br.edu.infnet.joaoandersonapi.model.domain;
 public class DadosBasicos {
 
     private String cnpj;
-    private String nome;
+    private String razaoSocial;
     private Endereco endereco;
 
-    public DadosBasicos(String cnpj, String nome, Endereco endereco) {
+    public DadosBasicos(String cnpj, String razaoSocial, Endereco endereco) {
         this.cnpj = cnpj;
-        this.nome = nome;
+        this.razaoSocial = razaoSocial;
         this.endereco = endereco;
     }
 
@@ -20,12 +20,12 @@ public class DadosBasicos {
         this.cnpj = cnpj;
     }
 
-    public String getNome() {
-        return nome;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
     public Endereco getEndereco() {
@@ -69,7 +69,7 @@ public class DadosBasicos {
 
     @Override
     public String toString() {
-        return "DadosBasicos [cnpj=" + cnpj + ", nome=" + nome + ", endereco=" + endereco + "]";
+        return "DadosBasicos [cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + ", endereco=" + endereco + "]";
     }
 
 }

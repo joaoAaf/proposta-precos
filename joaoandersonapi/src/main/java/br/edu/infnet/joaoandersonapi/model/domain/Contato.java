@@ -7,16 +7,19 @@ public class Contato {
     private String telefone1;
     private String telefone2;
     
-    public Contato(String email1, String telefone1) {
-        this.email1 = email1;
-        this.telefone1 = telefone1;
-    }
-
     public Contato(String email1, String email2, String telefone1, String telefone2) {
         this.email1 = email1;
         this.email2 = email2;
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
+    }
+    
+    public Contato(String email1, String telefone1) {
+        this.email1 = email1;
+        this.telefone1 = telefone1;
+    }
+
+    public Contato() {
     }
 
     public String getEmail1() {

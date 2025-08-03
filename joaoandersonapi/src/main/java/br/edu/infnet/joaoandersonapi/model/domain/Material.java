@@ -7,11 +7,11 @@ public class Material {
     private Integer numeroItem;
     private String descricao;
     private String unidade;
-    private Integer quantidade;
+    private BigDecimal quantidade;
     private BigDecimal preco;
     private boolean adquirido;
 
-    public Material(Integer numeroItem, String descricao, String unidade, Integer quantidade, BigDecimal preco) {
+    public Material(Integer numeroItem, String descricao, String unidade, BigDecimal quantidade, BigDecimal preco) {
         this.numeroItem = numeroItem;
         this.descricao = descricao;
         this.unidade = unidade;
@@ -20,7 +20,7 @@ public class Material {
     }
 
     public BigDecimal calcularPrecoTotal() {
-        return preco.multiply(new BigDecimal(quantidade));
+        return preco.multiply(quantidade);
     }
 
     public Integer getNumeroItem() {
@@ -47,11 +47,11 @@ public class Material {
         this.unidade = unidade;
     }
 
-    public Integer getQuantidade() {
+    public BigDecimal getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Integer quantidade) {
+    public void setQuantidade(BigDecimal quantidade) {
         this.quantidade = quantidade;
     }
 
