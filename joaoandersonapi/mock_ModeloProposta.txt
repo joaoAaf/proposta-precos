@@ -1,0 +1,11 @@
+1234567890123;Sociedade de Serviços Ltda.;Rua das Acácias;101;Bairro das Flores;Rio de Janeiro;RJ;22680000;example1@example.com;example2@exemplo.com;21987654;123456;João Silva;Setor A
+9876543210987;Empresa de Logística;Rua dos Correios;202;Bairro do Comércio;São Paulo;SP;14070000;example3@example.com;example4@exemplo.com;34567890;98765432;Maria Oliveira;Setor B
+1111111111111;Cooperativa de Trabalho;Rua da Indústria;303;Bairro das Indústrias;Limoeiro do Norte;CE;29000000;example5@example.com;example6@exemplo.com;45678901;11111111;Pedro Costa;Setor C
+2222222222222;Consultoria em Tecnologia;Rua das Técnicas;401;Bairro das Tecnologias;Belo Horizonte;MG;30100000;example7@example.com;example8@exemplo.com;77788888;22222222;Ana Silva;Setor D
+3333333333333;Empresa de Finanças;Rua dos Bancos;501;Bairro das Financas;Curitiba;PR;80000000;example9@example.com;example10@exemplo.com;99988899;33333333;João Pereira;Setor E
+4444444444444;Fundação de Caridade;Rua da Humanidade;601;Bairro das Humanidades;Fortaleza;CE;90000000;example11@example.com;example12@exemplo.com;77777777;44444444;Maria João;Setor F
+5555555555555;Organização de Investimentos;Rua das Financas;701;Bairro das Financas;Manaus;AM;95000000;example13@example.com;example14@exemplo.com;88888888;55555555;Luiz Oliveira;Setor G
+6666666666666;Empresa de Turismo;Rua das Aventuras;801;Bairro das Aventuras;Brasília;DF;70000000;example15@example.com;example16@exemplo.com;99999999;91919191;João Martins;Setor H
+7777777777777;Consultoria em Marketing;Rua das Estratégias;901;Bairro das Estratégias;Porto Alegre;RS;90600000;example17@example.com;example18@exemplo.com;21212121;12121212;Ana Maria;Setor I
+8888888888888;Empresa de Logística;Rua das Compras;1001;Bairro das Compras;Salvador;BA;90000000;example19@example.com;example20@exemplo.com;34343434;43434343;Pedro Silva;Setor J
+9999999999999;Fundação de Ciência;Rua das Descobertas;1101;Bairro das Descobertas;Recife;PE;90000000;example21@example.com;example22@exemplo.com;45454545;54545454;Maria Luiza;Setor K
