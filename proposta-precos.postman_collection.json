@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "af0e1cf7-b7ac-4060-9449-a89d440a2a8c",
+		"name": "proposta-precos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47361745",
+		"_collection_link": "https://joaoaaf-51a68bb6-9213455.postman.co/workspace/Jo%25C3%25A3o-Anderson's-Workspace~0bbc4f06-0094-4598-8518-0bcd7a2aae9d/collection/47361745-af0e1cf7-b7ac-4060-9449-a89d440a2a8c?action=share&source=collection_link&creator=47361745"
+	},
+	"item": [
+		{
+			"name": "listar-modelos-proposta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/modelo-proposta",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"modelo-proposta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obter-modelo-proposta-por-id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/modelo-proposta/3",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"modelo-proposta",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cadastrar-modelo-proposta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    },\n    \"materiais\": [],\n    \"observacoes\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/modelo-proposta",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"modelo-proposta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar-modelo-proposta",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    },\n    \"materiais\": [],\n    \"observacoes\": \"Incluir frete no preço dos materiais\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/modelo-proposta/12",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"modelo-proposta",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remover-modelo-proposta-por-id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/modelo-proposta/12",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"modelo-proposta",
+						"12"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8080",
+			"type": "default"
+		}
+	]
+}
