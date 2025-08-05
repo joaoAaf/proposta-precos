@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaDto;
+import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaPost;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 
 @RestController
@@ -27,7 +27,7 @@ public class ModeloPropostaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloPropostaDto modeloPropostaDto) {
+    public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloPropostaPost modeloPropostaDto) {
         try {
             var idModeloProposta = modeloPropostaUseCases.cadastrar(modeloPropostaDto);
             return ResponseEntity.status(HttpStatus.CREATED).body("Modelo de proposta cadastrado com sucesso! Id: " + idModeloProposta);
@@ -59,7 +59,7 @@ public class ModeloPropostaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloPropostaDto modeloPropostaDto,
+    public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloPropostaPost modeloPropostaDto,
             @PathVariable Long id) {
         try {
             modeloPropostaUseCases.atualizar(modeloPropostaDto, id);

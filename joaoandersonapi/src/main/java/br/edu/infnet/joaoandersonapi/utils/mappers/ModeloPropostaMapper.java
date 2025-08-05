@@ -6,16 +6,21 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
-import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaDto;
+import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaGet;
+import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaPost;
 
 @Mapper(componentModel = "spring")
 public interface ModeloPropostaMapper {
     
     @Mapping(target = "id", ignore = true)
-    ModeloProposta toModeloProposta(ModeloPropostaDto modeloPropostaDto);
+    ModeloProposta toModeloProposta(ModeloPropostaPost modeloPropostaPost);
 
-    ModeloPropostaDto toModeloPropostaDto(ModeloProposta modeloProposta);
+    ModeloProposta toModeloProposta(ModeloPropostaGet modeloPropostaGet);
 
-    List<ModeloPropostaDto> toModelosPropostaDtos(List<ModeloProposta> modelosProposta);
+    ModeloPropostaGet toModeloPropostaGet(ModeloProposta modeloProposta);
+
+    ModeloPropostaGet toModeloPropostaGet(ModeloPropostaPost modeloPropostaPost, Long id);
+
+    List<ModeloPropostaGet> toModelosPropostaGets(List<ModeloProposta> modelosProposta);
 
 }

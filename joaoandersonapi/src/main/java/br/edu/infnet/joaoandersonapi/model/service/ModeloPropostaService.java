@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
 import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
-import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaDto;
+import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaGet;
+import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaPost;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.utils.mappers.ModeloPropostaMapper;
 
@@ -28,30 +28,29 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
     }
 
     @Override
-    public Long cadastrar(ModeloPropostaDto modeloPropostaDto) {
-        var modeloProposta = modeloPropostaMapper.toModeloProposta(modeloPropostaDto);
+    public Long cadastrar(ModeloPropostaPost modeloPropostaPost) {
+        var modeloProposta = modeloPropostaMapper.toModeloProposta(modeloPropostaPost);
         modeloProposta.setId(proximoId.getAndIncrement());
         modeloPropostaRepository.put(modeloProposta.getId(), modeloProposta);
         return modeloProposta.getId();
     }
 
     @Override
-    public ModeloPropostaDto obterPor(Long id) {
-        var modeloPropostaOpt = Optional.ofNullable(modeloPropostaRepository.get(id));
-        if (modeloPropostaOpt.isPresent()) {
-            return modeloPropostaMapper.toModeloPropostaDto(modeloPropostaOpt.get());
-        }
+    public ModeloPropostaGet obterPor(Long id) {
+        if (modeloPropostaRepository.containsKey(id))
+            return modeloPropostaMapper.toModeloPropostaGet(modeloPropostaRepository.get(id));
         throw new NoSuchElementException("Não existe modelo de proposta com o ID " + id);
     }
 
     @Override
-    public List<ModeloPropostaDto> listar() {
-        return modeloPropostaMapper.toModelosPropostaDtos(new ArrayList<>(modeloPropostaRepository.values()));
+    public List<ModeloPropostaGet> listar() {
+        return modeloPropostaMapper.toModelosPropostaGets(new ArrayList<>(modeloPropostaRepository.values()));
     }
 
     @Override
-    public void atualizar(ModeloPropostaDto modeloPropostaNovo, Long id) {
+    public void atualizar(ModeloPropostaPost modeloPropostaPost, Long id) {
         var modeloPropostaAntigo = this.obterPor(id);
+        var modeloPropostaNovo = modeloPropostaMapper.toModeloPropostaGet(modeloPropostaPost, modeloPropostaAntigo.id());
         if (modeloPropostaAntigo.equals(modeloPropostaNovo))
             throw new IllegalArgumentException("Não é possível atualizar o modelo de proposta com os mesmos dados.");
         modeloPropostaRepository.put(id, modeloPropostaMapper.toModeloProposta(modeloPropostaNovo));
