@@ -21,6 +21,8 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
 
     @Override
     public Long cadastrar(ModeloProposta modeloProposta) {
+        if (modeloProposta == null)
+            throw new IllegalArgumentException("O Modelo de proposta não pode ser nulo.");
         modeloProposta.setId(proximoId.getAndIncrement());
         modeloPropostaRepository.put(modeloProposta.getId(), modeloProposta);
         return modeloProposta.getId();
@@ -28,6 +30,8 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
 
     @Override
     public ModeloProposta obterPor(Long id) {
+        if (id == null)
+            throw new IllegalArgumentException("O ID do modelo de proposta não pode ser nulo.");
         var modeloPropostaOpt = Optional.ofNullable(modeloPropostaRepository.get(id));
         return modeloPropostaOpt
                 .orElseThrow(() -> new NoSuchElementException("Não existe modelo de proposta com o ID " + id));
@@ -40,6 +44,10 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
 
     @Override
     public void atualizar(ModeloProposta modeloPropostaNovo, Long id) {
+        if (modeloPropostaNovo == null)
+            throw new IllegalArgumentException("O Modelo de proposta não pode ser nulo.");
+        if (modeloPropostaNovo.getId() != null)
+            throw new IllegalArgumentException("O ID do Modelo de proposta não pode ser alterado.");
         var modeloPropostaAntigo = this.obterPor(id);
         modeloPropostaNovo.setId(modeloPropostaAntigo.getId());
         if (modeloPropostaAntigo.equals(modeloPropostaNovo))

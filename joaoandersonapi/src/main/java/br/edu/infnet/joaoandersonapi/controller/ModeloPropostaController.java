@@ -30,7 +30,10 @@ public class ModeloPropostaController {
     public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloProposta modeloProposta) {
         try {
             var idModeloProposta = modeloPropostaUseCases.cadastrar(modeloProposta);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Modelo de proposta cadastrado com sucesso! Id: " + idModeloProposta);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("Modelo de proposta cadastrado com sucesso! Id: " + idModeloProposta);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro ao cadastrar modelo de proposta");
         }
@@ -41,6 +44,8 @@ public class ModeloPropostaController {
         try {
             var modeloProposta = modeloPropostaUseCases.obterPor(id);
             return ResponseEntity.ok().body(modeloProposta);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -76,7 +81,7 @@ public class ModeloPropostaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removerModeloPropostaPorId(@PathVariable Long id) {
         try {
-            modeloPropostaUseCases.remover(id); 
+            modeloPropostaUseCases.remover(id);
             return ResponseEntity.noContent().build();
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
