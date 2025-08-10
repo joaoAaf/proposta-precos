@@ -10,13 +10,19 @@ public class ModeloProposta {
     private List<Material> materiais = new ArrayList<>();
     private String observacoes;
 
-    public ModeloProposta(Requisitante requisitante, List<Material> materiais) {
+    public ModeloProposta() {  
+    }
+
+    public ModeloProposta(Requisitante requisitante) {
         this.requisitante = requisitante;
-        this.materiais = materiais;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Material> getMateriais() {

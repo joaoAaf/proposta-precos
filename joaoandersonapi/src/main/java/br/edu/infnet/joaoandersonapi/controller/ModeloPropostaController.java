@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaDto;
+import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 
 @RestController
@@ -27,9 +27,9 @@ public class ModeloPropostaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloPropostaDto modeloPropostaDto) {
+    public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloProposta modeloProposta) {
         try {
-            var idModeloProposta = modeloPropostaUseCases.cadastrar(modeloPropostaDto);
+            var idModeloProposta = modeloPropostaUseCases.cadastrar(modeloProposta);
             return ResponseEntity.status(HttpStatus.CREATED).body("Modelo de proposta cadastrado com sucesso! Id: " + idModeloProposta);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro ao cadastrar modelo de proposta");
@@ -39,8 +39,8 @@ public class ModeloPropostaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> obterModeloPropostaPorId(@PathVariable Long id) {
         try {
-            var modeloPropostaDto = modeloPropostaUseCases.obterPor(id);
-            return ResponseEntity.ok().body(modeloPropostaDto);
+            var modeloProposta = modeloPropostaUseCases.obterPor(id);
+            return ResponseEntity.ok().body(modeloProposta);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -51,18 +51,18 @@ public class ModeloPropostaController {
     @GetMapping
     public ResponseEntity<?> listarModelosProposta() {
         try {
-            var listaModeloPropostaDto = modeloPropostaUseCases.listar();
-            return ResponseEntity.ok().body(listaModeloPropostaDto);
+            var listaModeloProposta = modeloPropostaUseCases.listar();
+            return ResponseEntity.ok().body(listaModeloProposta);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro ao listar modelos de proposta");
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloPropostaDto modeloPropostaDto,
+    public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloProposta modeloProposta,
             @PathVariable Long id) {
         try {
-            modeloPropostaUseCases.atualizar(modeloPropostaDto, id);
+            modeloPropostaUseCases.atualizar(modeloProposta, id);
             return ResponseEntity.noContent().build();
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

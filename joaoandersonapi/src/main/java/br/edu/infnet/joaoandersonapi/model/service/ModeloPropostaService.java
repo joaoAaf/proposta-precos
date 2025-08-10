@@ -11,9 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.stereotype.Service;
 
 import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
-import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaDto;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
-import br.edu.infnet.joaoandersonapi.utils.mappers.ModeloPropostaMapper;
 
 @Service
 public class ModeloPropostaService implements ModeloPropostaUseCases {
@@ -21,40 +19,32 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
     private final Map<Long, ModeloProposta> modeloPropostaRepository = new ConcurrentHashMap<>();
     private final AtomicLong proximoId = new AtomicLong(1L);
 
-    private final ModeloPropostaMapper modeloPropostaMapper;
-
-    public ModeloPropostaService(ModeloPropostaMapper modeloPropostaMapper) {
-        this.modeloPropostaMapper = modeloPropostaMapper;
-    }
-
     @Override
-    public Long cadastrar(ModeloPropostaDto modeloPropostaDto) {
-        var modeloProposta = modeloPropostaMapper.toModeloProposta(modeloPropostaDto);
+    public Long cadastrar(ModeloProposta modeloProposta) {
         modeloProposta.setId(proximoId.getAndIncrement());
         modeloPropostaRepository.put(modeloProposta.getId(), modeloProposta);
         return modeloProposta.getId();
     }
 
     @Override
-    public ModeloPropostaDto obterPor(Long id) {
+    public ModeloProposta obterPor(Long id) {
         var modeloPropostaOpt = Optional.ofNullable(modeloPropostaRepository.get(id));
-        if (modeloPropostaOpt.isPresent()) {
-            return modeloPropostaMapper.toModeloPropostaDto(modeloPropostaOpt.get());
-        }
-        throw new NoSuchElementException("Não existe modelo de proposta com o ID " + id);
+        return modeloPropostaOpt
+                .orElseThrow(() -> new NoSuchElementException("Não existe modelo de proposta com o ID " + id));
     }
 
     @Override
-    public List<ModeloPropostaDto> listar() {
-        return modeloPropostaMapper.toModelosPropostaDtos(new ArrayList<>(modeloPropostaRepository.values()));
+    public List<ModeloProposta> listar() {
+        return new ArrayList<>(modeloPropostaRepository.values());
     }
 
     @Override
-    public void atualizar(ModeloPropostaDto modeloPropostaNovo, Long id) {
+    public void atualizar(ModeloProposta modeloPropostaNovo, Long id) {
         var modeloPropostaAntigo = this.obterPor(id);
+        modeloPropostaNovo.setId(modeloPropostaAntigo.getId());
         if (modeloPropostaAntigo.equals(modeloPropostaNovo))
             throw new IllegalArgumentException("Não é possível atualizar o modelo de proposta com os mesmos dados.");
-        modeloPropostaRepository.put(id, modeloPropostaMapper.toModeloProposta(modeloPropostaNovo));
+        modeloPropostaRepository.put(id, modeloPropostaNovo);
     }
 
     @Override

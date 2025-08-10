@@ -2,18 +2,16 @@ package br.edu.infnet.joaoandersonapi.runners;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import br.edu.infnet.joaoandersonapi.model.dtos.ContatoDto;
-import br.edu.infnet.joaoandersonapi.model.dtos.DadosBasicosDto;
-import br.edu.infnet.joaoandersonapi.model.dtos.EnderecoDto;
-import br.edu.infnet.joaoandersonapi.model.dtos.MaterialDto;
-import br.edu.infnet.joaoandersonapi.model.dtos.ModeloPropostaPost;
-import br.edu.infnet.joaoandersonapi.model.dtos.RequisitanteDto;
+import br.edu.infnet.joaoandersonapi.model.domain.Contato;
+import br.edu.infnet.joaoandersonapi.model.domain.DadosBasicos;
+import br.edu.infnet.joaoandersonapi.model.domain.Endereco;
+import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
+import br.edu.infnet.joaoandersonapi.model.domain.Requisitante;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 
 @Component
@@ -34,17 +32,17 @@ public class InicializadorModeloProposta implements ApplicationRunner {
         while ((linha = ler.readLine()) != null) {
             var atributos = linha.split(";");
             
-            var enderecoDto = new EnderecoDto(atributos[2], atributos[3], atributos[4], atributos[5], atributos[6], atributos[7]);
+            var endereco = new Endereco(atributos[2], atributos[3], atributos[4], atributos[5], atributos[6], atributos[7]);
 
-            var dadosBasicosDto = new DadosBasicosDto(atributos[0], atributos[1], enderecoDto);
+            var dadosBasicos = new DadosBasicos(atributos[0], atributos[1], endereco);
 
-            var contatoDto =  new ContatoDto(atributos[8], atributos[9], atributos[10], atributos[11]);
+            var contato =  new Contato(atributos[8], atributos[9], atributos[10], atributos[11]);
             
-            var requisitanteDto = new RequisitanteDto(dadosBasicosDto, contatoDto, atributos[12], atributos[13]);
+            var requisitante = new Requisitante(dadosBasicos, contato, atributos[12], atributos[13]);
             
-            var modeloPropostaDto = new ModeloPropostaPost(requisitanteDto, new ArrayList<MaterialDto>(), "");
+            var modeloProposta = new ModeloProposta(requisitante);
 
-            modeloPropostaUseCases.cadastrar(modeloPropostaDto);
+            modeloPropostaUseCases.cadastrar(modeloProposta);
             
         }
 
