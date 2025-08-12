@@ -7,7 +7,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import br.edu.infnet.joaoandersonapi.model.domain.Contato;
 import br.edu.infnet.joaoandersonapi.model.domain.DadosBasicos;
 import br.edu.infnet.joaoandersonapi.model.domain.Endereco;
 import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
@@ -35,10 +34,8 @@ public class InicializadorModeloProposta implements ApplicationRunner {
             var endereco = new Endereco(atributos[2], atributos[3], atributos[4], atributos[5], atributos[6], atributos[7]);
 
             var dadosBasicos = new DadosBasicos(atributos[0], atributos[1], endereco);
-
-            var contato =  new Contato(atributos[8], atributos[9], atributos[10], atributos[11]);
             
-            var requisitante = new Requisitante(dadosBasicos, contato, atributos[12], atributos[13]);
+            var requisitante = new Requisitante(dadosBasicos, atributos[8], atributos[9], atributos[10], atributos[11]);
             
             var modeloProposta = new ModeloProposta(requisitante);
 
