@@ -5,14 +5,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class Proposta {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "requisitante_id")
     private Requisitante requisitante;
+
+    @ManyToOne
+    @JoinColumn(name = "fornecedor_id")
     private Fornecedor fornecedor;
+
+    @OneToMany(mappedBy = "proposta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Material> materiais = new ArrayList<>();
+    
     private BigDecimal desconto;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
     private Endereco enderecoEntrega;
+
     private String observacoesRequisitante;
     private String observacoesFornecedor;
 
@@ -29,7 +54,7 @@ public class Proposta {
         this.requisitante = modeloProposta.getRequisitante();
         this.materiais.addAll(modeloProposta.getMateriais());
         this.observacoesRequisitante = Optional.ofNullable(modeloProposta.getObservacoes()).orElse("");
-        this.enderecoEntrega = modeloProposta.getRequisitante().getDadosBasicos().getEndereco();
+        this.enderecoEntrega = modeloProposta.getRequisitante().getInstituicao().getEndereco();
         this.desconto = BigDecimal.ZERO;
     }
 

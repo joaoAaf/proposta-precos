@@ -1,10 +1,13 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
-public class Requisitante extends Instituicao {
+import jakarta.persistence.Entity;
+
+@Entity
+public class Requisitante extends Responsavel {
 
     private String setor;
 
-    public Requisitante(DadosBasicos dadosBasicos, String email, String telefone, String responsavel, String setor) {
+    public Requisitante(Instituicao dadosBasicos, String email, String telefone, String responsavel, String setor) {
         super(dadosBasicos, email, telefone, responsavel);
         this.setor = setor;
     }

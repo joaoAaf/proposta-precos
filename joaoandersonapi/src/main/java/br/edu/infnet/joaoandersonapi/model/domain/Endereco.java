@@ -1,7 +1,16 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Endereco {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String logradouro;
     private String numero;
     private String bairro;
@@ -16,6 +25,10 @@ public class Endereco {
         this.cidade = cidade;
         this.uf = uf;
         this.cep = cep;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getLogradouro() {

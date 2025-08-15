@@ -1,65 +1,58 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
-public abstract class Instituicao {
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-    private Long id;
-    private DadosBasicos dadosBasicos;
-    private String email;
-    private String telefone;
-    private String responsavel;
+@Entity
+public class Instituicao {
 
-    public Instituicao(DadosBasicos dadosBasicos, String email, String telefone, String responsavel) {
-        this.dadosBasicos = dadosBasicos;
-        this.email = email;
-        this.telefone = telefone;
-        this.responsavel = responsavel;
+    @Id
+    private String cnpj;
+    private String nome;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
+
+    public Instituicao(String cnpj, String nome, Endereco endereco) {
+        this.cnpj = cnpj;
+        this.nome = nome;
+        this.endereco = endereco;
     }
 
-    public Long getId() {
-        return id;
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public DadosBasicos getDadosBasicos() {
-        return dadosBasicos;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
-    public void setDadosBasicos(DadosBasicos dadosBasicos) {
-        this.dadosBasicos = dadosBasicos;
+    public String getNome() {
+        return nome;
     }
 
-    public String getEmail() {
-        return email;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getResponsavel() {
-        return responsavel;
-    }
-
-    public void setResponsavel(String responsavel) {
-        this.responsavel = responsavel;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((dadosBasicos == null) ? 0 : dadosBasicos.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
-        result = prime * result + ((responsavel == null) ? 0 : responsavel.hashCode());
+        result = prime * result + ((cnpj == null) ? 0 : cnpj.hashCode());
+        result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
         return result;
     }
 
@@ -72,38 +65,22 @@ public abstract class Instituicao {
         if (getClass() != obj.getClass())
             return false;
         Instituicao other = (Instituicao) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (cnpj == null) {
+            if (other.cnpj != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!cnpj.equals(other.cnpj))
             return false;
-        if (dadosBasicos == null) {
-            if (other.dadosBasicos != null)
+        if (endereco == null) {
+            if (other.endereco != null)
                 return false;
-        } else if (!dadosBasicos.equals(other.dadosBasicos))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (telefone == null) {
-            if (other.telefone != null)
-                return false;
-        } else if (!telefone.equals(other.telefone))
-            return false;
-        if (responsavel == null) {
-            if (other.responsavel != null)
-                return false;
-        } else if (!responsavel.equals(other.responsavel))
+        } else if (!endereco.equals(other.endereco))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Instituicao [id=" + id + ", dadosBasicos=" + dadosBasicos + ", email=" + email + ", telefone="
-                + telefone + ", responsavel=" + responsavel + "]";
+        return "Instituicao [cnpj=" + cnpj + ", nome=" + nome + ", endereco=" + endereco + "]";
     }
 
 }

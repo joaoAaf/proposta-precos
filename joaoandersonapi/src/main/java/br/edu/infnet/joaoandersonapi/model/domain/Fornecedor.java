@@ -1,9 +1,12 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
-public class Fornecedor extends Instituicao {
+import jakarta.persistence.Entity;
 
-    public Fornecedor(DadosBasicos dadosBasicos, String email, String telefone, String responsavel) {
-        super(dadosBasicos, email, telefone, responsavel);
+@Entity
+public class Fornecedor extends Responsavel {
+
+    public Fornecedor(Instituicao instituicao, String email, String telefone, String responsavel) {
+        super(instituicao, email, telefone, responsavel);
     }
 
 }

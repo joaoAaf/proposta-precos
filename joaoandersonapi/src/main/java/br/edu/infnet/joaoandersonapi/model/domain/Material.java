@@ -2,7 +2,21 @@ package br.edu.infnet.joaoandersonapi.model.domain;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Material {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Integer numeroItem;
     private String descricao;
@@ -10,6 +24,16 @@ public class Material {
     private Integer quantidade;
     private BigDecimal preco;
     private boolean adquirido;
+
+    @ManyToOne
+    @JoinColumn(name = "modelo_proposta_id")
+    @JsonIgnore
+    private ModeloProposta modeloProposta;
+
+    @ManyToOne
+    @JoinColumn(name = "proposta_id")
+    @JsonIgnore
+    private Proposta proposta;
 
     public Material(Integer numeroItem, String descricao, String unidade, Integer quantidade, BigDecimal preco) {
         this.numeroItem = numeroItem;
@@ -21,6 +45,10 @@ public class Material {
 
     public BigDecimal calcularPrecoTotal() {
         return preco.multiply(new BigDecimal(quantidade));
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Integer getNumeroItem() {
