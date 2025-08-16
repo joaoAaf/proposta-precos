@@ -21,7 +21,7 @@ public class Material {
     private Integer numeroItem;
     private String descricao;
     private String unidade;
-    private Integer quantidade;
+    private BigDecimal quantidade;
     private BigDecimal preco;
     private boolean adquirido;
 
@@ -35,16 +35,16 @@ public class Material {
     @JsonIgnore
     private Proposta proposta;
 
-    public Material(Integer numeroItem, String descricao, String unidade, Integer quantidade, BigDecimal preco) {
+    public Material(Integer numeroItem, String descricao, String unidade, BigDecimal quantidade) {
         this.numeroItem = numeroItem;
         this.descricao = descricao;
         this.unidade = unidade;
         this.quantidade = quantidade;
-        this.preco = preco;
+        this.preco = BigDecimal.ZERO;
     }
 
     public BigDecimal calcularPrecoTotal() {
-        return preco.multiply(new BigDecimal(quantidade));
+        return preco.multiply(quantidade);
     }
 
     public Long getId() {
@@ -75,11 +75,11 @@ public class Material {
         this.unidade = unidade;
     }
 
-    public Integer getQuantidade() {
+    public BigDecimal getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Integer quantidade) {
+    public void setQuantidade(BigDecimal quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -133,7 +133,7 @@ public class Material {
     @Override
     public String toString() {
         return "Material [numeroItem=" + numeroItem + ", descricao=" + descricao + ", unidade=" + unidade
-                + ", quantidade=" + quantidade + ", preco=" + preco + "]";
+                + ", quantidade=" + quantidade + ", preco=" + preco + ", adquirido=" + adquirido + "]";
     }
 
 }

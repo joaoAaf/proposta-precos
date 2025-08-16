@@ -41,15 +41,6 @@ public class Proposta {
     private String observacoesRequisitante;
     private String observacoesFornecedor;
 
-    public Proposta(Requisitante requisitante, Fornecedor fornecedor, List<Material> materiais, BigDecimal desconto,
-            Endereco enderecoEntrega) {
-        this.requisitante = requisitante;
-        this.fornecedor = fornecedor;
-        this.materiais = materiais;
-        this.desconto = desconto;
-        this.enderecoEntrega = enderecoEntrega;
-    }
-
     public Proposta(ModeloProposta modeloProposta) {
         this.requisitante = modeloProposta.getRequisitante();
         this.materiais.addAll(modeloProposta.getMateriais());
@@ -59,7 +50,9 @@ public class Proposta {
     }
 
     public BigDecimal calcularPrecoGlobal() {
-        BigDecimal precoGlobal = materiais.stream()
+        if (materiais == null || materiais.isEmpty())
+            return BigDecimal.ZERO;
+        var precoGlobal = materiais.stream()
                 .map(Material::calcularPrecoTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         if (desconto == null || desconto.compareTo(BigDecimal.ZERO) <= 0
