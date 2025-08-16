@@ -19,7 +19,7 @@ public class ModeloProposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "requisitante_id")
     private Requisitante requisitante;
 
