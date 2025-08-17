@@ -51,6 +51,10 @@ public class Material {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Integer getNumeroItem() {
         return numeroItem;
     }
@@ -97,6 +101,14 @@ public class Material {
 
     public void setAdquirido(boolean adquirido) {
         this.adquirido = adquirido;
+    }
+
+    public void setModeloProposta(ModeloProposta modeloProposta) {
+        this.modeloProposta = modeloProposta;
+    }
+
+    public void setProposta(Proposta proposta) {
+        this.proposta = proposta;
     }
 
     @Override
