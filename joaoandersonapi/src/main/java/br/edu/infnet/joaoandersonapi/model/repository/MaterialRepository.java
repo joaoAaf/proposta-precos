@@ -8,4 +8,6 @@ import br.edu.infnet.joaoandersonapi.model.domain.Material;
 @Repository
 public interface MaterialRepository extends JpaRepository<Material, Long> {
 
+    Integer countByModeloPropostaId(Long modeloPropostaId);
+
 }
