@@ -8,8 +8,6 @@ public interface MaterialUseCases extends ComumUseCases<Material, Long> {
 
     Material vincularModeloProposta(Long idModeloProposta, Material material);
 
-    Material vincularProposta(Long idProposta, Material material);
-
     BigDecimal atualizarPreco(Long idMaterial, BigDecimal preco);
 
     BigDecimal atualizarQuantidade(Long idMaterial, BigDecimal quantidade);

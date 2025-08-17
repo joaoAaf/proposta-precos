@@ -10,25 +10,23 @@ import br.edu.infnet.joaoandersonapi.model.domain.Material;
 import br.edu.infnet.joaoandersonapi.model.repository.MaterialRepository;
 import br.edu.infnet.joaoandersonapi.model.use_cases.MaterialUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
-import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
 
 @Service
 public class MaterialService implements MaterialUseCases {
 
     private final MaterialRepository materialRepository;
     private final ModeloPropostaUseCases modeloPropostaUseCases;
-    private final PropostaUseCases propostaUseCases;
 
-    public MaterialService(ModeloPropostaUseCases modeloPropostaUseCases, PropostaUseCases propostaUseCases,
-            MaterialRepository materialRepository) {
+    public MaterialService(ModeloPropostaUseCases modeloPropostaUseCases, MaterialRepository materialRepository) {
         this.modeloPropostaUseCases = modeloPropostaUseCases;
-        this.propostaUseCases = propostaUseCases;
         this.materialRepository = materialRepository;
     }
 
     private void validarParametros(Material material) {
         if (material == null)
             throw new IllegalArgumentException("O Material não pode ser nulo");
+        if (material.getId() != null)
+            throw new IllegalArgumentException("O Id do Material não pode estar preenchido");
     }
 
     private void validarParametros(Long id) {
@@ -46,16 +44,9 @@ public class MaterialService implements MaterialUseCases {
         validarParametros(material);
         validarParametros(idModeloProposta);
         var modeloProposta = modeloPropostaUseCases.obterPor(idModeloProposta);
+        var numeroItem = materialRepository.countByModeloPropostaId(idModeloProposta) + 1;
+        material.setNumeroItem(numeroItem);
         material.setModeloProposta(modeloProposta);
-        return material;
-    }
-
-    @Override
-    public Material vincularProposta(Long idProposta, Material material) {
-        validarParametros(material);
-        validarParametros(idProposta);
-        var proposta = propostaUseCases.obterPor(idProposta);
-        material.setProposta(proposta);
         return material;
     }
 
