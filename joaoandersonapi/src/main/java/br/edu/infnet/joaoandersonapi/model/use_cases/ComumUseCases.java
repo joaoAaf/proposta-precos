@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface ComumUseCases<T, ID> {
 
-    Long cadastrar(T t);
+    T cadastrar(T t);
 
     T obterPor(ID id);
 
     List<T> listar();
 
-    void atualizar(T t, ID id);
+    T atualizar(T t, ID id);
 
     void remover(ID id);
     

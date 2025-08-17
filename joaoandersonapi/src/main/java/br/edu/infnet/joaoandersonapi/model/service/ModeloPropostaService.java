@@ -19,11 +19,11 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
     }
 
     @Override
-    public Long cadastrar(ModeloProposta modeloProposta) {
+    public ModeloProposta cadastrar(ModeloProposta modeloProposta) {
         if (modeloProposta == null)
             throw new IllegalArgumentException("O Modelo de proposta não pode ser nulo.");
         var novoModeloProposta = modeloPropostaRepository.save(modeloProposta);
-        return novoModeloProposta.getId();
+        return novoModeloProposta;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
     }
 
     @Override
-    public void atualizar(ModeloProposta modeloPropostaNovo, Long id) {
+    public ModeloProposta atualizar(ModeloProposta modeloPropostaNovo, Long id) {
         if (modeloPropostaNovo == null)
             throw new IllegalArgumentException("O Modelo de proposta não pode ser nulo.");
         if (modeloPropostaNovo.getId() != null)
@@ -50,7 +50,7 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
         modeloPropostaNovo.setId(modeloPropostaAntigo.getId());
         if (modeloPropostaAntigo.equals(modeloPropostaNovo))
             throw new IllegalArgumentException("Não é possível atualizar o modelo de proposta com os mesmos dados.");
-        modeloPropostaRepository.save(modeloPropostaNovo);
+        return modeloPropostaRepository.save(modeloPropostaNovo);
     }
 
     @Override
