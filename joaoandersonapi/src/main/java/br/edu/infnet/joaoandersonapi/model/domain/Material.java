@@ -35,12 +35,14 @@ public class Material {
     @JsonIgnore
     private Proposta proposta;
 
-    public Material(Integer numeroItem, String descricao, String unidade, BigDecimal quantidade) {
-        this.numeroItem = numeroItem;
+    public Material(String descricao, String unidade, BigDecimal quantidade) {
         this.descricao = descricao;
         this.unidade = unidade;
         this.quantidade = quantidade;
         this.preco = BigDecimal.ZERO;
+    }
+
+    public Material() {
     }
 
     public BigDecimal calcularPrecoTotal() {
@@ -103,8 +105,16 @@ public class Material {
         this.adquirido = adquirido;
     }
 
+    public ModeloProposta getModeloProposta() {
+        return modeloProposta;
+    }
+
     public void setModeloProposta(ModeloProposta modeloProposta) {
         this.modeloProposta = modeloProposta;
+    }
+
+    public Proposta getProposta() {
+        return proposta;
     }
 
     public void setProposta(Proposta proposta) {

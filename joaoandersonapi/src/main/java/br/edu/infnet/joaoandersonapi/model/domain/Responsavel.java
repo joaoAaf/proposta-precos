@@ -30,6 +30,9 @@ public abstract class Responsavel {
         this.nome = nome;
     }
 
+    public Responsavel() {
+    }
+
     public Long getId() {
         return id;
     }

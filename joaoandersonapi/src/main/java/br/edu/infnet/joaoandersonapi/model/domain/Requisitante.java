@@ -12,6 +12,10 @@ public class Requisitante extends Responsavel {
         this.setor = setor;
     }
 
+    public Requisitante() {
+        super();
+    }
+
     public String getSetor() {
         return setor;
     }

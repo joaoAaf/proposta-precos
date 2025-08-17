@@ -23,6 +23,9 @@ public class Instituicao {
         this.endereco = endereco;
     }
 
+    public Instituicao() {
+    }
+
     public String getCnpj() {
         return cnpj;
     }
