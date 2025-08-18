@@ -1,8 +1,8 @@
-package br.edu.infnet.joaoandersonapi.model.use_cases;
+package br.edu.infnet.joaoandersonapi.model.use_cases.common;
 
 import java.util.List;
 
-public interface ComumUseCases<T, ID> {
+public interface UseCases<T, ID> {
 
     T cadastrar(T t);
 
