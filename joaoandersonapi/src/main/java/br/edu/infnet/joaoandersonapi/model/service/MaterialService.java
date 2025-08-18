@@ -39,8 +39,7 @@ public class MaterialService implements MaterialUseCases {
             throw new IllegalArgumentException("O preço ou a quantidade não podem ser nulos ou menores que 0");
     }
 
-    @Override
-    public Material vincularModeloProposta(Long idModeloProposta, Material material) {
+    private Material vincularModeloProposta(Material material, Long idModeloProposta) {
         validarParametros(material);
         validarParametros(idModeloProposta);
         var modeloProposta = modeloPropostaUseCases.obterPor(idModeloProposta);
@@ -48,6 +47,36 @@ public class MaterialService implements MaterialUseCases {
         material.setNumeroItem(numeroItem);
         material.setModeloProposta(modeloProposta);
         return material;
+    }
+
+    @Override
+    public Material cadastrar(Material material, Long idModeloProposta) {
+        vincularModeloProposta(material, idModeloProposta);
+        return materialRepository.save(material);
+    }
+
+    @Override
+    public Material obterPor(Long id) {
+        validarParametros(id);
+        return materialRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Material não encontrado"));
+    }
+
+    @Override
+    public List<Material> listar(Long idModeloProposta) {
+        return materialRepository.findByModeloPropostaId(idModeloProposta);
+    }
+
+    @Override
+    public Material atualizar(Material materialAtualizado, Long idMaterial) {
+        validarParametros(materialAtualizado);
+        var materialAntigo = obterPor(idMaterial);
+        materialAtualizado.setId(materialAntigo.getId());
+        return materialRepository.save(materialAtualizado);
+    }
+
+    @Override
+    public void remover(Long id) {
+        materialRepository.delete(obterPor(id));
     }
 
     @Override
@@ -70,36 +99,6 @@ public class MaterialService implements MaterialUseCases {
     public BigDecimal calcularPrecoTotal(Long idMaterial) {
         var material = obterPor(idMaterial);
         return material.calcularPrecoTotal();
-    }
-
-    @Override
-    public Material cadastrar(Material material) {
-        validarParametros(material);
-        return materialRepository.save(material);
-    }
-
-    @Override
-    public Material obterPor(Long id) {
-        validarParametros(id);
-        return materialRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Material não encontrado"));
-    }
-
-    @Override
-    public List<Material> listar() {
-        return materialRepository.findAll();
-    }
-
-    @Override
-    public Material atualizar(Material materialAtualizado, Long idMaterial) {
-        validarParametros(materialAtualizado);
-        var materialAntigo = obterPor(idMaterial);
-        materialAtualizado.setId(materialAntigo.getId());
-        return materialRepository.save(materialAtualizado);
-    }
-
-    @Override
-    public void remover(Long id) {
-        materialRepository.delete(obterPor(id));
     }
 
 }

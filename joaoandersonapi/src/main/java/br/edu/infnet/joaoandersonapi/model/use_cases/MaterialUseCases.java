@@ -3,10 +3,9 @@ package br.edu.infnet.joaoandersonapi.model.use_cases;
 import java.math.BigDecimal;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Material;
+import br.edu.infnet.joaoandersonapi.model.use_cases.common.AuxUseCases;
 
-public interface MaterialUseCases extends ComumUseCases<Material, Long> {
-
-    Material vincularModeloProposta(Long idModeloProposta, Material material);
+public interface MaterialUseCases extends AuxUseCases<Material, Long, Long> {
 
     BigDecimal atualizarPreco(Long idMaterial, BigDecimal preco);
 

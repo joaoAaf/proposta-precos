@@ -56,7 +56,7 @@ public class InicializadorModeloProposta implements ApplicationRunner {
 
             var material = new Material(atributos[0], atributos[1], new BigDecimal(atributos[2]));
 
-            materialUseCases.cadastrar(materialUseCases.vincularModeloProposta(3L, material));
+            materialUseCases.cadastrar(material, 3L);
 
         }
 
