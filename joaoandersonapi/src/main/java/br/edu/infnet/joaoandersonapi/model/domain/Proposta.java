@@ -1,6 +1,7 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,8 @@ public class Proposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private LocalDate dataCriacao;
 
     @ManyToOne
     @JoinColumn(name = "requisitante_id")
@@ -42,6 +45,7 @@ public class Proposta {
     private String observacoesFornecedor;
 
     public Proposta(ModeloProposta modeloProposta) {
+        this.dataCriacao = LocalDate.now();
         this.requisitante = modeloProposta.getRequisitante();
         this.materiais.addAll(modeloProposta.getMateriais());
         this.observacoesRequisitante = Optional.ofNullable(modeloProposta.getObservacoes()).orElse("");
@@ -64,6 +68,14 @@ public class Proposta {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
     }
 
     public Requisitante getRequisitante() {
@@ -119,8 +131,33 @@ public class Proposta {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Proposta other = (Proposta) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return "Proposta [id=" + id + ", requisitante=" + requisitante + ", fornecedor=" + fornecedor + "]";
+        return "Proposta [id=" + id + ", dataCriacao=" + dataCriacao + ", requisitante=" + requisitante + ", fornecedor=" + fornecedor + "]";
     }
 
 }

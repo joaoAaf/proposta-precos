@@ -1,43 +1,68 @@
 package br.edu.infnet.joaoandersonapi.model.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
+import br.edu.infnet.joaoandersonapi.model.repository.PropostaRepository;
 import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
 
 @Service
 public class PropostaService implements PropostaUseCases {
 
+    private final PropostaRepository propostaRepository;
+    
+    public PropostaService(PropostaRepository propostaRepository) {
+        this.propostaRepository = propostaRepository;
+    }
+
+    private void validarParametros(Proposta proposta) {
+        if (proposta == null)
+            throw new IllegalArgumentException("A proposta não pode ser nula");
+        if (proposta.getId() != null)
+            throw new IllegalArgumentException("O Id da proposta não pode estar preenchido");
+    }
+
+    private void validarParametros(Long id) {
+        if (id == null || id < 1)
+            throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
+    }
+
     @Override
-    public Proposta cadastrar(Proposta t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cadastrar'");
+    public Proposta cadastrar(Proposta proposta) {
+        validarParametros(proposta);
+        return propostaRepository.save(proposta);
     }
 
     @Override
     public Proposta obterPor(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obterPor'");
+        validarParametros(id);
+        var propostaOpt = propostaRepository.findById(id);
+        return propostaOpt
+                .orElseThrow(() -> new NoSuchElementException("Não existe proposta com o ID " + id));
     }
 
     @Override
     public List<Proposta> listar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listar'");
+        return propostaRepository.findAll();
     }
 
     @Override
-    public Proposta atualizar(Proposta t, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
+    public Proposta atualizar(Proposta proposta, Long id) {
+        validarParametros(proposta);
+        validarParametros(id);
+        var propostaAntiga = this.obterPor(id);
+        proposta.setId(propostaAntiga.getId());
+        if (propostaAntiga.equals(proposta))
+            throw new IllegalArgumentException("Não é possível atualizar a proposta com os mesmos dados.");
+        return propostaRepository.save(proposta);
     }
 
     @Override
     public void remover(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remover'");
+        propostaRepository.delete(this.obterPor(id));
     }
 
 }

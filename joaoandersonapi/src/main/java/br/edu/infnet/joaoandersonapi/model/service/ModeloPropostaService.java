@@ -33,8 +33,7 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
     @Override
     public ModeloProposta cadastrar(ModeloProposta modeloProposta) {
         validarParametros(modeloProposta);
-        var novoModeloProposta = modeloPropostaRepository.save(modeloProposta);
-        return novoModeloProposta;
+        return modeloPropostaRepository.save(modeloProposta);
     }
 
     @Override
