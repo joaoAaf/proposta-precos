@@ -35,7 +35,7 @@ public class MaterialService implements MaterialUseCases {
     }
 
     private void validarParametros(BigDecimal valor) {
-        if (valor == null || valor.compareTo(BigDecimal.ZERO) < 0)
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("O preço ou a quantidade não podem ser nulos ou menores que 0");
     }
 
