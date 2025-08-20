@@ -42,6 +42,13 @@ public class Material {
         this.preco = BigDecimal.ZERO;
     }
 
+    public Material(Material material) {
+        this.descricao = material.descricao;
+        this.unidade = material.unidade;
+        this.quantidade = material.quantidade;
+        this.preco = BigDecimal.ZERO;
+    }
+
     public Material() {
     }
 
@@ -127,6 +134,7 @@ public class Material {
         int result = 1;
         result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
         result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
+        result = prime * result + ((quantidade == null) ? 0 : quantidade.hashCode());
         return result;
     }
 
@@ -148,6 +156,11 @@ public class Material {
             if (other.unidade != null)
                 return false;
         } else if (!unidade.equals(other.unidade))
+            return false;
+        if (quantidade == null) {
+            if (other.quantidade != null)
+                return false;
+        } else if (!quantidade.equals(other.quantidade))
             return false;
         return true;
     }

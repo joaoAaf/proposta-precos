@@ -2,6 +2,7 @@ package br.edu.infnet.joaoandersonapi.model.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -25,14 +26,20 @@ public class ModeloProposta {
 
     @OneToMany(mappedBy = "modeloProposta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Material> materiais = new ArrayList<>();
-    
+
     private String observacoes;
 
-    public ModeloProposta() {  
+    public ModeloProposta() {
     }
 
     public ModeloProposta(Requisitante requisitante) {
         this.requisitante = requisitante;
+    }
+
+    public ModeloProposta(Proposta proposta) {
+        this.requisitante = proposta.getRequisitante();
+        this.materiais = proposta.getMateriais().stream().map(Material::new).collect(Collectors.toList());
+        this.observacoes = proposta.getObservacoesRequisitante();
     }
 
     public Long getId() {
@@ -70,6 +77,9 @@ public class ModeloProposta {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((requisitante == null) ? 0 : requisitante.hashCode());
         result = prime * result + ((materiais == null) ? 0 : materiais.hashCode());
+        for (Material material : materiais) {
+            result = prime * result + material.hashCode();
+        }
         result = prime * result + ((observacoes == null) ? 0 : observacoes.hashCode());
         return result;
     }
@@ -96,8 +106,20 @@ public class ModeloProposta {
         if (materiais == null) {
             if (other.materiais != null)
                 return false;
-        } else if (!materiais.equals(other.materiais))
-            return false;
+        } else if (!materiais.equals(other.materiais)) {
+            if (materiais.size() != other.materiais.size())
+                return false;
+            for (Material material : materiais) {
+                Material otherMaterial = other.getMateriais().stream()
+                        .filter(m -> m.getId().equals(material.getId()))
+                        .findFirst()
+                        .orElse(null);
+                if (otherMaterial == null)
+                    return false;
+                if (!material.equals(otherMaterial))
+                    return false;
+            }
+        }
         if (observacoes == null) {
             if (other.observacoes != null)
                 return false;
