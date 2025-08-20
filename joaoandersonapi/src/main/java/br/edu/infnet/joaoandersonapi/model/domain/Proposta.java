@@ -53,8 +53,8 @@ public class Proposta {
         this.desconto = BigDecimal.ZERO;
     }
 
-    public BigDecimal calcularPrecoGlobal() {
-        if (materiais == null || materiais.isEmpty())
+    public BigDecimal calcularPrecoGlobal(Proposta proposta) {
+        if (proposta.getMateriais() == null || proposta.getMateriais().isEmpty())
             return BigDecimal.ZERO;
         var precoGlobal = materiais.stream()
                 .map(Material::calcularPrecoTotal)

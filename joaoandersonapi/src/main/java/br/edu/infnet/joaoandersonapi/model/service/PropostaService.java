@@ -1,5 +1,6 @@
 package br.edu.infnet.joaoandersonapi.model.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -63,6 +64,11 @@ public class PropostaService implements PropostaUseCases {
     @Override
     public void remover(Long id) {
         propostaRepository.delete(this.obterPor(id));
+    }
+
+    @Override
+    public BigDecimal calcularPrecoGlobal(Proposta proposta) {
+        return proposta.calcularPrecoGlobal(proposta);
     }
 
 }
