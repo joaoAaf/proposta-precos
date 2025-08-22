@@ -4,15 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.math.BigDecimal;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Material;
 import br.edu.infnet.joaoandersonapi.model.use_cases.MaterialUseCases;
 
 @Component
-public class InicializadorMaterial implements ApplicationRunner {
+public class InicializadorMaterial {
 
     private final MaterialUseCases materialUseCases;
 
@@ -20,8 +18,7 @@ public class InicializadorMaterial implements ApplicationRunner {
         this.materialUseCases = materialUseCases;
     }
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void inicializar() throws Exception {
 
         var arquivo = new FileReader("mock_Material.txt");
         var ler = new BufferedReader(arquivo);

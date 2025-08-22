@@ -3,8 +3,6 @@ package br.edu.infnet.joaoandersonapi.loaders;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Endereco;
@@ -14,16 +12,15 @@ import br.edu.infnet.joaoandersonapi.model.domain.Requisitante;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 
 @Component
-public class InicializadorModeloProposta implements ApplicationRunner {
+public class InicializadorModeloProposta {
 
     private final ModeloPropostaUseCases modeloPropostaUseCases;
 
     public InicializadorModeloProposta(ModeloPropostaUseCases modeloPropostaUseCases) {
         this.modeloPropostaUseCases = modeloPropostaUseCases;
     }
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+    
+    public void inicializar() throws Exception {
         
         var arquivo = new FileReader("mock_ModeloProposta.txt");
         var ler = new BufferedReader(arquivo);
