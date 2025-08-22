@@ -81,9 +81,9 @@ public class MaterialController {
     }
 
     @PatchMapping("/{id}/preco")
-    public ResponseEntity<?> atualizarPrecoMaterial(@PathVariable Long id, @RequestParam BigDecimal preco) {
+    public ResponseEntity<?> atualizarPrecoMaterial(@PathVariable Long id, @RequestParam BigDecimal valor) {
         try {
-            var novoPreco = materialUseCases.atualizarPreco(id, preco);
+            var novoPreco = materialUseCases.atualizarPreco(id, valor);
             return ResponseEntity.ok().body(novoPreco);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -95,9 +95,9 @@ public class MaterialController {
     }
 
     @PatchMapping("/{id}/quantidade")
-    public ResponseEntity<?> atualizarQuantidadeMaterial(@PathVariable Long id, @RequestParam BigDecimal quantidade) {
+    public ResponseEntity<?> atualizarQuantidadeMaterial(@PathVariable Long id, @RequestParam BigDecimal valor) {
         try {
-            var novaQuantidade = materialUseCases.atualizarQuantidade(id, quantidade);
+            var novaQuantidade = materialUseCases.atualizarQuantidade(id, valor);
             return ResponseEntity.ok().body(novaQuantidade);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

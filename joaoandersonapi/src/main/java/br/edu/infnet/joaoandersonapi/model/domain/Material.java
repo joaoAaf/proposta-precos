@@ -22,7 +22,7 @@ public class Material {
     private String descricao;
     private String unidade;
     private BigDecimal quantidade;
-    private BigDecimal preco;
+    private BigDecimal preco = BigDecimal.ZERO;
     private boolean adquirido;
 
     @ManyToOne
@@ -39,7 +39,6 @@ public class Material {
         this.descricao = descricao;
         this.unidade = unidade;
         this.quantidade = quantidade;
-        this.preco = BigDecimal.ZERO;
     }
 
     public Material(Material material) {

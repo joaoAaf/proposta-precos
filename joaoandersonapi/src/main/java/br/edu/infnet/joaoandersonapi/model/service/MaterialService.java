@@ -69,9 +69,13 @@ public class MaterialService implements MaterialUseCases {
     @Override
     public Material atualizar(Material materialAtualizado, Long idMaterial) {
         validarParametros(materialAtualizado);
-        var materialAntigo = obterPor(idMaterial);
-        materialAtualizado.setId(materialAntigo.getId());
-        return materialRepository.save(materialAtualizado);
+        var material = obterPor(idMaterial);
+        material.setDescricao(materialAtualizado.getDescricao());
+        material.setUnidade(materialAtualizado.getUnidade());
+        material.setQuantidade(materialAtualizado.getQuantidade());
+        material.setPreco(materialAtualizado.getPreco());
+        material.setAdquirido(materialAtualizado.isAdquirido());
+        return materialRepository.save(material);
     }
 
     @Override
