@@ -8,115 +8,320 @@
 	},
 	"item": [
 		{
-			"name": "listar-modelos-proposta",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseURL}}/api/modelo-proposta",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"api",
-						"modelo-proposta"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "obter-modelo-proposta-por-id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseURL}}/api/modelo-proposta/3",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"api",
-						"modelo-proposta",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "cadastrar-modelo-proposta",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "modelo-proposta",
+			"item": [
+				{
+					"name": "listar-modelos-proposta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/modelo-proposta",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"modelo-proposta"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{baseURL}}/api/modelo-proposta",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"api",
-						"modelo-proposta"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "atualizar-modelo-proposta",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    },\n    \"observacoes\": \"Incluir frete no preço dos materiais\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "obter-modelo-proposta-por-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/modelo-proposta/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"modelo-proposta",
+								"3"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{baseURL}}/api/modelo-proposta/12",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"api",
-						"modelo-proposta",
-						"12"
-					]
+				{
+					"name": "cadastrar-modelo-proposta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/modelo-proposta",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"modelo-proposta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar-modelo-proposta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    },\n    \"observacoes\": \"Incluir frete no preço dos materiais\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/modelo-proposta/5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"modelo-proposta",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remover-modelo-proposta-por-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/modelo-proposta/12",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"modelo-proposta",
+								"12"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "remover-modelo-proposta-por-id",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseURL}}/api/modelo-proposta/12",
-					"host": [
-						"{{baseURL}}"
-					],
-					"path": [
-						"api",
-						"modelo-proposta",
-						"12"
-					]
+			"name": "material",
+			"item": [
+				{
+					"name": "listar-materiais-modelo-proposta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/material/modelo-proposta/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"modelo-proposta",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cadastrar-material-modelo-proposta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Argamassa ACIII\",\n    \"unidade\": \"SC 15Kg\",\n    \"quantidade\": 20.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/material/modelo-proposta/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"modelo-proposta",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar-material-por-id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Argamassa ACIII\",\n    \"unidade\": \"SC 15Kg\",\n    \"quantidade\": 22.00,\n    \"preco\": 0.00,\n    \"adquirido\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/material/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar-material-por-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/material/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar-preco-material-por-id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/material/2/preco?valor=74.55",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"2",
+								"preco"
+							],
+							"query": [
+								{
+									"key": "valor",
+									"value": "74.55"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar-quantidade-material-por-id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/material/1/quantidade?valor=27",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"1",
+								"quantidade"
+							],
+							"query": [
+								{
+									"key": "valor",
+									"value": "27"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "calcular-preco-total-material-por-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/material/2/preco-total",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"2",
+								"preco-total"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	],
 	"variable": [
