@@ -9,20 +9,24 @@ import br.edu.infnet.joaoandersonapi.model.domain.GerenciadorProposta;
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonapi.model.repository.GerenciadorPropostaRepository;
 import br.edu.infnet.joaoandersonapi.model.use_cases.GerenciadorPropostaUseCases;
+import br.edu.infnet.joaoandersonapi.model.use_cases.MaterialUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
+import jakarta.transaction.Transactional;
 
 @Service
 public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     private ModeloPropostaUseCases modeloPropostaUseCases;
     private PropostaUseCases propostaUseCases;
+    private MaterialUseCases materialUseCases;
     private GerenciadorPropostaRepository gerenciadorPropostaRepository;
 
     public GerenciadorPropostaService(ModeloPropostaUseCases modeloPropostaUseCases, PropostaUseCases propostaUseCases,
-            GerenciadorPropostaRepository gerenciadorPropostaRepository) {
+            MaterialUseCases materialUseCases, GerenciadorPropostaRepository gerenciadorPropostaRepository) {
         this.modeloPropostaUseCases = modeloPropostaUseCases;
         this.propostaUseCases = propostaUseCases;
+        this.materialUseCases = materialUseCases;
         this.gerenciadorPropostaRepository = gerenciadorPropostaRepository;
     }
 
@@ -67,7 +71,8 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
         var gerenciadorProposta = this.obterPor(token);
         gerenciadorProposta.validarProposta(token, proposta);
         propostaUseCases.cadastrar(proposta);
-        gerenciadorProposta.invalidarToken();
+        materialUseCases.atualizar(proposta.getMateriais());
+        this.invalidarToken(gerenciadorProposta);
     }
 
 
@@ -75,9 +80,17 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
     public void invalidarToken(String token) {
         var gerenciadorProposta = this.obterPor(token);
         gerenciadorProposta.invalidarToken();
+        gerenciadorPropostaRepository.save(gerenciadorProposta);
     }
 
     @Override
+    public void invalidarToken(GerenciadorProposta gerenciadorProposta) {
+        gerenciadorProposta.invalidarToken();
+        gerenciadorPropostaRepository.save(gerenciadorProposta);
+    }
+
+    @Override
+    @Transactional
     public void removerInvalidosOuExpirados() {
         gerenciadorPropostaRepository.deleteInvalidosOuExpirados();
     }

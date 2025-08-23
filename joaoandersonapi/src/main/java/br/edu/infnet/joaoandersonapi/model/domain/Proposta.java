@@ -24,20 +24,20 @@ public class Proposta {
 
     private LocalDate dataCriacao;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "requisitante_id")
     private Requisitante requisitante;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fornecedor_id")
     private Fornecedor fornecedor;
 
-    @OneToMany(mappedBy = "proposta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "proposta")
     private List<Material> materiais = new ArrayList<>();
-    
+
     private BigDecimal desconto;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "endereco_id")
     private Endereco enderecoEntrega;
 
@@ -48,9 +48,12 @@ public class Proposta {
         this.dataCriacao = LocalDate.now();
         this.requisitante = modeloProposta.getRequisitante();
         this.materiais.addAll(modeloProposta.getMateriais());
-        this.observacoesRequisitante = Optional.ofNullable(modeloProposta.getObservacoes()).orElse("");
+        this.observacoesRequisitante = Optional.ofNullable(modeloProposta.getObservacoes()).orElse(null);
         this.enderecoEntrega = modeloProposta.getRequisitante().getInstituicao().getEndereco();
         this.desconto = BigDecimal.ZERO;
+    }
+
+    public Proposta() {
     }
 
     public BigDecimal calcularPrecoGlobal(Proposta proposta) {
@@ -76,6 +79,10 @@ public class Proposta {
 
     public LocalDate getDataCriacao() {
         return dataCriacao;
+    }
+
+    public void setDataCriacao() {
+        this.dataCriacao = LocalDate.now();
     }
 
     public Requisitante getRequisitante() {

@@ -34,6 +34,7 @@ public class PropostaService implements PropostaUseCases {
     @Override
     public Proposta cadastrar(Proposta proposta) {
         validarParametros(proposta);
+        proposta.setDataCriacao();
         return propostaRepository.save(proposta);
     }
 

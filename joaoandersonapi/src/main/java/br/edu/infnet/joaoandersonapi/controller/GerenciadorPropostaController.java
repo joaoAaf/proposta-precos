@@ -28,7 +28,7 @@ public class GerenciadorPropostaController {
         this.gerenciadorPropostaUseCases = gerenciadorPropostaUseCases;
     }
 
-    @PostMapping("/token/{idModeloProposta}/gerar")
+    @PostMapping("/modelo-proposta/{idModeloProposta}/gerar-token")
     public ResponseEntity<?> gerarToken(@PathVariable Long idModeloProposta) {
         try {
             var token = gerenciadorPropostaUseCases.gerarToken(idModeloProposta);
@@ -98,6 +98,7 @@ public class GerenciadorPropostaController {
         } catch (TokenInvalidoException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             return ResponseEntity.internalServerError().body("Erro ao cadastrar proposta");
         }
     }
@@ -122,6 +123,7 @@ public class GerenciadorPropostaController {
             gerenciadorPropostaUseCases.removerInvalidosOuExpirados();
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().body("Erro ao limpar gerenciadores de proposta");
         }
     }

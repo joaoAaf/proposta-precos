@@ -1,6 +1,5 @@
 package br.edu.infnet.joaoandersonapi.controller;
 
-import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Material;
@@ -38,18 +36,6 @@ public class MaterialController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro ao cadastrar material");
-        }
-    }
-
-    @GetMapping("/modelo-proposta/{id}")
-    public ResponseEntity<?> listarMateriaisModeloProposta(@PathVariable Long id) {
-        try {
-            var listaMateriais = materialUseCases.listar(id);
-            if (listaMateriais == null || listaMateriais.isEmpty())
-                return ResponseEntity.noContent().build();
-            return ResponseEntity.ok().body(listaMateriais);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao listar materiais de proposta");
         }
     }
 
@@ -80,34 +66,6 @@ public class MaterialController {
         }
     }
 
-    @PatchMapping("/{id}/preco")
-    public ResponseEntity<?> atualizarPrecoMaterial(@PathVariable Long id, @RequestParam BigDecimal valor) {
-        try {
-            var novoPreco = materialUseCases.atualizarPreco(id, valor);
-            return ResponseEntity.ok().body(novoPreco);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao atualizar preço do material");
-        }
-    }
-
-    @PatchMapping("/{id}/quantidade")
-    public ResponseEntity<?> atualizarQuantidadeMaterial(@PathVariable Long id, @RequestParam BigDecimal valor) {
-        try {
-            var novaQuantidade = materialUseCases.atualizarQuantidade(id, valor);
-            return ResponseEntity.ok().body(novaQuantidade);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao atualizar quantidade do material");
-        }
-    }
-
     @GetMapping("/{id}/preco-total")
     public ResponseEntity<?> calcularPrecoTotalMaterial(@PathVariable Long id) {
         try {
@@ -122,4 +80,17 @@ public class MaterialController {
         }
     }
 
+    @PatchMapping("/{id}/adquirido")
+    public ResponseEntity<?> marcarMaterialAdquirido(@PathVariable Long id) {
+        try {
+            materialUseCases.marcarAdquirido(id);
+            return ResponseEntity.noContent().build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro ao marcar material como adquirido");
+        }
+    }
 }

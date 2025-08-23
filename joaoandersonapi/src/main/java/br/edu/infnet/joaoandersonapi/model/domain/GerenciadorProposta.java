@@ -31,6 +31,9 @@ public class GerenciadorProposta {
         this.dataExpiracao = calcularDataExpiracao(this.dataCriacao, 5);
     }
 
+    public GerenciadorProposta() {
+    }
+
     private LocalDateTime calcularDataExpiracao(LocalDateTime dataCriacao, int diasUteis) {
         var expiracao = dataCriacao;
         int diasAdicionados = 0;
@@ -47,6 +50,10 @@ public class GerenciadorProposta {
         var modeloProposta = new ModeloProposta(proposta);
         if (!this.modeloProposta.equals(modeloProposta))
             throw new PropostaInvalidaException("Proposta inválida.");
+        proposta.getMateriais().forEach(m -> {
+            m.setModeloProposta(this.modeloProposta);
+            m.setProposta(proposta);
+        });
     }
 
     public Proposta criarProposta(String token) {

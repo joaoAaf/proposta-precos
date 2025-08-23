@@ -29,14 +29,14 @@ public class MaterialService implements MaterialUseCases {
             throw new IllegalArgumentException("O Id do Material não pode estar preenchido");
     }
 
+    private void validarParametros(List<Material> materiais) {
+        if (materiais == null || materiais.isEmpty())
+            throw new IllegalArgumentException("A lista de materiais não pode ser nula ou vazia");
+    }
+
     private void validarParametros(Long id) {
         if (id == null || id < 1)
             throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
-    }
-
-    private void validarParametros(BigDecimal valor) {
-        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0)
-            throw new IllegalArgumentException("O preço ou a quantidade não podem ser nulos ou menores que 0");
     }
 
     private Material vincularModeloProposta(Material material, Long idModeloProposta) {
@@ -62,11 +62,6 @@ public class MaterialService implements MaterialUseCases {
     }
 
     @Override
-    public List<Material> listar(Long idModeloProposta) {
-        return materialRepository.findByModeloPropostaId(idModeloProposta);
-    }
-
-    @Override
     public Material atualizar(Material materialAtualizado, Long idMaterial) {
         validarParametros(materialAtualizado);
         var material = obterPor(idMaterial);
@@ -79,30 +74,27 @@ public class MaterialService implements MaterialUseCases {
     }
 
     @Override
+    public void atualizar(List<Material> materiais) {
+        validarParametros(materiais);
+        materialRepository.saveAll(materiais);
+    }
+
+    @Override
     public void remover(Long id) {
         materialRepository.delete(obterPor(id));
-    }
-
-    @Override
-    public BigDecimal atualizarPreco(Long idMaterial, BigDecimal preco) {
-        validarParametros(preco);
-        var material = obterPor(idMaterial);
-        material.setPreco(preco);
-        return materialRepository.save(material).getPreco();
-    }
-
-    @Override
-    public BigDecimal atualizarQuantidade(Long idMaterial, BigDecimal quantidade) {
-        validarParametros(quantidade);
-        var material = obterPor(idMaterial);
-        material.setQuantidade(quantidade);
-        return materialRepository.save(material).getQuantidade();
     }
 
     @Override
     public BigDecimal calcularPrecoTotal(Long idMaterial) {
         var material = obterPor(idMaterial);
         return material.calcularPrecoTotal();
+    }
+
+    @Override
+    public void marcarAdquirido(Long idMaterial) {
+        var material = obterPor(idMaterial);
+        material.setAdquirido(true);
+        materialRepository.save(material);
     }
 
 }
