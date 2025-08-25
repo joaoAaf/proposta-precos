@@ -97,21 +97,16 @@ public class ModeloProposta {
                 return false;
         } else if (!requisitante.equals(other.requisitante))
             return false;
-        if (materiais == null) {
-            if (other.materiais != null)
+        if (materiais == null || materiais.isEmpty()) {
+            if (other.materiais != null || !other.materiais.isEmpty())
                 return false;
-        } else if (!materiais.equals(other.materiais)) {
+        } else {
             if (materiais.size() != other.materiais.size())
                 return false;
             for (Material material : materiais) {
-                Material otherMaterial = other.getMateriais().stream()
-                        .filter(m -> m.getId().equals(material.getId()))
-                        .findFirst()
-                        .orElse(null);
-                if (otherMaterial == null)
+                if (!other.getMateriais().stream().anyMatch(m -> m.equals(material))) {
                     return false;
-                if (!material.equals(otherMaterial))
-                    return false;
+                }
             }
         }
         if (observacoes == null) {

@@ -9,4 +9,8 @@ public class Fornecedor extends Responsavel {
         super(instituicao, email, telefone, responsavel);
     }
 
+    public Fornecedor() {
+        super();
+    }
+
 }
