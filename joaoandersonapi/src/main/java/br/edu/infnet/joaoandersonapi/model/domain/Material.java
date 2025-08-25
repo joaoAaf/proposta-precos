@@ -42,10 +42,11 @@ public class Material {
     }
 
     public Material(Material material) {
-        this.id = material.id;
+        this.numeroItem = material.numeroItem;
         this.descricao = material.descricao;
         this.unidade = material.unidade;
         this.quantidade = material.quantidade;
+        this.adquirido = material.adquirido;
     }
 
     public Material() {
@@ -108,8 +109,8 @@ public class Material {
     }
 
     public void setAdquirido(boolean adquirido) {
-        if (this.preco == null || this.preco.compareTo(BigDecimal.ZERO) <= 0)
-            throw new IllegalArgumentException("O preço do material deve ser maior que zero para ser marcado como adquirido");
+        if (adquirido == true && (this.preco == null || this.preco.compareTo(BigDecimal.ZERO) <= 0))
+            throw new IllegalArgumentException("O preço do material deve ser maior que zero.");
         this.adquirido = adquirido;
     }
 
@@ -133,10 +134,11 @@ public class Material {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((numeroItem == null) ? 0 : numeroItem.hashCode());
         result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
         result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
         result = prime * result + ((quantidade == null) ? 0 : quantidade.hashCode());
+        result = prime * result + (adquirido ? 1231 : 1237);
         return result;
     }
 
@@ -149,10 +151,10 @@ public class Material {
         if (getClass() != obj.getClass())
             return false;
         Material other = (Material) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (numeroItem == null) {
+            if (other.numeroItem != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!numeroItem.equals(other.numeroItem))
             return false;
         if (descricao == null) {
             if (other.descricao != null)
@@ -169,12 +171,14 @@ public class Material {
                 return false;
         } else if (!quantidade.equals(other.quantidade))
             return false;
+        if (adquirido != other.adquirido)
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Material [numeroItem=" + numeroItem + ", descricao=" + descricao + ", unidade=" + unidade
+        return "Material [id=" + id + ", numeroItem=" + numeroItem + ", descricao=" + descricao + ", unidade=" + unidade
                 + ", quantidade=" + quantidade + ", preco=" + preco + ", adquirido=" + adquirido + "]";
     }
 

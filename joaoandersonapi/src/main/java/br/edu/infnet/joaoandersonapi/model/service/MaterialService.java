@@ -1,7 +1,6 @@
 package br.edu.infnet.joaoandersonapi.model.service;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
@@ -27,11 +26,6 @@ public class MaterialService implements MaterialUseCases {
             throw new IllegalArgumentException("O Material não pode ser nulo");
         if (material.getId() != null)
             throw new IllegalArgumentException("O Id do Material não pode estar preenchido");
-    }
-
-    private void validarParametros(List<Material> materiais) {
-        if (materiais == null || materiais.isEmpty())
-            throw new IllegalArgumentException("A lista de materiais não pode ser nula ou vazia");
     }
 
     private void validarParametros(Long id) {
@@ -71,12 +65,6 @@ public class MaterialService implements MaterialUseCases {
         material.setPreco(materialAtualizado.getPreco());
         material.setAdquirido(materialAtualizado.isAdquirido());
         return materialRepository.save(material);
-    }
-
-    @Override
-    public void atualizar(List<Material> materiais) {
-        validarParametros(materiais);
-        materialRepository.saveAll(materiais);
     }
 
     @Override
