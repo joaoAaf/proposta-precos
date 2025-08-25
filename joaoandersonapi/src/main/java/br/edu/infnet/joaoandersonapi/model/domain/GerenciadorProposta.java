@@ -50,10 +50,6 @@ public class GerenciadorProposta {
         var modeloProposta = new ModeloProposta(proposta);
         if (!this.modeloProposta.equals(modeloProposta))
             throw new PropostaInvalidaException("Proposta inválida.");
-        proposta.getMateriais().forEach(m -> {
-            m.setModeloProposta(this.modeloProposta);
-            m.setProposta(proposta);
-        });
     }
 
     public Proposta criarProposta(String token) {

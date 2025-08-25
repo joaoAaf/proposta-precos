@@ -9,7 +9,6 @@ import br.edu.infnet.joaoandersonapi.model.domain.GerenciadorProposta;
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonapi.model.repository.GerenciadorPropostaRepository;
 import br.edu.infnet.joaoandersonapi.model.use_cases.GerenciadorPropostaUseCases;
-import br.edu.infnet.joaoandersonapi.model.use_cases.MaterialUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
 import jakarta.transaction.Transactional;
@@ -19,14 +18,12 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     private ModeloPropostaUseCases modeloPropostaUseCases;
     private PropostaUseCases propostaUseCases;
-    private MaterialUseCases materialUseCases;
     private GerenciadorPropostaRepository gerenciadorPropostaRepository;
 
     public GerenciadorPropostaService(ModeloPropostaUseCases modeloPropostaUseCases, PropostaUseCases propostaUseCases,
-            MaterialUseCases materialUseCases, GerenciadorPropostaRepository gerenciadorPropostaRepository) {
+            GerenciadorPropostaRepository gerenciadorPropostaRepository) {
         this.modeloPropostaUseCases = modeloPropostaUseCases;
         this.propostaUseCases = propostaUseCases;
-        this.materialUseCases = materialUseCases;
         this.gerenciadorPropostaRepository = gerenciadorPropostaRepository;
     }
 
@@ -38,6 +35,13 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
     private void validarParametros(String token) {
         if (token == null || token.trim().isEmpty())
             throw new IllegalArgumentException("O token não pode ser nulo ou vazio");
+    }
+
+    private void validarParametros(Proposta proposta) {
+        if (proposta == null)
+            throw new IllegalArgumentException("A proposta não pode ser nula");
+        if (proposta.getId() != null)
+            throw new IllegalArgumentException("O Id da proposta não pode estar preenchido");
     }
 
     @Override
@@ -68,10 +72,10 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     @Override
     public void cadastrarProposta(String token, Proposta proposta) {
+        validarParametros(proposta);
         var gerenciadorProposta = this.obterPor(token);
         gerenciadorProposta.validarProposta(token, proposta);
         propostaUseCases.cadastrar(proposta);
-        materialUseCases.atualizar(proposta.getMateriais());
         this.invalidarToken(gerenciadorProposta);
     }
 
