@@ -11,6 +11,33 @@
 			"name": "modelo-proposta",
 			"item": [
 				{
+					"name": "cadastrar-modelo-proposta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"requisitante\": {\n        \"instituicao\": {\n            \"cnpj\": \"09876543201\",\n            \"nome\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"email\": \"example23@example.com\",\n        \"telefone\": \"2121228800\",\n        \"nome\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/modelo-proposta",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"modelo-proposta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "listar-modelos-proposta",
 					"request": {
 						"method": "GET",
@@ -34,41 +61,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/modelo-proposta/3",
+							"raw": "{{baseURL}}/api/modelo-proposta/5",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"modelo-proposta",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "cadastrar-modelo-proposta",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/modelo-proposta",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"modelo-proposta"
+								"5"
 							]
 						}
 					},
@@ -81,7 +81,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"requisitante\": {\n        \"dadosBasicos\": {\n            \"cnpj\": \"09876543201\",\n            \"razaoSocial\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"contato\": {\n            \"email1\": \"example23@example.com\",\n            \"telefone1\": \"2121228800\"\n        },\n        \"responsavel\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    },\n    \"observacoes\": \"Incluir frete no preço dos materiais\"\n}",
+							"raw": "{\n    \"requisitante\": {\n        \"instituicao\": {\n            \"cnpj\": \"09876543201\",\n            \"nome\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"91\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"email\": \"example23@example.com\",\n        \"telefone\": \"2121228800\",\n        \"nome\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    },\n    \"observacoes\": \"Incluir frete no preço dos materiais\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -351,7 +351,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"requisitante\": {\r\n        \"id\": 3,\r\n        \"instituicao\": {\r\n            \"cnpj\": \"1111111111111\",\r\n            \"nome\": \"Cooperativa de Trabalho\",\r\n            \"endereco\": {\r\n                \"id\": 3,\r\n                \"logradouro\": \"Rua da Indústria\",\r\n                \"numero\": \"303\",\r\n                \"bairro\": \"Bairro das Indústrias\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000000\"\r\n            }\r\n        },\r\n        \"email\": \"example5@example.com\",\r\n        \"telefone\": \"11111111\",\r\n        \"nome\": \"Pedro Costa\",\r\n        \"setor\": \"Setor C\"\r\n    },\r\n    \"fornecedor\": null,\r\n    \"materiais\": [\r\n        {\r\n            \"id\": 1,\r\n            \"numeroItem\": 1,\r\n            \"descricao\": \"Cimento CPII\",\r\n            \"unidade\": \"SC 50Kg\",\r\n            \"quantidade\": 10.00,\r\n            \"preco\": 36.00,\r\n            \"adquirido\": false\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"numeroItem\": 2,\r\n            \"descricao\": \"Areia Média\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 2.00,\r\n            \"preco\": 75.00,\r\n            \"adquirido\": false\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"numeroItem\": 3,\r\n            \"descricao\": \"Brita Nº 1\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 1.00,\r\n            \"preco\": 105.50,\r\n            \"adquirido\": false\r\n        }\r\n    ],\r\n    \"desconto\": 0,\r\n    \"enderecoEntrega\": {\r\n        \"id\": 3,\r\n        \"logradouro\": \"Rua da Indústria\",\r\n        \"numero\": \"303\",\r\n        \"bairro\": \"Bairro das Indústrias\",\r\n        \"cidade\": \"Limoeiro do Norte\",\r\n        \"uf\": \"CE\",\r\n        \"cep\": \"29000000\"\r\n    },\r\n    \"observacoesRequisitante\": null,\r\n    \"observacoesFornecedor\": null\r\n}",
+							"raw": "{\r\n    \"requisitante\": {\r\n        \"id\": 3,\r\n        \"instituicao\": {\r\n            \"cnpj\": \"1111111111111\",\r\n            \"nome\": \"Cooperativa de Trabalho\",\r\n            \"endereco\": {\r\n                \"id\": 3,\r\n                \"logradouro\": \"Rua da Indústria\",\r\n                \"numero\": \"303\",\r\n                \"bairro\": \"Bairro das Indústrias\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000000\"\r\n            }\r\n        },\r\n        \"email\": \"example5@example.com\",\r\n        \"telefone\": \"11111111\",\r\n        \"nome\": \"Pedro Costa\",\r\n        \"setor\": \"Setor C\"\r\n    },\r\n    \"fornecedor\": {\r\n        \"instituicao\": {\r\n            \"cnpj\": \"1129873461298376\",\r\n            \"nome\": \"Zé Material de Construção\",\r\n            \"endereco\": {\r\n                \"logradouro\": \"Rua da Construção\",\r\n                \"numero\": \"303\",\r\n                \"bairro\": \"Bom Nome\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000000\"\r\n            }\r\n        },\r\n        \"email\": \"example50@example.com\",\r\n        \"telefone\": \"34573476\",\r\n        \"nome\": \"Zé\"\r\n    },\r\n    \"materiais\": [\r\n        {\r\n            \"numeroItem\": 1,\r\n            \"descricao\": \"Cimento CPII\",\r\n            \"unidade\": \"SC 50Kg\",\r\n            \"quantidade\": 10.00,\r\n            \"preco\": 36,\r\n            \"adquirido\": false\r\n        },\r\n        {\r\n            \"numeroItem\": 2,\r\n            \"descricao\": \"Areia Média\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 2.00,\r\n            \"preco\": 75,\r\n            \"adquirido\": false\r\n        },\r\n        {\r\n            \"numeroItem\": 3,\r\n            \"descricao\": \"Brita Nº 1\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 1.00,\r\n            \"preco\": 105.55,\r\n            \"adquirido\": false\r\n        }\r\n    ],\r\n    \"desconto\": 0,\r\n    \"enderecoEntrega\": {\r\n        \"id\": 3,\r\n        \"logradouro\": \"Rua da Indústria\",\r\n        \"numero\": \"303\",\r\n        \"bairro\": \"Bairro das Indústrias\",\r\n        \"cidade\": \"Limoeiro do Norte\",\r\n        \"uf\": \"CE\",\r\n        \"cep\": \"29000000\"\r\n    },\r\n    \"observacoesRequisitante\": null,\r\n    \"observacoesFornecedor\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -359,14 +359,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/gerenciador-proposta/{token}/proposta/cadastrar",
+							"raw": "{{baseURL}}/api/gerenciador-proposta/9d52fa8b-1b90-41c1-9ec6-cde9d0d0d008/proposta/cadastrar",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"gerenciador-proposta",
-								"{token}",
+								"9d52fa8b-1b90-41c1-9ec6-cde9d0d0d008",
 								"proposta",
 								"cadastrar"
 							]
@@ -431,6 +431,75 @@
 							"path": [
 								"api",
 								"proposta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obter-proposta-por-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/proposta/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"proposta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "calcular-preco-global-proposta",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"dataCriacao\": \"2025-08-24\",\n    \"requisitante\": {\n        \"id\": 3,\n        \"instituicao\": {\n            \"cnpj\": \"1111111111111\",\n            \"nome\": \"Cooperativa de Trabalho\",\n            \"endereco\": {\n                \"id\": 3,\n                \"logradouro\": \"Rua da Indústria\",\n                \"numero\": \"303\",\n                \"bairro\": \"Bairro das Indústrias\",\n                \"cidade\": \"Limoeiro do Norte\",\n                \"uf\": \"CE\",\n                \"cep\": \"29000000\"\n            }\n        },\n        \"email\": \"example5@example.com\",\n        \"telefone\": \"11111111\",\n        \"nome\": \"Pedro Costa\",\n        \"setor\": \"Setor C\"\n    },\n    \"fornecedor\": {\n        \"id\": 1,\n        \"instituicao\": {\n            \"cnpj\": \"1129873461298376\",\n            \"nome\": \"Zé Material de Construção\",\n            \"endereco\": {\n                \"id\": 5,\n                \"logradouro\": \"Rua da Construção\",\n                \"numero\": \"303\",\n                \"bairro\": \"Bom Nome\",\n                \"cidade\": \"Limoeiro do Norte\",\n                \"uf\": \"CE\",\n                \"cep\": \"29000000\"\n            }\n        },\n        \"email\": \"example50@example.com\",\n        \"telefone\": \"34573476\",\n        \"nome\": \"Zé\"\n    },\n    \"materiais\": [\n        {\n            \"id\": 4,\n            \"numeroItem\": 1,\n            \"descricao\": \"Cimento CPII\",\n            \"unidade\": \"SC 50Kg\",\n            \"quantidade\": 10.00,\n            \"preco\": 36.00,\n            \"adquirido\": false\n        },\n        {\n            \"id\": 5,\n            \"numeroItem\": 2,\n            \"descricao\": \"Areia Média\",\n            \"unidade\": \"M3\",\n            \"quantidade\": 2.00,\n            \"preco\": 75.00,\n            \"adquirido\": false\n        },\n        {\n            \"id\": 6,\n            \"numeroItem\": 3,\n            \"descricao\": \"Brita Nº 1\",\n            \"unidade\": \"M3\",\n            \"quantidade\": 1.00,\n            \"preco\": 105.55,\n            \"adquirido\": false\n        }\n    ],\n    \"desconto\": 0.00,\n    \"enderecoEntrega\": {\n        \"id\": 3,\n        \"logradouro\": \"Rua da Indústria\",\n        \"numero\": \"303\",\n        \"bairro\": \"Bairro das Indústrias\",\n        \"cidade\": \"Limoeiro do Norte\",\n        \"uf\": \"CE\",\n        \"cep\": \"29000000\"\n    },\n    \"observacoesRequisitante\": null,\n    \"observacoesFornecedor\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/proposta/preco-global",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"proposta",
+								"preco-global"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar-proposta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/proposta/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"proposta",
+								"1"
 							]
 						}
 					},
