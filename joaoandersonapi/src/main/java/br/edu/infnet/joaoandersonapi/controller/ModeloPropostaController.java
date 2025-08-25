@@ -29,9 +29,8 @@ public class ModeloPropostaController {
     @PostMapping
     public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloProposta modeloProposta) {
         try {
-            var idModeloProposta = modeloPropostaUseCases.cadastrar(modeloProposta);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Modelo de proposta cadastrado com sucesso! Id: " + idModeloProposta);
+            var modeloPropostaCadastrado = modeloPropostaUseCases.cadastrar(modeloProposta);
+            return ResponseEntity.status(HttpStatus.CREATED).body(modeloPropostaCadastrado);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
@@ -57,6 +56,8 @@ public class ModeloPropostaController {
     public ResponseEntity<?> listarModelosProposta() {
         try {
             var listaModeloProposta = modeloPropostaUseCases.listar();
+            if (listaModeloProposta == null || listaModeloProposta.isEmpty())
+                return ResponseEntity.noContent().build();
             return ResponseEntity.ok().body(listaModeloProposta);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro ao listar modelos de proposta");
@@ -67,8 +68,8 @@ public class ModeloPropostaController {
     public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloProposta modeloProposta,
             @PathVariable Long id) {
         try {
-            modeloPropostaUseCases.atualizar(modeloProposta, id);
-            return ResponseEntity.noContent().build();
+            var modeloPropostaAtualizado = modeloPropostaUseCases.atualizar(modeloProposta, id);
+            return ResponseEntity.ok().body(modeloPropostaAtualizado);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {

@@ -1,64 +1,68 @@
 package br.edu.infnet.joaoandersonapi.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
 import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
+import br.edu.infnet.joaoandersonapi.model.repository.ModeloPropostaRepository;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 
 @Service
 public class ModeloPropostaService implements ModeloPropostaUseCases {
 
-    private final Map<Long, ModeloProposta> modeloPropostaRepository = new ConcurrentHashMap<>();
-    private final AtomicLong proximoId = new AtomicLong(1L);
+    private final ModeloPropostaRepository modeloPropostaRepository;
+
+    public ModeloPropostaService(ModeloPropostaRepository modeloPropostaRepository) {
+        this.modeloPropostaRepository = modeloPropostaRepository;
+    }
+
+    private void validarParametros(ModeloProposta modeloProposta) {
+        if (modeloProposta == null)
+            throw new IllegalArgumentException("O Modelo de proposta não pode ser nulo");
+        if (modeloProposta.getId() != null)
+            throw new IllegalArgumentException("O Id do Modelo de proposta não pode estar preenchido");
+    }
+
+    private void validarParametros(Long id) {
+        if (id == null || id < 1)
+            throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
+    }
 
     @Override
-    public Long cadastrar(ModeloProposta modeloProposta) {
-        if (modeloProposta == null)
-            throw new IllegalArgumentException("O Modelo de proposta não pode ser nulo.");
-        modeloProposta.setId(proximoId.getAndIncrement());
-        modeloPropostaRepository.put(modeloProposta.getId(), modeloProposta);
-        return modeloProposta.getId();
+    public ModeloProposta cadastrar(ModeloProposta modeloProposta) {
+        validarParametros(modeloProposta);
+        return modeloPropostaRepository.save(modeloProposta);
     }
 
     @Override
     public ModeloProposta obterPor(Long id) {
-        if (id == null)
-            throw new IllegalArgumentException("O ID do modelo de proposta não pode ser nulo.");
-        var modeloPropostaOpt = Optional.ofNullable(modeloPropostaRepository.get(id));
+        validarParametros(id);
+        var modeloPropostaOpt = modeloPropostaRepository.findById(id);
         return modeloPropostaOpt
                 .orElseThrow(() -> new NoSuchElementException("Não existe modelo de proposta com o ID " + id));
     }
 
     @Override
     public List<ModeloProposta> listar() {
-        return new ArrayList<>(modeloPropostaRepository.values());
+        return modeloPropostaRepository.findAll();
     }
 
     @Override
-    public void atualizar(ModeloProposta modeloPropostaNovo, Long id) {
-        if (modeloPropostaNovo == null)
-            throw new IllegalArgumentException("O Modelo de proposta não pode ser nulo.");
-        if (modeloPropostaNovo.getId() != null)
-            throw new IllegalArgumentException("O ID do Modelo de proposta não pode ser alterado.");
+    public ModeloProposta atualizar(ModeloProposta modeloPropostaNovo, Long id) {
+        validarParametros(modeloPropostaNovo);
+        validarParametros(id);
         var modeloPropostaAntigo = this.obterPor(id);
         modeloPropostaNovo.setId(modeloPropostaAntigo.getId());
         if (modeloPropostaAntigo.equals(modeloPropostaNovo))
             throw new IllegalArgumentException("Não é possível atualizar o modelo de proposta com os mesmos dados.");
-        modeloPropostaRepository.put(id, modeloPropostaNovo);
+        return modeloPropostaRepository.save(modeloPropostaNovo);
     }
 
     @Override
     public void remover(Long id) {
-        this.obterPor(id);
-        modeloPropostaRepository.remove(id);
+        modeloPropostaRepository.delete(this.obterPor(id));
     }
 
 }

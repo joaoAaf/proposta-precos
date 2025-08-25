@@ -1,15 +1,29 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
-public class DadosBasicos {
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
+@Entity
+public class Instituicao {
+
+    @Id
     private String cnpj;
     private String nome;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-    public DadosBasicos(String cnpj, String nome, Endereco endereco) {
+    public Instituicao(String cnpj, String nome, Endereco endereco) {
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;
+    }
+
+    public Instituicao() {
     }
 
     public String getCnpj() {
@@ -53,7 +67,7 @@ public class DadosBasicos {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        DadosBasicos other = (DadosBasicos) obj;
+        Instituicao other = (Instituicao) obj;
         if (cnpj == null) {
             if (other.cnpj != null)
                 return false;
@@ -69,7 +83,7 @@ public class DadosBasicos {
 
     @Override
     public String toString() {
-        return "DadosBasicos [cnpj=" + cnpj + ", nome=" + nome + ", endereco=" + endereco + "]";
+        return "Instituicao [cnpj=" + cnpj + ", nome=" + nome + ", endereco=" + endereco + "]";
     }
 
 }

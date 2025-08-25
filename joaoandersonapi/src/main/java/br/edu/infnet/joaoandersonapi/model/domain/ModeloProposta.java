@@ -2,19 +2,44 @@ package br.edu.infnet.joaoandersonapi.model.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class ModeloProposta {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "requisitante_id")
     private Requisitante requisitante;
+
+    @OneToMany(mappedBy = "modeloProposta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Material> materiais = new ArrayList<>();
+
     private String observacoes;
 
-    public ModeloProposta() {  
+    public ModeloProposta() {
     }
 
     public ModeloProposta(Requisitante requisitante) {
         this.requisitante = requisitante;
+    }
+
+    public ModeloProposta(Proposta proposta) {
+        this.requisitante = proposta.getRequisitante();
+        this.materiais = proposta.getMateriais().stream().map(Material::new).collect(Collectors.toList());
+        this.observacoes = proposta.getObservacoesRequisitante();
     }
 
     public Long getId() {
@@ -49,9 +74,11 @@ public class ModeloProposta {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((requisitante == null) ? 0 : requisitante.hashCode());
         result = prime * result + ((materiais == null) ? 0 : materiais.hashCode());
+        for (Material material : materiais) {
+            result = prime * result + material.hashCode();
+        }
         result = prime * result + ((observacoes == null) ? 0 : observacoes.hashCode());
         return result;
     }
@@ -65,21 +92,23 @@ public class ModeloProposta {
         if (getClass() != obj.getClass())
             return false;
         ModeloProposta other = (ModeloProposta) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
         if (requisitante == null) {
             if (other.requisitante != null)
                 return false;
         } else if (!requisitante.equals(other.requisitante))
             return false;
-        if (materiais == null) {
-            if (other.materiais != null)
+        if (materiais == null || materiais.isEmpty()) {
+            if (other.materiais != null || !other.materiais.isEmpty())
                 return false;
-        } else if (!materiais.equals(other.materiais))
-            return false;
+        } else {
+            if (materiais.size() != other.materiais.size())
+                return false;
+            for (Material material : materiais) {
+                if (!other.getMateriais().stream().anyMatch(m -> m.equals(material))) {
+                    return false;
+                }
+            }
+        }
         if (observacoes == null) {
             if (other.observacoes != null)
                 return false;
