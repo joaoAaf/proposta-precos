@@ -3,6 +3,7 @@ package br.edu.infnet.joaoandersonapi.model.service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,6 @@ public class PropostaService implements PropostaUseCases {
         this.propostaRepository = propostaRepository;
     }
 
-    private void validarParametros(Proposta proposta) {
-        if (proposta == null)
-            throw new IllegalArgumentException("A proposta não pode ser nula");
-        if (proposta.getId() != null)
-            throw new IllegalArgumentException("O Id da proposta não pode estar preenchido");
-    }
-
     private void validarParametros(Long id) {
         if (id == null || id < 1)
             throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
@@ -33,8 +27,8 @@ public class PropostaService implements PropostaUseCases {
 
     @Override
     public Proposta cadastrar(Proposta proposta) {
-        validarParametros(proposta);
         proposta.setDataCriacao();
+        proposta.setMateriais();
         return propostaRepository.save(proposta);
     }
 
@@ -52,14 +46,9 @@ public class PropostaService implements PropostaUseCases {
     }
 
     @Override
-    public Proposta atualizar(Proposta proposta, Long id) {
-        validarParametros(proposta);
-        validarParametros(id);
-        var propostaAntiga = this.obterPor(id);
-        proposta.setId(propostaAntiga.getId());
-        if (propostaAntiga.equals(proposta))
-            throw new IllegalArgumentException("Não é possível atualizar a proposta com os mesmos dados.");
-        return propostaRepository.save(proposta);
+    public Proposta atualizar(Proposta novaProposta, Long id) {
+        //TODO: Remover metodo desnecessario
+        return null;
     }
 
     @Override
@@ -69,7 +58,8 @@ public class PropostaService implements PropostaUseCases {
 
     @Override
     public BigDecimal calcularPrecoGlobal(Proposta proposta) {
-        return proposta.calcularPrecoGlobal(proposta);
+        Optional.ofNullable(proposta).orElseThrow(() -> new IllegalArgumentException("A proposta não pode ser nula"));
+        return proposta.calcularPrecoGlobal();
     }
 
 }
