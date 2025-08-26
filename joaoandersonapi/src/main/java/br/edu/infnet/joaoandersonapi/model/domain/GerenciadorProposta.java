@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class GerenciadorProposta {
@@ -18,6 +20,8 @@ public class GerenciadorProposta {
 
     @ManyToOne
     @JoinColumn(name = "modelo_proposta_id")
+    @Valid
+    @NotNull(message = "O modelo da proposta deve ser informado")
     private ModeloProposta modeloProposta;
 
     private LocalDateTime dataCriacao;

@@ -12,21 +12,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class ModeloProposta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1, message = "O ID deve ser maior que 0")
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "requisitante_id")
+    @Valid
+    @NotNull(message = "O requisitante deve ser informado")
     private Requisitante requisitante;
 
     @OneToMany(mappedBy = "modeloProposta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
+    @NotNull(message = "A lista de materiais não pode ser nula")
     private List<Material> materiais = new ArrayList<>();
 
+    @Max(value = 255, message = "As observações devem ter no máximo 255 caracteres")    
     private String observacoes;
 
     public ModeloProposta() {

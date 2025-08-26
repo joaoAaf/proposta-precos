@@ -5,16 +5,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Instituicao {
 
     @Id
+    @NotBlank(message = "O CNPJ deve ser informado")
+    @Pattern(regexp = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}", message = "CNPJ inválido. Use o formato XX.XXX.XXX/XXXX-XX.")
     private String cnpj;
+
+    @NotBlank(message = "O nome deve ser informado")
+    @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres")
     private String nome;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
+    @Valid
+    @NotNull(message = "O endereço deve ser informado")
     private Endereco endereco;
 
     public Instituicao(String cnpj, String nome, Endereco endereco) {
