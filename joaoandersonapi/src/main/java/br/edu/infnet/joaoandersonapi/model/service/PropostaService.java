@@ -46,12 +46,6 @@ public class PropostaService implements PropostaUseCases {
     }
 
     @Override
-    public Proposta atualizar(Proposta novaProposta, Long id) {
-        //TODO: Remover metodo desnecessario
-        return null;
-    }
-
-    @Override
     public void remover(Long id) {
         propostaRepository.delete(this.obterPor(id));
     }
