@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -34,11 +35,11 @@ public class Material {
     @Size(min = 1, max = 8, message = "A unidade deve ter entre 2 e 8 caracteres")
     private String unidade;
 
-    @NotBlank(message = "A quantidade deve ser informada")
+    @NotNull(message = "A quantidade deve ser informada")
     @DecimalMin(value = "0.01", message = "A quantidade deve ser maior que zero.")
     private BigDecimal quantidade;
 
-    @NotBlank(message = "O preço deve ser informado")
+    @NotNull(message = "O preço deve ser informado")
     @DecimalMin(value = "0.00", message = "O preço deve ser maior ou igual a zero.")
     private BigDecimal preco = BigDecimal.ZERO;
     

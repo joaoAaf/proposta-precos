@@ -38,7 +38,7 @@ public class Endereco {
     private String uf;
 
     @NotBlank(message = "O CEP deve ser informado")
-    @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP inválido. Use o formato XXXXX-XXX.")
+    @Pattern(regexp = "\\d{5}-?\\d{3}", message = "CEP inválido. Use o formato XXXXX-XXX.")
     private String cep;
 
     public Endereco(String logradouro, String numero, String bairro, String cidade, String uf, String cep) {
@@ -47,7 +47,20 @@ public class Endereco {
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
-        this.cep = cep;
+        this.cep = this.desformatarCep(cep);
+    }
+
+    public String desformatarCep(String cep) {
+        cep = cep.replaceAll("[^\\d]", "");
+        if (cep.length() != 8)
+            throw new RuntimeException("CEP inválido");
+        return cep;
+    }
+
+    public String formatarCep(String cep) {
+        if (cep.length() != 8)
+            throw new RuntimeException("Problema ao formatar o CEP");
+        return cep.substring(0, 5) + "-" + cep.substring(5);
     }
 
     public Endereco() {
@@ -98,11 +111,11 @@ public class Endereco {
     }
 
     public String getCep() {
-        return cep;
+        return this.formatarCep(cep);
     }
 
     public void setCep(String cep) {
-        this.cep = cep;
+        this.cep = this.desformatarCep(cep);
     }
 
     @Override
