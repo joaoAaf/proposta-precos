@@ -20,11 +20,6 @@ public class PropostaService implements PropostaUseCases {
         this.propostaRepository = propostaRepository;
     }
 
-    private void validarParametros(Long id) {
-        if (id == null || id < 1)
-            throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
-    }
-
     @Override
     public Proposta cadastrar(Proposta proposta) {
         proposta.setDataCriacao();
@@ -34,7 +29,6 @@ public class PropostaService implements PropostaUseCases {
 
     @Override
     public Proposta obterPor(Long id) {
-        validarParametros(id);
         var propostaOpt = propostaRepository.findById(id);
         return propostaOpt
                 .orElseThrow(() -> new NoSuchElementException("Não existe proposta com o ID " + id));

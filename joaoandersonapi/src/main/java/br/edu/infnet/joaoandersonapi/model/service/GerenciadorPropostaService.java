@@ -27,26 +27,13 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
         this.gerenciadorPropostaRepository = gerenciadorPropostaRepository;
     }
 
-    private void validarParametros(Long id) {
-        if (id == null || id < 1)
-            throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
-    }
-
-    private void validarParametros(String token) {
-        if (token == null || token.trim().isEmpty())
-            throw new IllegalArgumentException("O token não pode ser nulo ou vazio");
-    }
-
     private void validarParametros(Proposta proposta) {
-        if (proposta == null)
-            throw new IllegalArgumentException("A proposta não pode ser nula");
         if (proposta.getId() != null)
             throw new IllegalArgumentException("O Id da proposta não pode estar preenchido");
     }
 
     @Override
     public String gerarToken(Long modeloPropostaId) {
-        validarParametros(modeloPropostaId);
         var modeloProposta = modeloPropostaUseCases.obterPor(modeloPropostaId);
         var gerenciadorPropostaUseCases = new GerenciadorProposta(modeloProposta);
         return gerenciadorPropostaRepository.save(gerenciadorPropostaUseCases).getToken();
@@ -54,7 +41,6 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     @Override
     public GerenciadorProposta obterPor(String token) {
-        validarParametros(token);
         return gerenciadorPropostaRepository.findById(token)
                 .orElseThrow(() -> new NoSuchElementException("Token não encontrado"));
     }

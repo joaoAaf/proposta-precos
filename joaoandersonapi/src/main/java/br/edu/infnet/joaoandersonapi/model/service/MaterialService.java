@@ -22,36 +22,22 @@ public class MaterialService implements MaterialUseCases {
     }
 
     private void validarParametros(Material material) {
-        if (material == null)
-            throw new IllegalArgumentException("O Material não pode ser nulo");
         if (material.getId() != null)
             throw new IllegalArgumentException("O Id do Material não pode estar preenchido");
     }
 
-    private void validarParametros(Long id) {
-        if (id == null || id < 1)
-            throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
-    }
-
-    private Material vincularModeloProposta(Material material, Long idModeloProposta) {
+    @Override
+    public Material cadastrar(Material material, Long idModeloProposta) {
         validarParametros(material);
-        validarParametros(idModeloProposta);
         var modeloProposta = modeloPropostaUseCases.obterPor(idModeloProposta);
         var numeroItem = materialRepository.countByModeloPropostaId(idModeloProposta) + 1;
         material.setNumeroItem(numeroItem);
         material.setModeloProposta(modeloProposta);
-        return material;
-    }
-
-    @Override
-    public Material cadastrar(Material material, Long idModeloProposta) {
-        vincularModeloProposta(material, idModeloProposta);
         return materialRepository.save(material);
     }
 
     @Override
     public Material obterPor(Long id) {
-        validarParametros(id);
         return materialRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Material não encontrado"));
     }
 
