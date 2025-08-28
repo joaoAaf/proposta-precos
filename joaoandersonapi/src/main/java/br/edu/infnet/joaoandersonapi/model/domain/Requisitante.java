@@ -11,8 +11,8 @@ public class Requisitante extends Responsavel {
     @Size(min = 2, max = 50, message = "O setor deve ter entre 2 e 50 caracteres")
     private String setor;
 
-    public Requisitante(Instituicao dadosBasicos, String email, String telefone, String responsavel, String setor) {
-        super(dadosBasicos, email, telefone, responsavel);
+    public Requisitante(Instituicao instituicao, String email, String telefone, String responsavel, String setor) {
+        super(instituicao, email, telefone, responsavel);
         this.setor = setor;
     }
 

@@ -16,7 +16,7 @@ public class Instituicao {
 
     @Id
     @NotBlank(message = "O CNPJ deve ser informado")
-    @Pattern(regexp = "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})|([0-9]{11})", message = "CNPJ inválido. Use o formato XX.XXX.XXX/XXXX-XX")
+    @Pattern(regexp = "^(?:\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}|\\d{14})$", message = "CNPJ inválido. Use o formato XX.XXX.XXX/XXXX-XX")
     private String cnpj;
 
     @NotBlank(message = "O nome deve ser informado")
@@ -39,16 +39,14 @@ public class Instituicao {
     }
 
     public String desformatarCnpj(String cnpj) {
-        cnpj = cnpj.replaceAll("[^\\d]", "");
-        if (cnpj.length() != 14)
-            throw new RuntimeException("CNPJ inválido");
-        return cnpj;
+        return cnpj.replaceAll("[^\\d]", "");
     }
 
     public String formatarCnpj(String cnpj) {
         if (cnpj.length() != 14)
             throw new RuntimeException("Problema ao formatar o CNPJ");
-        return cnpj.substring(0, 2) + "." + cnpj.substring(2, 5) + "." + cnpj.substring(5, 8) + "/" + cnpj.substring(8, 12) + "-" + cnpj.substring(12);
+        return cnpj.substring(0, 2) + "." + cnpj.substring(2, 5) + "." + cnpj.substring(5, 8) + "/"
+                + cnpj.substring(8, 12) + "-" + cnpj.substring(12);
     }
 
     public String getCnpj() {

@@ -38,7 +38,7 @@ public class Endereco {
     private String uf;
 
     @NotBlank(message = "O CEP deve ser informado")
-    @Pattern(regexp = "\\d{5}-?\\d{3}", message = "CEP inválido. Use o formato XXXXX-XXX.")
+    @Pattern(regexp = "^\\d{5}-?\\d{3}$", message = "CEP inválido. Use o formato XXXXX-XXX.")
     private String cep;
 
     public Endereco(String logradouro, String numero, String bairro, String cidade, String uf, String cep) {
@@ -51,10 +51,7 @@ public class Endereco {
     }
 
     public String desformatarCep(String cep) {
-        cep = cep.replaceAll("[^\\d]", "");
-        if (cep.length() != 8)
-            throw new RuntimeException("CEP inválido");
-        return cep;
+        return cep.replaceAll("[^\\d]", "");
     }
 
     public String formatarCep(String cep) {

@@ -12,6 +12,10 @@ import br.edu.infnet.joaoandersonapi.model.use_cases.GerenciadorPropostaUseCases
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Service
 public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
@@ -27,13 +31,24 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
         this.gerenciadorPropostaRepository = gerenciadorPropostaRepository;
     }
 
-    private void validarParametros(Proposta proposta) {
-        if (proposta.getId() != null)
-            throw new IllegalArgumentException("O Id da proposta não pode estar preenchido");
+    private void validarParametros(@NotNull(message = "Proposta não pode ser nula") @Valid Proposta proposta) {
+    }
+
+    private void validarParametros(@NotNull(message = "Gerenciador de proposta não pode ser nulo") @Valid GerenciadorProposta gerenciadorProposta) {
+    }
+
+    private void validarParametros(
+            @NotNull(message = "ID do modelo de proposta não pode ser nulo")
+            @Positive(message = "ID do modelo de proposta deve ser maior que zero") Long id) {
+    }
+
+    private void validarParametros(
+            @NotBlank(message = "Token deve ser informado") String token) {
     }
 
     @Override
     public String gerarToken(Long modeloPropostaId) {
+        this.validarParametros(modeloPropostaId);
         var modeloProposta = modeloPropostaUseCases.obterPor(modeloPropostaId);
         var gerenciadorPropostaUseCases = new GerenciadorProposta(modeloProposta);
         return gerenciadorPropostaRepository.save(gerenciadorPropostaUseCases).getToken();
@@ -41,6 +56,7 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     @Override
     public GerenciadorProposta obterPor(String token) {
+        this.validarParametros(token);
         return gerenciadorPropostaRepository.findById(token)
                 .orElseThrow(() -> new NoSuchElementException("Token não encontrado"));
     }
@@ -58,13 +74,12 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     @Override
     public void cadastrarProposta(String token, Proposta proposta) {
-        validarParametros(proposta);
+        this.validarParametros(proposta);
         var gerenciadorProposta = this.obterPor(token);
         gerenciadorProposta.validarProposta(token, proposta);
         propostaUseCases.cadastrar(proposta);
         this.invalidarToken(gerenciadorProposta);
     }
-
 
     @Override
     public void invalidarToken(String token) {
@@ -75,6 +90,7 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     @Override
     public void invalidarToken(GerenciadorProposta gerenciadorProposta) {
+        this.validarParametros(gerenciadorProposta);
         gerenciadorProposta.invalidarToken();
         gerenciadorPropostaRepository.save(gerenciadorProposta);
     }

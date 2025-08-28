@@ -17,10 +17,6 @@ import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonapi.model.domain.exceptions.PropostaInvalidaException;
 import br.edu.infnet.joaoandersonapi.model.domain.exceptions.TokenInvalidoException;
 import br.edu.infnet.joaoandersonapi.model.use_cases.GerenciadorPropostaUseCases;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/api/gerenciador-proposta")
@@ -33,9 +29,7 @@ public class GerenciadorPropostaController {
     }
 
     @PostMapping("/modelo-proposta/{idModeloProposta}/gerar-token")
-    public ResponseEntity<?> gerarToken(
-            @PathVariable @NotNull(message = "ID do modelo de proposta não pode ser nulo")
-            @Positive(message = "ID do modelo de proposta deve ser maior que zero") Long idModeloProposta) {
+    public ResponseEntity<?> gerarToken(@PathVariable Long idModeloProposta) {
         try {
             var token = gerenciadorPropostaUseCases.gerarToken(idModeloProposta);
             return ResponseEntity.status(HttpStatus.CREATED).body(token);
@@ -49,8 +43,7 @@ public class GerenciadorPropostaController {
     }
 
     @GetMapping("/{token}")
-    public ResponseEntity<?> obterGerenciadorProposta(
-            @PathVariable @NotBlank(message = "Token deve ser informado") String token) {
+    public ResponseEntity<?> obterGerenciadorProposta(@PathVariable String token) {
         try {
             var gerenciadorProposta = gerenciadorPropostaUseCases.obterPor(token);
             return ResponseEntity.ok().body(gerenciadorProposta);
@@ -76,7 +69,7 @@ public class GerenciadorPropostaController {
     }
 
     @GetMapping("/{token}/proposta/criar")
-    public ResponseEntity<?> criarProposta(@PathVariable @NotBlank(message = "Token deve ser informado") String token) {
+    public ResponseEntity<?> criarProposta(@PathVariable String token) {
         try {
             var proposta = gerenciadorPropostaUseCases.criarProposta(token);
             return ResponseEntity.ok().body(proposta);
@@ -92,9 +85,7 @@ public class GerenciadorPropostaController {
     }
 
     @PostMapping("/{token}/proposta/cadastrar")
-    public ResponseEntity<?> cadastrarProposta(
-            @PathVariable @NotBlank(message = "Token deve ser informado") String token,
-            @RequestBody @Valid @NotNull Proposta proposta) {
+    public ResponseEntity<?> cadastrarProposta(@PathVariable String token, @RequestBody Proposta proposta) {
         try {
             gerenciadorPropostaUseCases.cadastrarProposta(token, proposta);
             return ResponseEntity.noContent().build();
@@ -113,8 +104,7 @@ public class GerenciadorPropostaController {
     }
 
     @PatchMapping("/{token}/invalidar")
-    public ResponseEntity<?> invalidarToken(
-            @PathVariable @NotBlank(message = "Token deve ser informado") String token) {
+    public ResponseEntity<?> invalidarToken(@PathVariable String token) {
         try {
             gerenciadorPropostaUseCases.invalidarToken(token);
             return ResponseEntity.noContent().build();

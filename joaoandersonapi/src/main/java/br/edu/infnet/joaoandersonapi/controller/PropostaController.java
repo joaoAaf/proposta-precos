@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/api/proposta")
@@ -28,9 +25,7 @@ public class PropostaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obterPropostaPorId(
-            @PathVariable @NotNull(message = "ID da proposta não pode ser nulo")
-            @Positive(message = "ID da proposta deve ser maior que zero") Long id) {
+    public ResponseEntity<?> obterPropostaPorId(@PathVariable Long id) {
         try {
             var proposta = propostaUseCases.obterPor(id);
             return ResponseEntity.ok().body(proposta);
@@ -56,9 +51,7 @@ public class PropostaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removerPropostaPorId(
-            @PathVariable @NotNull(message = "ID da proposta não pode ser nulo")
-            @Positive(message = "ID da proposta deve ser maior que zero") Long id) {
+    public ResponseEntity<?> removerPropostaPorId(@PathVariable Long id) {
         try {
             propostaUseCases.remover(id);
             return ResponseEntity.noContent().build();
@@ -70,7 +63,7 @@ public class PropostaController {
     }
 
     @GetMapping("/preco-global")
-    public ResponseEntity<?> calcularPrecoGlobalProposta(@RequestBody @Valid @NotNull(message = "Proposta não pode ser nula") Proposta proposta) {
+    public ResponseEntity<?> calcularPrecoGlobalProposta(@RequestBody Proposta proposta) {
         try {
             var precoTotal = propostaUseCases.calcularPrecoGlobal(proposta);
             return ResponseEntity.ok().body(precoTotal);

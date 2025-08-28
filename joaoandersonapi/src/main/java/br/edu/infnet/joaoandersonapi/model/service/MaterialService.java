@@ -9,6 +9,9 @@ import br.edu.infnet.joaoandersonapi.model.domain.Material;
 import br.edu.infnet.joaoandersonapi.model.repository.MaterialRepository;
 import br.edu.infnet.joaoandersonapi.model.use_cases.MaterialUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Service
 public class MaterialService implements MaterialUseCases {
@@ -21,14 +24,23 @@ public class MaterialService implements MaterialUseCases {
         this.materialRepository = materialRepository;
     }
 
-    private void validarParametros(Material material) {
-        if (material.getId() != null)
-            throw new IllegalArgumentException("O Id do Material não pode estar preenchido");
+    private void validarParametros(@NotNull(message = "Material não pode ser nulo") @Valid Material material) {
+    }
+
+    private void validarParametros(
+            @NotNull(message = "ID do Material não pode ser nulo")
+            @Positive(message = "ID do Material deve ser maior que zero") Long id) {
+    }
+
+    private void validarId(Long id) {
+        if (id != null)
+            throw new IllegalArgumentException("O Id da Proposta não pode estar preenchido");
     }
 
     @Override
     public Material cadastrar(Material material, Long idModeloProposta) {
-        validarParametros(material);
+        this.validarParametros(material);
+        this.validarId(material.getId());
         var modeloProposta = modeloPropostaUseCases.obterPor(idModeloProposta);
         var numeroItem = materialRepository.countByModeloPropostaId(idModeloProposta) + 1;
         material.setNumeroItem(numeroItem);
@@ -38,35 +50,35 @@ public class MaterialService implements MaterialUseCases {
 
     @Override
     public Material obterPor(Long id) {
+        this.validarParametros(id);
         return materialRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Material não encontrado"));
     }
 
     @Override
     public Material atualizar(Material materialAtualizado, Long idMaterial) {
-        validarParametros(materialAtualizado);
-        var material = obterPor(idMaterial);
+        this.validarParametros(materialAtualizado);
+        this.validarId(materialAtualizado.getId());
+        var material = this.obterPor(idMaterial);
         material.setDescricao(materialAtualizado.getDescricao());
         material.setUnidade(materialAtualizado.getUnidade());
         material.setQuantidade(materialAtualizado.getQuantidade());
-        material.setPreco(materialAtualizado.getPreco());
-        material.setAdquirido(materialAtualizado.isAdquirido());
         return materialRepository.save(material);
     }
 
     @Override
     public void remover(Long id) {
-        materialRepository.delete(obterPor(id));
+        materialRepository.delete(this.obterPor(id));
     }
 
     @Override
     public BigDecimal calcularPrecoTotal(Long idMaterial) {
-        var material = obterPor(idMaterial);
+        var material = this.obterPor(idMaterial);
         return material.calcularPrecoTotal();
     }
 
     @Override
     public void marcarAdquirido(Long idMaterial) {
-        var material = obterPor(idMaterial);
+        var material = this.obterPor(idMaterial);
         material.setAdquirido(true);
         materialRepository.save(material);
     }

@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Material;
 import br.edu.infnet.joaoandersonapi.model.use_cases.MaterialUseCases;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/api/material")
@@ -31,10 +28,7 @@ public class MaterialController {
     }
 
     @PostMapping("/modelo-proposta/{id}")
-    public ResponseEntity<?> cadastrarMaterialModeloProposta(
-            @RequestBody @Valid @NotNull(message = "Material não pode ser nulo") Material material,
-            @PathVariable @NotNull(message = "ID do modelo de proposta não pode ser nulo")
-            @Positive(message = "ID do modelo de proposta deve ser maior que zero") Long id) {
+    public ResponseEntity<?> cadastrarMaterialModeloProposta(@RequestBody Material material, @PathVariable Long id) {
         try {
             var materialCadastrado = materialUseCases.cadastrar(material, id);
             return ResponseEntity.status(HttpStatus.CREATED).body(materialCadastrado);
@@ -46,10 +40,7 @@ public class MaterialController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarMaterialPorId(
-            @RequestBody @Valid @NotNull(message = "Material não pode ser nulo") Material material,
-            @PathVariable @NotNull(message = "ID do material não pode ser nulo")
-            @Positive(message = "ID do material deve ser maior que zero") Long id) {
+    public ResponseEntity<?> atualizarMaterialPorId(@RequestBody Material material, @PathVariable Long id) {
         try {
             var materialAtualizado = materialUseCases.atualizar(material, id);
             return ResponseEntity.ok().body(materialAtualizado);
@@ -63,9 +54,7 @@ public class MaterialController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removerMaterialPorId(
-            @PathVariable @NotNull(message = "ID do material não pode ser nulo")
-            @Positive(message = "ID do material deve ser maior que zero") Long id) {
+    public ResponseEntity<?> removerMaterialPorId(@PathVariable Long id) {
         try {
             materialUseCases.remover(id);
             return ResponseEntity.noContent().build();
@@ -77,9 +66,7 @@ public class MaterialController {
     }
 
     @GetMapping("/{id}/preco-total")
-    public ResponseEntity<?> calcularPrecoTotalMaterial(
-            @PathVariable @NotNull(message = "ID do material não pode ser nulo")
-            @Positive(message = "ID do material deve ser maior que zero") Long id) {
+    public ResponseEntity<?> calcularPrecoTotalMaterial(@PathVariable Long id) {
         try {
             var precoTotal = materialUseCases.calcularPrecoTotal(id);
             return ResponseEntity.ok().body(precoTotal);
@@ -93,9 +80,7 @@ public class MaterialController {
     }
 
     @PatchMapping("/{id}/adquirido")
-    public ResponseEntity<?> marcarMaterialAdquirido(
-            @PathVariable @NotNull(message = "ID do material não pode ser nulo")
-            @Positive(message = "ID do material deve ser maior que zero") Long id) {
+    public ResponseEntity<?> marcarMaterialAdquirido(@PathVariable Long id) {
         try {
             materialUseCases.marcarAdquirido(id);
             return ResponseEntity.noContent().build();

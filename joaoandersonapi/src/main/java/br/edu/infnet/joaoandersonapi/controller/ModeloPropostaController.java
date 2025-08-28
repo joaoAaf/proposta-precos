@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/api/modelo-proposta")
@@ -30,8 +27,7 @@ public class ModeloPropostaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarModeloProposta(
-            @RequestBody @Valid @NotNull(message = "Modelo de proposta não pode ser nulo") ModeloProposta modeloProposta) {
+    public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloProposta modeloProposta) {
         try {
             var modeloPropostaCadastrado = modeloPropostaUseCases.cadastrar(modeloProposta);
             return ResponseEntity.status(HttpStatus.CREATED).body(modeloPropostaCadastrado);
@@ -43,9 +39,7 @@ public class ModeloPropostaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obterModeloPropostaPorId(
-            @PathVariable @NotNull(message = "ID do modelo de proposta não pode ser nulo")
-            @Positive(message = "ID do modelo de proposta deve ser maior que zero") Long id) {
+    public ResponseEntity<?> obterModeloPropostaPorId(@PathVariable Long id) {
         try {
             var modeloProposta = modeloPropostaUseCases.obterPor(id);
             return ResponseEntity.ok().body(modeloProposta);
@@ -71,10 +65,7 @@ public class ModeloPropostaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarModeloPropostaPorId(
-            @RequestBody @Valid @NotNull(message = "Modelo de proposta não pode ser nulo") ModeloProposta modeloProposta,
-            @PathVariable @NotNull(message = "ID do modelo de proposta não pode ser nulo")
-            @Positive(message = "ID do modelo de proposta deve ser maior que zero") Long id) {
+    public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloProposta modeloProposta, @PathVariable Long id) {
         try {
             var modeloPropostaAtualizado = modeloPropostaUseCases.atualizar(modeloProposta, id);
             return ResponseEntity.ok().body(modeloPropostaAtualizado);
@@ -88,9 +79,7 @@ public class ModeloPropostaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removerModeloPropostaPorId(
-            @PathVariable @NotNull(message = "ID do modelo de proposta não pode ser nulo")
-            @Positive(message = "ID do modelo de proposta deve ser maior que zero") Long id) {
+    public ResponseEntity<?> removerModeloPropostaPorId(@PathVariable Long id) {
         try {
             modeloPropostaUseCases.remover(id);
             return ResponseEntity.noContent().build();

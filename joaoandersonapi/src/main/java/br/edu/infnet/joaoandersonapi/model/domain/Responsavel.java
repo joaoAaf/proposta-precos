@@ -26,7 +26,7 @@ public abstract class Responsavel {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "instituicao_id")
     @Valid
-    @NotNull
+    @NotNull(message = "A instituição deve ser informada")
     private Instituicao instituicao;
 
     @NotBlank(message = "O email deve ser informado")
@@ -34,7 +34,7 @@ public abstract class Responsavel {
     private String email;
 
     @NotBlank(message = "O telefone deve ser informado")
-    @Pattern(regexp = "\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}", message = "O telefone deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX")
+    @Pattern(regexp = "^(\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4})$", message = "O telefone deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX")
     private String telefone;
 
     @NotBlank(message = "O nome deve ser informado")
@@ -52,10 +52,7 @@ public abstract class Responsavel {
     }
 
     public String desformatarTelefone(String telefone) {
-        telefone = telefone.replaceAll("[^\\d]", "");
-        if (telefone.length() < 10 || telefone.length() > 11)
-            throw new RuntimeException("Telefone inválido");
-        return telefone;
+        return telefone.replaceAll("[^\\d]", "");
     }
 
     public String formatarTelefone(String telefone) {

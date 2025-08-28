@@ -13,9 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class ModeloProposta {
@@ -36,7 +36,7 @@ public class ModeloProposta {
     @NotNull(message = "A lista de materiais não pode ser nula")
     private List<Material> materiais = new ArrayList<>();
 
-    @Max(value = 255, message = "As observações devem ter no máximo 255 caracteres")    
+    @Size(max = 255, message = "As observações devem ter no máximo 255 caracteres")
     private String observacoes;
 
     public ModeloProposta() {
@@ -108,7 +108,7 @@ public class ModeloProposta {
         } else if (!requisitante.equals(other.requisitante))
             return false;
         if (materiais == null || materiais.isEmpty()) {
-            if (other.materiais != null || !other.materiais.isEmpty())
+            if (other.materiais != null && !other.materiais.isEmpty())
                 return false;
         } else {
             if (materiais.size() != other.materiais.size())
