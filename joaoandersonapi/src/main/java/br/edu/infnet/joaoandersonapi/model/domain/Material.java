@@ -10,19 +10,39 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Material {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1, message = "O ID deve ser maior que 0")
     private Long id;
 
+    @Min(value = 1, message = "O número do item deve ser maior que 0")
     private Integer numeroItem;
+
+    @NotBlank(message = "A descrição deve ser informada")
+    @Size(min = 3, max = 255, message = "A descrição deve ter entre 3 e 255 caracteres")
     private String descricao;
+
+    @NotBlank(message = "A unidade deve ser informada")
+    @Size(min = 1, max = 8, message = "A unidade deve ter entre 2 e 8 caracteres")
     private String unidade;
+
+    @NotNull(message = "A quantidade deve ser informada")
+    @DecimalMin(value = "0.01", message = "A quantidade deve ser maior que zero.")
     private BigDecimal quantidade;
+
+    @NotNull(message = "O preço deve ser informado")
+    @DecimalMin(value = "0.00", message = "O preço deve ser maior ou igual a zero.")
     private BigDecimal preco = BigDecimal.ZERO;
+    
     private boolean adquirido;
 
     @ManyToOne

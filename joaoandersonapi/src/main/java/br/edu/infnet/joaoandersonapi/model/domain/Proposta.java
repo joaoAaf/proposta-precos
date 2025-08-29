@@ -15,34 +15,52 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Proposta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1, message = "O ID deve ser maior que 0")
     private Long id;
 
     private LocalDate dataCriacao = LocalDate.now();
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "requisitante_id")
+    @Valid
+    @NotNull(message = "O requisitante deve ser informado")
     private Requisitante requisitante;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fornecedor_id")
+    @Valid
     private Fornecedor fornecedor;
 
     @OneToMany(mappedBy = "proposta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
+    @NotNull(message = "A lista de materiais deve ser informada")
     private List<Material> materiais = new ArrayList<>();
 
+    @NotNull(message = "O desconto deve ser informado")
+    @DecimalMin(value = "0.00", message = "O desconto deve ser maior ou igual a zero.")
     private BigDecimal desconto = BigDecimal.ZERO;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "endereco_id")
+    @Valid
+    @NotNull(message = "O endereço de entrega deve ser informado")
     private Endereco enderecoEntrega;
 
+    @Size(max = 255, message = "As observações do requisitante não podem exceder 255 caracteres.")
     private String observacoesRequisitante;
+
+    @Size(max = 255, message = "As observações do fornecedor não podem exceder 255 caracteres.")
     private String observacoesFornecedor;
 
     public Proposta(ModeloProposta modeloProposta) {
@@ -192,7 +210,7 @@ public class Proposta {
         } else if (!fornecedor.equals(other.fornecedor))
             return false;
         if (materiais == null || materiais.isEmpty()) {
-            if (other.materiais != null || !other.materiais.isEmpty())
+            if (other.materiais != null && !other.materiais.isEmpty())
                 return false;
         } else {
             if (materiais.size() != other.materiais.size())

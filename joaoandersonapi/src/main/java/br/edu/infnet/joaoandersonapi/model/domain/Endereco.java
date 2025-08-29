@@ -1,21 +1,45 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
+import br.edu.infnet.joaoandersonapi.model.domain.exceptions.ErroFormatacaoException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1, message = "O Id deve ser maior que 0")
     private Long id;
+
+    @NotBlank(message = "O logradouro deve ser informado")
+    @Size(min = 3, max = 255, message = "O logradouro deve ter entre 3 e 255 caracteres")
     private String logradouro;
+
+    @NotBlank(message = "O número deve ser informado")
+    @Size(min = 1, max = 20, message = "O número deve ter entre 1 e 20 caracteres")
     private String numero;
+
+    @NotBlank(message = "O bairro deve ser informado")
+    @Size(min = 3, max = 50, message = "O bairro deve ter entre 3 e 50 caracteres")
     private String bairro;
+
+    @NotBlank(message = "A cidade deve ser informada")
+    @Size(min = 3, max = 50, message = "A cidade deve ter entre 3 e 50 caracteres")
     private String cidade;
+
+    @NotBlank(message = "A UF deve ser informada")
+    @Size(min = 2, max = 2, message = "A UF deve ter 2 caracteres")
     private String uf;
+
+    @NotBlank(message = "O CEP deve ser informado")
+    @Pattern(regexp = "^\\d{5}-?\\d{3}$", message = "CEP inválido. Use o formato XXXXX-XXX.")
     private String cep;
 
     public Endereco(String logradouro, String numero, String bairro, String cidade, String uf, String cep) {
@@ -24,7 +48,17 @@ public class Endereco {
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
-        this.cep = cep;
+        this.cep = this.desformatarCep(cep);
+    }
+
+    public String desformatarCep(String cep) {
+        return cep.replaceAll("[^\\d]", "");
+    }
+
+    public String formatarCep(String cep) {
+        if (cep.length() != 8)
+            throw new ErroFormatacaoException("Problema ao formatar o CEP");
+        return cep.substring(0, 5) + "-" + cep.substring(5);
     }
 
     public Endereco() {
@@ -75,11 +109,11 @@ public class Endereco {
     }
 
     public String getCep() {
-        return cep;
+        return this.formatarCep(cep);
     }
 
     public void setCep(String cep) {
-        this.cep = cep;
+        this.cep = this.desformatarCep(cep);
     }
 
     @Override

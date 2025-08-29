@@ -1,5 +1,6 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
+import br.edu.infnet.joaoandersonapi.model.domain.exceptions.ErroFormatacaoException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,30 +8,60 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @MappedSuperclass
 public abstract class Responsavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1, message = "O ID deve ser maior que 0")
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "instituicao_id")
+    @Valid
+    @NotNull(message = "A instituição deve ser informada")
     private Instituicao instituicao;
-    
+
+    @NotBlank(message = "O email deve ser informado")
+    @Email(message = "O email deve ser válido")
     private String email;
+
+    @NotBlank(message = "O telefone deve ser informado")
+    @Pattern(regexp = "^(\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4})$", message = "O telefone deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX")
     private String telefone;
+
+    @NotBlank(message = "O nome deve ser informado")
+    @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String nome;
 
     public Responsavel(Instituicao instituicao, String email, String telefone, String nome) {
         this.instituicao = instituicao;
         this.email = email;
-        this.telefone = telefone;
+        this.telefone = this.desformatarTelefone(telefone);
         this.nome = nome;
     }
 
     public Responsavel() {
+    }
+
+    public String desformatarTelefone(String telefone) {
+        return telefone.replaceAll("[^\\d]", "");
+    }
+
+    public String formatarTelefone(String telefone) {
+        if (telefone.length() == 10)
+            return "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 6) + "-" + telefone.substring(6);
+        if (telefone.length() == 11)
+            return "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 7) + "-" + telefone.substring(7);
+        throw new ErroFormatacaoException("Problema ao formatar o telefone");
     }
 
     public Long getId() {
@@ -54,11 +85,11 @@ public abstract class Responsavel {
     }
 
     public String getTelefone() {
-        return telefone;
+        return this.formatarTelefone(telefone);
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = this.desformatarTelefone(telefone);
     }
 
     public String getNome() {
@@ -121,7 +152,7 @@ public abstract class Responsavel {
     @Override
     public String toString() {
         return "Responsavel [id=" + id + ", instituicao=" + instituicao + ", email=" + email + ", telefone="
-                + telefone + ", nome=" + nome + "]";
+                + this.getTelefone() + ", nome=" + nome + "]";
     }
 
 }

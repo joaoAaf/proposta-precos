@@ -1,4 +1,4 @@
-1234567890123;Sociedade de Serviços Ltda.;Rua das Acácias;101;Bairro das Flores;Rio de Janeiro;RJ;22680000;example1@example.com;123456;João Silva;Setor A
-9876543210987;Empresa de Logística;Rua dos Correios;202;Bairro do Comércio;São Paulo;SP;14070000;example3@example.com;98765432;Maria Oliveira;Setor B
-1111111111111;Cooperativa de Trabalho;Rua da Indústria;303;Bairro das Indústrias;Limoeiro do Norte;CE;29000000;example5@example.com;11111111;Pedro Costa;Setor C
-2222222222222;Consultoria em Tecnologia;Rua das Técnicas;401;Bairro das Tecnologias;Belo Horizonte;MG;30100000;example7@example.com;22222222;Ana Silva;Setor D
+12345678901230;Sociedade de Serviços Ltda.;Rua das Acácias;101;Bairro das Flores;Rio de Janeiro;RJ;22680000;example1@example.com;1234567890;João Silva;Setor A
+98765432109870;Empresa de Logística;Rua dos Correios;202;Bairro do Comércio;São Paulo;SP;14070000;example3@example.com;98765432109;Maria Oliveira;Setor B
+11111111111110;Cooperativa de Trabalho;Rua da Indústria;303;Bairro das Indústrias;Limoeiro do Norte;CE;29000000;example5@example.com;1111111100;Pedro Costa;Setor C
+22222222222220;Consultoria em Tecnologia;Rua das Técnicas;401;Bairro das Tecnologias;Belo Horizonte;MG;30100000;example7@example.com;2222222200;Ana Silva;Setor D

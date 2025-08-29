@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.infnet.joaoandersonapi.model.domain.GerenciadorProposta;
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
@@ -11,7 +12,10 @@ import br.edu.infnet.joaoandersonapi.model.repository.GerenciadorPropostaReposit
 import br.edu.infnet.joaoandersonapi.model.use_cases.GerenciadorPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Service
 public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
@@ -27,59 +31,62 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
         this.gerenciadorPropostaRepository = gerenciadorPropostaRepository;
     }
 
-    private void validarParametros(Long id) {
-        if (id == null || id < 1)
-            throw new IllegalArgumentException("O Id não pode ser nulo ou menor que 1");
+    private void validarParametros(@NotNull(message = "Proposta não pode ser nula") @Valid Proposta proposta) {
     }
 
-    private void validarParametros(String token) {
-        if (token == null || token.trim().isEmpty())
-            throw new IllegalArgumentException("O token não pode ser nulo ou vazio");
+    private void validarParametros(@NotNull(message = "Gerenciador de proposta não pode ser nulo") @Valid GerenciadorProposta gerenciadorProposta) {
     }
 
-    private void validarParametros(Proposta proposta) {
-        if (proposta == null)
-            throw new IllegalArgumentException("A proposta não pode ser nula");
-        if (proposta.getId() != null)
-            throw new IllegalArgumentException("O Id da proposta não pode estar preenchido");
+    private void validarParametros(
+            @NotNull(message = "ID do modelo de proposta não pode ser nulo")
+            @Positive(message = "ID do modelo de proposta deve ser maior que zero") Long id) {
     }
 
+    private void validarParametros(
+            @NotBlank(message = "Token deve ser informado") String token) {
+    }
+
+    @Transactional
     @Override
     public String gerarToken(Long modeloPropostaId) {
-        validarParametros(modeloPropostaId);
+        this.validarParametros(modeloPropostaId);
         var modeloProposta = modeloPropostaUseCases.obterPor(modeloPropostaId);
         var gerenciadorPropostaUseCases = new GerenciadorProposta(modeloProposta);
         return gerenciadorPropostaRepository.save(gerenciadorPropostaUseCases).getToken();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public GerenciadorProposta obterPor(String token) {
-        validarParametros(token);
+        this.validarParametros(token);
         return gerenciadorPropostaRepository.findById(token)
                 .orElseThrow(() -> new NoSuchElementException("Token não encontrado"));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<GerenciadorProposta> listar() {
         return gerenciadorPropostaRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Proposta criarProposta(String token) {
         var gerenciadorProposta = this.obterPor(token);
         return gerenciadorProposta.criarProposta(token);
     }
 
+    @Transactional
     @Override
     public void cadastrarProposta(String token, Proposta proposta) {
-        validarParametros(proposta);
+        this.validarParametros(proposta);
         var gerenciadorProposta = this.obterPor(token);
         gerenciadorProposta.validarProposta(token, proposta);
         propostaUseCases.cadastrar(proposta);
         this.invalidarToken(gerenciadorProposta);
     }
 
-
+    @Transactional
     @Override
     public void invalidarToken(String token) {
         var gerenciadorProposta = this.obterPor(token);
@@ -89,12 +96,13 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     @Override
     public void invalidarToken(GerenciadorProposta gerenciadorProposta) {
+        this.validarParametros(gerenciadorProposta);
         gerenciadorProposta.invalidarToken();
         gerenciadorPropostaRepository.save(gerenciadorProposta);
     }
 
-    @Override
     @Transactional
+    @Override
     public void removerInvalidosOuExpirados() {
         gerenciadorPropostaRepository.deleteInvalidosOuExpirados();
     }
