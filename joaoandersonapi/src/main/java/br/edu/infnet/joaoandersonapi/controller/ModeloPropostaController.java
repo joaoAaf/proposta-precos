@@ -1,7 +1,5 @@
 package br.edu.infnet.joaoandersonapi.controller;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,66 +26,35 @@ public class ModeloPropostaController {
 
     @PostMapping
     public ResponseEntity<?> cadastrarModeloProposta(@RequestBody ModeloProposta modeloProposta) {
-        try {
-            var modeloPropostaCadastrado = modeloPropostaUseCases.cadastrar(modeloProposta);
-            return ResponseEntity.status(HttpStatus.CREATED).body(modeloPropostaCadastrado);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao cadastrar modelo de proposta");
-        }
+        var modeloPropostaCadastrado = modeloPropostaUseCases.cadastrar(modeloProposta);
+        return ResponseEntity.status(HttpStatus.CREATED).body(modeloPropostaCadastrado);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> obterModeloPropostaPorId(@PathVariable Long id) {
-        try {
-            var modeloProposta = modeloPropostaUseCases.obterPor(id);
-            return ResponseEntity.ok().body(modeloProposta);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao obter modelo de proposta");
-        }
+        var modeloProposta = modeloPropostaUseCases.obterPor(id);
+        return ResponseEntity.ok().body(modeloProposta);
     }
 
     @GetMapping
     public ResponseEntity<?> listarModelosProposta() {
-        try {
-            var listaModeloProposta = modeloPropostaUseCases.listar();
-            if (listaModeloProposta == null || listaModeloProposta.isEmpty())
-                return ResponseEntity.noContent().build();
-            return ResponseEntity.ok().body(listaModeloProposta);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao listar modelos de proposta");
-        }
+        var listaModeloProposta = modeloPropostaUseCases.listar();
+        if (listaModeloProposta == null || listaModeloProposta.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(listaModeloProposta);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloProposta modeloProposta, @PathVariable Long id) {
-        try {
-            var modeloPropostaAtualizado = modeloPropostaUseCases.atualizar(modeloProposta, id);
-            return ResponseEntity.ok().body(modeloPropostaAtualizado);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao atualizar modelo de proposta");
-        }
+    public ResponseEntity<?> atualizarModeloPropostaPorId(@RequestBody ModeloProposta modeloProposta,
+            @PathVariable Long id) {
+        var modeloPropostaAtualizado = modeloPropostaUseCases.atualizar(modeloProposta, id);
+        return ResponseEntity.ok().body(modeloPropostaAtualizado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removerModeloPropostaPorId(@PathVariable Long id) {
-        try {
-            modeloPropostaUseCases.remover(id);
-            return ResponseEntity.noContent().build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao remover modelo de proposta");
-        }
+        modeloPropostaUseCases.remover(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
