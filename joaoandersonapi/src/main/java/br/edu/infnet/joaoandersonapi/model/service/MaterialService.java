@@ -1,6 +1,7 @@
 package br.edu.infnet.joaoandersonapi.model.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
@@ -50,6 +51,13 @@ public class MaterialService implements MaterialUseCases {
         return materialRepository.save(material);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<Material> listar() {
+        return materialRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
     @Override
     public Material obterPor(Long id) {
         this.validarParametros(id);

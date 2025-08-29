@@ -1,7 +1,5 @@
 package br.edu.infnet.joaoandersonapi.controller;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,67 +27,47 @@ public class MaterialController {
 
     @PostMapping("/modelo-proposta/{id}")
     public ResponseEntity<?> cadastrarMaterialModeloProposta(@RequestBody Material material, @PathVariable Long id) {
-        try {
-            var materialCadastrado = materialUseCases.cadastrar(material, id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(materialCadastrado);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao cadastrar material");
+        var materialCadastrado = materialUseCases.cadastrar(material, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(materialCadastrado);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> listarMateriais() {
+        var materiais = materialUseCases.listar();
+        if (materiais == null || materiais.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok().body(materiais);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> obterMaterialPorId(@PathVariable Long id) {
+        var material = materialUseCases.obterPor(id);
+        return ResponseEntity.ok().body(material);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarMaterialPorId(@RequestBody Material material, @PathVariable Long id) {
-        try {
-            var materialAtualizado = materialUseCases.atualizar(material, id);
-            return ResponseEntity.ok().body(materialAtualizado);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao atualizar material");
-        }
+        var materialAtualizado = materialUseCases.atualizar(material, id);
+        return ResponseEntity.ok().body(materialAtualizado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removerMaterialPorId(@PathVariable Long id) {
-        try {
-            materialUseCases.remover(id);
-            return ResponseEntity.noContent().build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao remover material");
-        }
+        materialUseCases.remover(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/preco-total")
     public ResponseEntity<?> calcularPrecoTotalMaterial(@RequestBody Material material) {
-        try {
-            var precoTotal = materialUseCases.calcularPrecoTotal(material);
-            return ResponseEntity.ok().body(precoTotal);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao calcular preço total do material");
-        }
+        var precoTotal = materialUseCases.calcularPrecoTotal(material);
+        return ResponseEntity.ok().body(precoTotal);
     }
 
     @PatchMapping("/{id}/adquirido")
     public ResponseEntity<?> marcarMaterialAdquirido(@PathVariable Long id) {
-        try {
-            materialUseCases.marcarAdquirido(id);
-            return ResponseEntity.noContent().build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao marcar material como adquirido");
-        }
+        materialUseCases.marcarAdquirido(id);
+        return ResponseEntity.noContent().build();
     }
+
 }
