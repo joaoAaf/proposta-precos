@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.infnet.joaoandersonapi.model.domain.GerenciadorProposta;
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
@@ -11,7 +12,6 @@ import br.edu.infnet.joaoandersonapi.model.repository.GerenciadorPropostaReposit
 import br.edu.infnet.joaoandersonapi.model.use_cases.GerenciadorPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.ModeloPropostaUseCases;
 import br.edu.infnet.joaoandersonapi.model.use_cases.PropostaUseCases;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -46,6 +46,7 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
             @NotBlank(message = "Token deve ser informado") String token) {
     }
 
+    @Transactional
     @Override
     public String gerarToken(Long modeloPropostaId) {
         this.validarParametros(modeloPropostaId);
@@ -54,6 +55,7 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
         return gerenciadorPropostaRepository.save(gerenciadorPropostaUseCases).getToken();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public GerenciadorProposta obterPor(String token) {
         this.validarParametros(token);
@@ -61,17 +63,20 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
                 .orElseThrow(() -> new NoSuchElementException("Token não encontrado"));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<GerenciadorProposta> listar() {
         return gerenciadorPropostaRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Proposta criarProposta(String token) {
         var gerenciadorProposta = this.obterPor(token);
         return gerenciadorProposta.criarProposta(token);
     }
 
+    @Transactional
     @Override
     public void cadastrarProposta(String token, Proposta proposta) {
         this.validarParametros(proposta);
@@ -81,6 +86,7 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
         this.invalidarToken(gerenciadorProposta);
     }
 
+    @Transactional
     @Override
     public void invalidarToken(String token) {
         var gerenciadorProposta = this.obterPor(token);
@@ -95,8 +101,8 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
         gerenciadorPropostaRepository.save(gerenciadorProposta);
     }
 
-    @Override
     @Transactional
+    @Override
     public void removerInvalidosOuExpirados() {
         gerenciadorPropostaRepository.deleteInvalidosOuExpirados();
     }

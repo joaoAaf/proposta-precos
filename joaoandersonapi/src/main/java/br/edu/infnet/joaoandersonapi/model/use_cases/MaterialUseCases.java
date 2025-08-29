@@ -11,7 +11,7 @@ import br.edu.infnet.joaoandersonapi.model.use_cases.common.RemoverUseCase;
 public interface MaterialUseCases extends CadastrarT2UseCase<Material, Long>, ObterPorUseCase<Material, Long>,
         AtualizarUseCase<Material, Long>, RemoverUseCase<Long> {
 
-    BigDecimal calcularPrecoTotal(Long idMaterial);
+    BigDecimal calcularPrecoTotal(Material material);
 
     void marcarAdquirido(Long idMaterial);
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonapi.model.repository.PropostaRepository;
@@ -44,6 +45,7 @@ public class PropostaService implements PropostaUseCases {
         return propostaRepository.save(proposta);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Proposta obterPor(Long id) {
         this.validarParametros(id);
@@ -52,11 +54,13 @@ public class PropostaService implements PropostaUseCases {
                 .orElseThrow(() -> new NoSuchElementException("Não existe proposta com o ID " + id));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Proposta> listar() {
         return propostaRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void remover(Long id) {
         this.validarParametros(id);

@@ -65,10 +65,10 @@ public class MaterialController {
         }
     }
 
-    @GetMapping("/{id}/preco-total")
-    public ResponseEntity<?> calcularPrecoTotalMaterial(@PathVariable Long id) {
+    @GetMapping("/preco-total")
+    public ResponseEntity<?> calcularPrecoTotalMaterial(@RequestBody Material material) {
         try {
-            var precoTotal = materialUseCases.calcularPrecoTotal(id);
+            var precoTotal = materialUseCases.calcularPrecoTotal(material);
             return ResponseEntity.ok().body(precoTotal);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

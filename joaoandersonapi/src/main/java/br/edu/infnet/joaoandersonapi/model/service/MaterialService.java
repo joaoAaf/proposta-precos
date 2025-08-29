@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Material;
 import br.edu.infnet.joaoandersonapi.model.repository.MaterialRepository;
@@ -37,6 +38,7 @@ public class MaterialService implements MaterialUseCases {
             throw new IllegalArgumentException("O Id da Proposta não pode estar preenchido");
     }
 
+    @Transactional
     @Override
     public Material cadastrar(Material material, Long idModeloProposta) {
         this.validarParametros(material);
@@ -54,6 +56,7 @@ public class MaterialService implements MaterialUseCases {
         return materialRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Material não encontrado"));
     }
 
+    @Transactional
     @Override
     public Material atualizar(Material materialAtualizado, Long idMaterial) {
         this.validarParametros(materialAtualizado);
@@ -65,14 +68,15 @@ public class MaterialService implements MaterialUseCases {
         return materialRepository.save(material);
     }
 
+    @Transactional
     @Override
     public void remover(Long id) {
         materialRepository.delete(this.obterPor(id));
     }
 
     @Override
-    public BigDecimal calcularPrecoTotal(Long idMaterial) {
-        var material = this.obterPor(idMaterial);
+    public BigDecimal calcularPrecoTotal(Material material) {
+        validarParametros(material);
         return material.calcularPrecoTotal();
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.infnet.joaoandersonapi.model.domain.ModeloProposta;
 import br.edu.infnet.joaoandersonapi.model.repository.ModeloPropostaRepository;
@@ -34,6 +35,7 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
             throw new IllegalArgumentException("O Id da Proposta não pode estar preenchido");
     }
 
+    @Transactional
     @Override
     public ModeloProposta cadastrar(ModeloProposta modeloProposta) {
         this.validarParametros(modeloProposta);
@@ -41,6 +43,7 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
         return modeloPropostaRepository.save(modeloProposta);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ModeloProposta obterPor(Long id) {
         this.validarParametros(id);
@@ -49,11 +52,13 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
                 .orElseThrow(() -> new NoSuchElementException("Não existe modelo de proposta com o ID " + id));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ModeloProposta> listar() {
         return modeloPropostaRepository.findAll();
     }
 
+    @Transactional
     @Override
     public ModeloProposta atualizar(ModeloProposta modeloPropostaNovo, Long id) {
         this.validarParametros(modeloPropostaNovo);
@@ -65,6 +70,7 @@ public class ModeloPropostaService implements ModeloPropostaUseCases {
         return modeloPropostaRepository.save(modeloPropostaNovo);
     }
 
+    @Transactional
     @Override
     public void remover(Long id) {
         modeloPropostaRepository.delete(this.obterPor(id));

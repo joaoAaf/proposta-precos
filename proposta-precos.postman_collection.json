@@ -212,19 +212,30 @@
 					"response": []
 				},
 				{
-					"name": "calcular-preco-total-material-por-id",
+					"name": "calcular-preco-total-material",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Cimento CPII\",\n    \"unidade\": \"SC 50Kg\",\n    \"quantidade\": 15.00,\n    \"preco\": 40.50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/api/material/2/preco-total",
+							"raw": "{{baseURL}}/api/material/preco-total",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"material",
-								"2",
 								"preco-total"
 							]
 						}
