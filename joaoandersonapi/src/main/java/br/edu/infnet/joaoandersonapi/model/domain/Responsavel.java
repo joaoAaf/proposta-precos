@@ -1,5 +1,6 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
+import br.edu.infnet.joaoandersonapi.model.domain.exceptions.ErroFormatacaoException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -60,7 +61,7 @@ public abstract class Responsavel {
             return "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 6) + "-" + telefone.substring(6);
         if (telefone.length() == 11)
             return "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 7) + "-" + telefone.substring(7);
-        throw new RuntimeException("Problema ao formatar o telefone");
+        throw new ErroFormatacaoException("Problema ao formatar o telefone");
     }
 
     public Long getId() {

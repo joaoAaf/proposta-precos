@@ -210,7 +210,7 @@ public class Proposta {
         } else if (!fornecedor.equals(other.fornecedor))
             return false;
         if (materiais == null || materiais.isEmpty()) {
-            if (other.materiais != null || !other.materiais.isEmpty())
+            if (other.materiais != null && !other.materiais.isEmpty())
                 return false;
         } else {
             if (materiais.size() != other.materiais.size())

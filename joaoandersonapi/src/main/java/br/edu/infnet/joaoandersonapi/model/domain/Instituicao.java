@@ -1,5 +1,6 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
+import br.edu.infnet.joaoandersonapi.model.domain.exceptions.ErroFormatacaoException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -44,7 +45,7 @@ public class Instituicao {
 
     public String formatarCnpj(String cnpj) {
         if (cnpj.length() != 14)
-            throw new RuntimeException("Problema ao formatar o CNPJ");
+            throw new ErroFormatacaoException("Problema ao formatar o CNPJ");
         return cnpj.substring(0, 2) + "." + cnpj.substring(2, 5) + "." + cnpj.substring(5, 8) + "/"
                 + cnpj.substring(8, 12) + "-" + cnpj.substring(12);
     }

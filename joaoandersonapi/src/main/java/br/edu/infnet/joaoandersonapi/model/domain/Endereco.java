@@ -1,5 +1,6 @@
 package br.edu.infnet.joaoandersonapi.model.domain;
 
+import br.edu.infnet.joaoandersonapi.model.domain.exceptions.ErroFormatacaoException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -56,7 +57,7 @@ public class Endereco {
 
     public String formatarCep(String cep) {
         if (cep.length() != 8)
-            throw new RuntimeException("Problema ao formatar o CEP");
+            throw new ErroFormatacaoException("Problema ao formatar o CEP");
         return cep.substring(0, 5) + "-" + cep.substring(5);
     }
 
