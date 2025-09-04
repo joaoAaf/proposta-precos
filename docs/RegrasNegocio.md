@@ -46,6 +46,7 @@
 - No caso de três ou mais propostas e o desvio padrão dos preços globais for superior a 25%, o sistema deve utilizar a **mediana** no lugar da média.
 - No caso de duas propostas e o desvio padrão dos preços globais for superior a 25%, o sistema deve recomendar ao requisitante a inclusão de mais propostas, caso ele não queira incluí-las, o sistema de perguntar ao requisitante se ele deseja prosseguir com a comparação.
 - O sistema deve permitir a verificar se o preço global de uma proposta qualquer, selecionada pelo requisitante, **não excede em 20%** da média ou mediana de duas ou mais propostas também selecionadas por ele.
+- O sistema deve permitir a verificação da proposta de menor preço global, entre as propostas selecionadas pelo requisitante.
 - O sistema deve permitir a criação de relatórios em pdf para os casos supracitados.
 
 ### 6. Registro e Auditoria
