@@ -13,6 +13,10 @@ public class Relatorio {
         this.propostas = propostas;
     }
 
+    public void verificarPropostas(int minPropostas) {
+        throw new UnsupportedOperationException("Método não implementado");
+    }
+
     public BigDecimal calcularMedia() {
         throw new UnsupportedOperationException("Método não implementado");
     }
