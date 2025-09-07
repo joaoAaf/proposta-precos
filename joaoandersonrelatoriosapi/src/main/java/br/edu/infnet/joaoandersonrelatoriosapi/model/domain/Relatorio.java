@@ -6,13 +6,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Relatorio {
-
-    private LocalDate dataEmissao = LocalDate.now();
-    private List<Proposta> propostas;
+public record Relatorio(LocalDate dataEmissao, List<Proposta> propostas) {
 
     public Relatorio(List<Proposta> propostas) {
-        this.propostas = propostas;
+        this(LocalDate.now(), propostas);
     }
 
     public void verificarPropostas(int minPropostas) {
@@ -25,7 +22,7 @@ public class Relatorio {
     public BigDecimal calcularMedia() {
         this.verificarPropostas(2);
         var soma = this.propostas.stream()
-                .map(Proposta::calcularPrecoGlobal)
+                .map(proposta -> proposta.precoGlobal())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         return soma.divide(BigDecimal.valueOf(this.propostas.size()), 2, RoundingMode.HALF_EVEN);
     }
@@ -33,11 +30,11 @@ public class Relatorio {
     public BigDecimal calcularMediana() {
         this.verificarPropostas(3);
         var precos = this.propostas.stream()
-                .map(Proposta::calcularPrecoGlobal)
+                .map(Proposta::precoGlobal)
                 .sorted()
                 .toList();
         if (precos.size() % 2 == 1)
-            return precos.get(precos.size() / 2);
+            return precos.get(precos.size() / 2).setScale(2, RoundingMode.HALF_EVEN);
         return precos.get(precos.size() / 2 - 1)
                 .add(precos.get(precos.size() / 2))
                 .divide(BigDecimal.valueOf(2), 2, RoundingMode.HALF_EVEN);
@@ -47,7 +44,7 @@ public class Relatorio {
         this.verificarPropostas(2);
         var media = this.calcularMedia();
         var somaQuadrados = this.propostas.stream()
-                .map(Proposta::calcularPrecoGlobal)
+                .map(Proposta::precoGlobal)
                 .map(preco -> preco.subtract(media).pow(2))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         var variancia = somaQuadrados.divide(BigDecimal.valueOf(this.propostas.size()));
@@ -62,12 +59,11 @@ public class Relatorio {
         var propostasVantajosas = new ArrayList<Proposta>();
         var menorPreco = BigDecimal.ZERO;
         for (var proposta : this.propostas) {
-            var precoGlobal = proposta.calcularPrecoGlobal();
-            if (menorPreco.equals(BigDecimal.ZERO) || precoGlobal.compareTo(menorPreco) < 0) {
-                menorPreco = precoGlobal;
+            if (menorPreco.equals(BigDecimal.ZERO) || proposta.precoGlobal().compareTo(menorPreco) < 0) {
+                menorPreco = proposta.precoGlobal();
                 propostasVantajosas.clear();
                 propostasVantajosas.add(proposta);
-            } else if (precoGlobal.compareTo(menorPreco) == 0)
+            } else if (proposta.precoGlobal().compareTo(menorPreco) == 0)
                 propostasVantajosas.add(proposta);
         }
         return propostasVantajosas;
@@ -76,19 +72,11 @@ public class Relatorio {
     public BigDecimal calcularPorcentagemPrecoMercado(Proposta proposta) {
         this.verificarPropostas(2);
         var media = this.calcularMedia();
-        return proposta.calcularPrecoGlobal()
+        return proposta.precoGlobal()
                 .divide(media, 4, RoundingMode.HALF_EVEN)
                 .subtract(BigDecimal.ONE)
                 .multiply(BigDecimal.valueOf(100))
                 .setScale(2, RoundingMode.HALF_EVEN);
-    }
-
-    public LocalDate getDataEmissao() {
-        return dataEmissao;
-    }
-
-    public List<Proposta> getPropostas() {
-        return propostas;
     }
     
 }
