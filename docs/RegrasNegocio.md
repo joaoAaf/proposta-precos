@@ -41,14 +41,19 @@
 
 ### 5. Comparação de Propostas
 
-- O sistema deve permitir que o requisitante selecione duas ou mais propostas para calculo da **média** de seus preços globais.
-- O sistema deve permitir que o requisitante calcule o **desvio padrão percentual** dos preços globais de duas ou mais propostas selecionadas.
-- No caso de três ou mais propostas e o desvio padrão dos preços globais for superior a 25%, o sistema deve utilizar a **mediana** no lugar da média.
-- No caso de duas propostas e o desvio padrão dos preços globais for superior a 25%, o sistema deve recomendar ao requisitante a inclusão de mais propostas, caso ele não queira incluí-las, o sistema de perguntar ao requisitante se ele deseja prosseguir com a comparação.
-- O sistema deve permitir a verificar se o preço global de uma proposta qualquer, selecionada pelo requisitante, **não excede em 20%** da média ou mediana de duas ou mais propostas também selecionadas por ele.
-- O sistema deve permitir a verificação da proposta de menor preço global, entre as propostas selecionadas pelo requisitante.
-- O sistema deve permitir a criação de relatórios em pdf para os casos supracitados.
+- O sistema deve emitir um relatório comparando os preços globais de duas ou mais propostas selecionadas pelo requisitante. Este relatório deve conter:
+	* O calculo da **média** dos preços globais;
+	* O calculo da **mediana** dos preços globais, para o caso de duas propostas a média e a mediana serão iguais;
+	* Identificação da(s) proposta(s) com menor preço global; 
+	* O calculo do **desvio padrão percentual** dos preços globais;
 
-### 6. Registro e Auditoria
+### 6. Comparação de Proposta com preço de mercado
+
+- O sistema deve emitir um relatório comparando o preço global de uma proposta selecionada pelo requisitante com o preço de mercado. Este relatório deve conter:
+	* O calculo do preço de mercado, representado pela **média** dos preços globais de duas ou mais propostas, selecionadas pelo requisitante, ou pela **mediana** quando o **desvio padrão percentual** dos preços globais for superior a **25%** e houverem mais de duas propostas;
+	* A diferença percentual entre o preço global da proposta e o preço de mercado;
+- O sistema não deve emitir este relatório se **desvio padrão percentual** for superior a **25%** e houverem menos de três propostas;
+
+### 7. Registro e Auditoria
 
 - Todas as ações, análises e decisões devem ser registradas no sistema para fins de auditoria e rastreabilidade.
