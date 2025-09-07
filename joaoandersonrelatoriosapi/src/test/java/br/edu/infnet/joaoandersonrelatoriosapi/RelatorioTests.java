@@ -21,22 +21,33 @@ public class RelatorioTests {
     private Proposta proposta2;
     private Proposta proposta3;
 
-
     @BeforeEach
     void setUp() {
-        var material1 = new Material(1, "Material 1", "un", BigDecimal.valueOf(55), BigDecimal.valueOf(12));
-        var material2 = new Material(2, "Material 2", "un", BigDecimal.valueOf(2.20), BigDecimal.valueOf(104.6));
-        
+        var material1 = new Material(1, "Material 1", "un", 55.0, 12.0, 660.0);
+        var material2 = new Material(2, "Material 2", "un", 2.20, 104.6, 230.12);
 
-        var material3 = new Material(1, "Material 1", "un", BigDecimal.valueOf(55), BigDecimal.valueOf(10));
-        var material4 = new Material(2, "Material 2", "un", BigDecimal.valueOf(2.20), BigDecimal.valueOf(100.5));
+        var material3 = new Material(1, "Material 1", "un", 55.0, 10.0, 550.0);
+        var material4 = new Material(2, "Material 2", "un", 2.20, 100.5, 220.1);
 
-        var material5 = new Material(1, "Material 1", "un", BigDecimal.valueOf(55), BigDecimal.valueOf(8));
-        var material6 = new Material(2, "Material 2", "un", BigDecimal.valueOf(2.20), BigDecimal.valueOf(98.5));
+        var material5 = new Material(1, "Material 1", "un", 55.0, 8.0, 440.0);
+        var material6 = new Material(2, "Material 2", "un", 2.20, 98.5, 216.7);
 
-        this.proposta1 = new Proposta(Long.valueOf(1), Arrays.asList(material1, material2), BigDecimal.ZERO);
-        this.proposta2 = new Proposta(Long.valueOf(2), Arrays.asList(material3, material4), BigDecimal.ZERO);
-        this.proposta3 = new Proposta(Long.valueOf(3), Arrays.asList(material5, material6), BigDecimal.ZERO);
+        this.proposta1 = new Proposta(Long.valueOf(1), Arrays.asList(material1, material2), 0.0,
+                BigDecimal.valueOf(890.12));
+        this.proposta2 = new Proposta(Long.valueOf(2), Arrays.asList(material3, material4), 0.0,
+                BigDecimal.valueOf(771.1));
+        this.proposta3 = new Proposta(Long.valueOf(3), Arrays.asList(material5, material6), 0.0,
+                BigDecimal.valueOf(656.7));
+    }
+
+    @Test
+    @DisplayName("Deve retornar erro quando a lista de propostas for nula")
+    void deveRetornarErro_quandoPropostasForNula() {
+        // Dados
+        var minPropostas = 2;
+        var relatorio = new Relatorio(null);
+        // Quando e Então
+        assertThrows(IllegalArgumentException.class, () -> relatorio.verificarPropostas(minPropostas));
     }
 
     @Test
@@ -45,12 +56,13 @@ public class RelatorioTests {
         // Dados
         var minPropostas = 2;
         var relatorio = new Relatorio(Arrays.asList(proposta1));
-        var erroEsperado = new IllegalArgumentException("É necessário ter pelo menos " + minPropostas + " propostas para realizar a operação.");
+        var erroEsperado = new IllegalArgumentException(
+                "É necessário ter pelo menos " + minPropostas + " propostas para realizar a operação.");
         // Quando e Então
         var erro = assertThrows(IllegalArgumentException.class, () -> relatorio.verificarPropostas(minPropostas));
         assertEquals(erroEsperado.getMessage(), erro.getMessage());
     }
-    
+
     @Test
     @DisplayName("Deve calcular a média corretamente quando houver duas ou mais propostas")
     void deveCalcularMedia_quandoHouverDuasOuMaisPropostas() {
@@ -67,15 +79,18 @@ public class RelatorioTests {
     @DisplayName("Deve calcular a mediana corretamente quando houver três ou mais propostas")
     void deveCalcularMediana_quandoHouverTresOuMaisPropostas() {
         // Dados
-        var relatorio = new Relatorio(Arrays.asList(proposta1, proposta2, proposta3));
-        var resultadoEsperado = BigDecimal.valueOf(771.1).setScale(2, RoundingMode.HALF_EVEN);
+        var relatorio1 = new Relatorio(Arrays.asList(proposta1, proposta2, proposta3));
+        var relatorio2 = new Relatorio(Arrays.asList(proposta1, proposta1, proposta2, proposta3));
+        var resultadoEsperado1 = BigDecimal.valueOf(771.1).setScale(2, RoundingMode.HALF_EVEN);
+        var resultadoEsperado2 = BigDecimal.valueOf(830.61).setScale(2, RoundingMode.HALF_EVEN);
         // Quando
-        var mediana = relatorio.calcularMediana();
+        var mediana1 = relatorio1.calcularMediana();
+        var mediana2 = relatorio2.calcularMediana();
         // Então
-        assertEquals(resultadoEsperado, mediana);
+        assertEquals(resultadoEsperado1, mediana1);
+        assertEquals(resultadoEsperado2, mediana2);
     }
 
-    
     @Test
     @DisplayName("Deve calcular o desvio padrão corretamente quando houver duas ou mais propostas")
     void deveCalcularDesvioPadrao_quandoHouverDuasOuMaisPropostas() {
@@ -94,6 +109,18 @@ public class RelatorioTests {
         // Dados
         var relatorio = new Relatorio(Arrays.asList(proposta1, proposta2));
         var resultadoEsperado = Arrays.asList(proposta2);
+        // Quando
+        var propostasVantajosas = relatorio.calcularMenorPreco();
+        // Então
+        assertEquals(resultadoEsperado, propostasVantajosas);
+    }
+
+    @Test
+    @DisplayName("Deve calcular o menor preço corretamente quando houver muitas propostas com o mesmo menor preço")
+    void deveCalcularMenorPreco_quandoHouverMuitasPropostasComMesmoMenorPreco() {
+        // Dados
+        var relatorio = new Relatorio(Arrays.asList(proposta1, proposta2, proposta2));
+        var resultadoEsperado = Arrays.asList(proposta2, proposta2);
         // Quando
         var propostasVantajosas = relatorio.calcularMenorPreco();
         // Então
