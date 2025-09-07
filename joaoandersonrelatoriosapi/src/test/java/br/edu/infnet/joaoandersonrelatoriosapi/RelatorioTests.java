@@ -83,7 +83,7 @@ public class RelatorioTests {
         var relatorio = new Relatorio(Arrays.asList(proposta1, proposta2));
         var resultadoEsperado = BigDecimal.valueOf(7.16).setScale(2, RoundingMode.HALF_EVEN);
         // Quando
-        var desvioPadrao = relatorio.calcularDesvioPadrao();
+        var desvioPadrao = relatorio.calcularDesvioPadraoPercentual();
         // Então
         assertEquals(resultadoEsperado, desvioPadrao);
     }
@@ -95,9 +95,9 @@ public class RelatorioTests {
         var relatorio = new Relatorio(Arrays.asList(proposta1, proposta2));
         var resultadoEsperado = Arrays.asList(proposta2);
         // Quando
-        var menorPreco = relatorio.calcularMenorPreco();
+        var propostasVantajosas = relatorio.calcularMenorPreco();
         // Então
-        assertEquals(resultadoEsperado, menorPreco);
+        assertEquals(resultadoEsperado, propostasVantajosas);
     }
 
     @Test
