@@ -20,6 +20,7 @@ public class RelatorioTests {
     private Proposta proposta1;
     private Proposta proposta2;
     private Proposta proposta3;
+    private Proposta proposta4;
 
     @BeforeEach
     void setUp() {
@@ -32,12 +33,17 @@ public class RelatorioTests {
         var material5 = new Material(1, "Material 1", "un", 55.0, 8.0, 440.0);
         var material6 = new Material(2, "Material 2", "un", 2.20, 98.5, 216.7);
 
+        var material7 = new Material(1, "Material 1", "un", 55.0, 20.0, 1100.0);
+        var material8 = new Material(2, "Material 2", "un", 2.20, 120.0, 264.0);
+
         this.proposta1 = new Proposta(Long.valueOf(1), Arrays.asList(material1, material2), 0.0,
                 BigDecimal.valueOf(890.12));
         this.proposta2 = new Proposta(Long.valueOf(2), Arrays.asList(material3, material4), 0.0,
                 BigDecimal.valueOf(771.1));
         this.proposta3 = new Proposta(Long.valueOf(3), Arrays.asList(material5, material6), 0.0,
                 BigDecimal.valueOf(656.7));
+        this.proposta4 = new Proposta(Long.valueOf(3), Arrays.asList(material7, material8), 0.0,
+                BigDecimal.valueOf(1364.0));
     }
 
     @Test
@@ -80,7 +86,7 @@ public class RelatorioTests {
     void deveCalcularMediana_quandoHouverTresOuMaisPropostas() {
         // Dados
         var relatorio1 = new Relatorio(Arrays.asList(proposta1, proposta2, proposta3));
-        var relatorio2 = new Relatorio(Arrays.asList(proposta1, proposta1, proposta2, proposta3));
+        var relatorio2 = new Relatorio(Arrays.asList(proposta1, proposta2, proposta3, proposta4));
         var resultadoEsperado1 = BigDecimal.valueOf(771.1).setScale(2, RoundingMode.HALF_EVEN);
         var resultadoEsperado2 = BigDecimal.valueOf(830.61).setScale(2, RoundingMode.HALF_EVEN);
         // Quando
@@ -128,8 +134,8 @@ public class RelatorioTests {
     }
 
     @Test
-    @DisplayName("Deve calcular a porcentagem do preço de mercado corretamente quando houver duas ou mais propostas")
-    void deveCalcularPorcentagemPrecoMercado_quandoHouverDuasOuMaisPropostas() {
+    @DisplayName("Deve calcular a porcentagem do preço de mercado corretamente quando houver duas propostas")
+    void deveCalcularPorcentagemPrecoMercado_quandoHouverDuasPropostas() {
         // Dados
         var relatorio = new Relatorio(Arrays.asList(proposta2, proposta3));
         var resultadoEsperado = BigDecimal.valueOf(24.68).setScale(2, RoundingMode.HALF_EVEN);
@@ -137,6 +143,33 @@ public class RelatorioTests {
         var porcentagem = relatorio.calcularPorcentagemPrecoMercado(proposta1);
         // Então
         assertEquals(resultadoEsperado, porcentagem);
+    }
+
+    @Test
+    @DisplayName("Deve calcular a porcentagem do preço de mercado corretamente quando houver três ou mais propostas")
+    void deveCalcularPorcentagemPrecoMercado_quandoHouverTresOuMaisPropostas() {
+        // Dados
+        var relatorio = new Relatorio(Arrays.asList(proposta2, proposta3, proposta4));
+        var resultadoEsperado = BigDecimal.valueOf(15.44).setScale(2, RoundingMode.HALF_EVEN);
+        // Quando
+        var porcentagem = relatorio.calcularPorcentagemPrecoMercado(proposta1);
+        // Então
+        assertEquals(resultadoEsperado, porcentagem);
+    }
+
+    @Test
+    @DisplayName("Deve retornar erro ao calcular a porcentagem do preço de mercado quando houver duas propostas e o desvio padrão for maior que 25%")
+    void deveRetornarErroAoCalcularPorcentagemPrecoMercado_quandoHouverDuasPropostasDesvioPadraoMaiorQue25() {
+        // Dados
+        var relatorio = new Relatorio(Arrays.asList(proposta3, proposta4));
+        var desvioPadraoPercentual  = BigDecimal.valueOf(35).setScale(2, RoundingMode.HALF_EVEN);
+        var erroEsperado = new IllegalArgumentException(
+                "O desvio padrão percentual dos preços de mercado está em " + desvioPadraoPercentual
+                        + "%, o maximo permitido é 25%. Adicione uma nova proposta para compor o preço de mercado.");
+        // Quando e Então
+        var erro = assertThrows(IllegalArgumentException.class,
+                () -> relatorio.calcularPorcentagemPrecoMercado(proposta1));
+        assertEquals(erroEsperado.getMessage(), erro.getMessage());
     }
 
 }
