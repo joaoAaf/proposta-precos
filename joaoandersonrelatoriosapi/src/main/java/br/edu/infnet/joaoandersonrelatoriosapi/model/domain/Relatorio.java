@@ -47,7 +47,7 @@ public record Relatorio(LocalDate dataEmissao, List<Proposta> propostas) {
                 .map(Proposta::precoGlobal)
                 .map(preco -> preco.subtract(media).pow(2))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        var variancia = somaQuadrados.divide(BigDecimal.valueOf(this.propostas.size()));
+        var variancia = somaQuadrados.divide(BigDecimal.valueOf(this.propostas.size()), RoundingMode.HALF_EVEN);
         var desvioPadrao = BigDecimal.valueOf(Math.sqrt(variancia.doubleValue()));
         var desvioPadraoPercentual = desvioPadrao.divide(media, 4, RoundingMode.HALF_EVEN)
                 .multiply(BigDecimal.valueOf(100));
@@ -71,12 +71,22 @@ public record Relatorio(LocalDate dataEmissao, List<Proposta> propostas) {
 
     public BigDecimal calcularPorcentagemPrecoMercado(Proposta proposta) {
         this.verificarPropostas(2);
-        var media = this.calcularMedia();
         return proposta.precoGlobal()
-                .divide(media, 4, RoundingMode.HALF_EVEN)
+                .divide(this.calculaPrecoMercado(), 4, RoundingMode.HALF_EVEN)
                 .subtract(BigDecimal.ONE)
                 .multiply(BigDecimal.valueOf(100))
                 .setScale(2, RoundingMode.HALF_EVEN);
     }
-    
+
+    private BigDecimal calculaPrecoMercado() {
+        var desvioPadraoPercentual = this.calcularDesvioPadraoPercentual();
+        if (desvioPadraoPercentual.compareTo(BigDecimal.valueOf(25)) <= 0)
+            return this.calcularMedia();
+        else if (this.propostas.size() > 2)
+            return this.calcularMediana();
+        throw new IllegalArgumentException(
+                "O desvio padrão percentual dos preços de mercado está em " + desvioPadraoPercentual
+                        + "%, o maximo permitido é 25%. Adicione uma nova proposta para compor o preço de mercado.");
+    }
+
 }
