@@ -11,7 +11,7 @@ import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.RelatorioComparacaoP
 public class RelatorioService {
 
     public RelatorioComparacaoPropostas gerarRelatorioComparacaoPropostas(List<Proposta> propostas) {
-        throw new UnsupportedOperationException("O método ainda não foi implementado.");
+        return new RelatorioComparacaoPropostas(propostas);
     }
 
 }
