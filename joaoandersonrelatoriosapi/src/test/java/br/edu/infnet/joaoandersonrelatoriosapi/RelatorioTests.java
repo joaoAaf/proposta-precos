@@ -24,17 +24,17 @@ public class RelatorioTests {
 
     @BeforeEach
     void setUp() {
-        var material1 = new Material(1, "Material 1", "un", 55.0, 12.0, 660.0);
-        var material2 = new Material(2, "Material 2", "un", 2.20, 104.6, 230.12);
+        var material1 = new Material(1, 55.0, 12.0, 660.0);
+        var material2 = new Material(2, 2.20, 104.6, 230.12);
 
-        var material3 = new Material(1, "Material 1", "un", 55.0, 10.0, 550.0);
-        var material4 = new Material(2, "Material 2", "un", 2.20, 100.5, 220.1);
+        var material3 = new Material(1, 55.0, 10.0, 550.0);
+        var material4 = new Material(2, 2.20, 100.5, 220.1);
 
-        var material5 = new Material(1, "Material 1", "un", 55.0, 8.0, 440.0);
-        var material6 = new Material(2, "Material 2", "un", 2.20, 98.5, 216.7);
+        var material5 = new Material(1, 55.0, 8.0, 440.0);
+        var material6 = new Material(2, 2.20, 98.5, 216.7);
 
-        var material7 = new Material(1, "Material 1", "un", 55.0, 20.0, 1100.0);
-        var material8 = new Material(2, "Material 2", "un", 2.20, 120.0, 264.0);
+        var material7 = new Material(1, 55.0, 20.0, 1100.0);
+        var material8 = new Material(2, 2.20, 120.0, 264.0);
 
         this.proposta1 = new Proposta(Long.valueOf(1), Arrays.asList(material1, material2), 0.0,
                 BigDecimal.valueOf(890.12));

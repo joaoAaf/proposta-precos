@@ -6,10 +6,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Relatorio(LocalDate dataEmissao, List<Proposta> propostas) {
+public class Relatorio {
+
+    protected LocalDate dataEmissao = LocalDate.now();
+    protected List<Proposta> propostas;
 
     public Relatorio(List<Proposta> propostas) {
-        this(LocalDate.now(), propostas);
+        this.propostas = propostas;
     }
 
     public void verificarPropostas(int minPropostas) {

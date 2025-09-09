@@ -39,13 +39,14 @@
 - O sistema deve permitir que o requisitante remova materiais da proposta, caso os preços sejam discrepantes ou zerados.
 - O sistema deve permitir a exclusão ou invalidação de uma proposta.
 
-### 5. Comparação de Propostas
+### 5. Comparação entre Propostas
 
 - O sistema deve emitir um relatório comparando os preços globais de duas ou mais propostas selecionadas pelo requisitante. Este relatório deve conter:
 	* O calculo da **média** dos preços globais;
 	* O calculo da **mediana** dos preços globais, para o caso de duas propostas a média e a mediana serão iguais;
 	* Identificação da(s) proposta(s) com menor preço global; 
 	* O calculo do **desvio padrão percentual** dos preços globais;
+	* Um texto de conclusão do relatório, contendo a analise dos resultados, se os preços forem homogêneos (desvio padrão percentual menor ou igual a 25%), deve-se recomendar a utilização da média como preço de referência, se heterogêneos (desvio padrão percentual maior que 25%), deve-se recomendar a utilização da mediana como preço de referência. Se o desvio padrão percentual for maior que 50% deve-se recomendar a coleta de novas propostas.
 
 ### 6. Comparação de Proposta com preço de mercado
 
