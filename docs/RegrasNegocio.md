@@ -9,20 +9,20 @@
 
 - O requisitante deve poder cadastrar um modelo de proposta, que dará origem a uma proposta.
 - Um modelo de proposta deve ter os seguintes atributos:
-	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, emails, telefones, setor e responsável;
+	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, email, telefone, setor e  o nome do responsável;
 	* Os materiais cadastrados pelo requisitante: descrição, unidade, quantidade, preço e se foi adquirido ou não;
-	* Observações gerais sobre a proposta;
-	* A quantidade de Fornecedores que o modelo está disponível.
+	* Observações do requisitante sobre a proposta.
 - A partir de um modelo de proposta o requisitante deve ser capaz de gerar um link para cada Fornecedor, que possibilitará cadastrar uma única proposta.
 - Após o cadastro da proposta ou passados 5 dias uteis o link supracitado deve ser invalidado.
 - O requisitante deve poder invalidar o link a qualquer tempo.
 - Uma proposta deve ter os seguintes atributos:
-	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, emails, telefones e responsável;
-	* Dados da empresa Fornecedor da proposta: nome, CNPJ, endereço e telefone;
+	* Dados da instituição requisitante da proposta: nome, CNPJ, endereço, email, telefone, setor e  o nome do responsável;
+	* Dados da empresa Fornecedor da proposta: nome, CNPJ, endereço, email e telefone;
 	* Os materiais cadastrados pelo requisitante: descrição, unidade, quantidade, preço e se foi adquirido ou não;
 	* Porcentagem de desconto a ser aplicado no somatório dos preços totais dos materiais;
 	* Endereço de entrega dos materiais;
-	* Observações gerais sobre a proposta;
+	* Observações do requisitante sobre a proposta;
+	* Observações do Fornecedor sobre a proposta;
 	* Um documento em pdf ou imagem, contendo a proposta preenchida e assinada pela Fornecedor.
 - Com exceção da porcentagem de desconto, o preenchimento de todos os dados da proposta devem ser obrigatórios.
 - O próprio requisitante também deve ser capaz de cadastrar uma proposta, no caso de preços coletados em sites especializados na internet, em tabelas de preços como as da SINAPI ou devido impossibilidade da Fornecedor preencher a proposta.
@@ -32,21 +32,28 @@
 - O sistema deve calcular o **preço global** de cada proposta.
 - O calculo do preço global consiste no somatório dos preços totais dos materiais da proposta, considerando a porcentagem de desconto, se houver.
 
-### 4. Gerenciar Dados da Proposta
+### 4. Gerenciar Proposta
 
+- O sistema deve permitir que o requisitante visualize as propostas cadastradas.
 - O sistema deve permitir que o requisitante corrija os dados da proposta, caso necessário.
 - O sistema deve permitir que o requisitante remova materiais da proposta, caso os preços sejam discrepantes ou zerados.
+- O sistema deve permitir a exclusão ou invalidação de uma proposta.
 
-### 5. Exclusão da Proposta
+### 5. Comparação entre Propostas
 
-- O sistema deve permitir a exclusão de uma proposta.
+- O sistema deve emitir um relatório comparando os preços globais de duas ou mais propostas selecionadas pelo requisitante. Este relatório deve conter:
+	* O calculo da **média** dos preços globais;
+	* O calculo da **mediana** dos preços globais, para o caso de duas propostas a média e a mediana serão iguais;
+	* Identificação da(s) proposta(s) com menor preço global; 
+	* O calculo do **desvio padrão percentual** dos preços globais;
+	* Um texto de conclusão do relatório, contendo a analise dos resultados, se os preços forem homogêneos (desvio padrão percentual menor ou igual a 25%), deve-se recomendar a utilização da média como preço de referência, se heterogêneos (desvio padrão percentual maior que 25%), deve-se recomendar a utilização da mediana como preço de referência. Se o desvio padrão percentual for maior que 50% deve-se recomendar a coleta de novas propostas.
 
-### 6. Comparação de Propostas
+### 6. Comparação de Proposta com preço de mercado
 
-- O sistema deve permitir que o requisitante selecione duas ou mais propostas para calculo da **média** de seus preços globais.
-- No caso de três ou mais propostas e o desvio padrão dos preços globais for superior a 25%, o sistema deve utilizar a **mediana** no lugar da média.
-- O sistema deve permitir a verificar se o preço global de uma proposta qualquer, selecionada pelo requisitante, **não excede em 20%** da média ou mediana de duas ou mais propostas também selecionadas por ele.
-- O sistema deve permitir a criação de relatórios em pdf para os casos supracitados.
+- O sistema deve emitir um relatório comparando o preço global de uma proposta selecionada pelo requisitante com o preço de mercado. Este relatório deve conter:
+	* O calculo do preço de mercado, representado pela **média** dos preços globais de duas ou mais propostas, selecionadas pelo requisitante, ou pela **mediana** quando o **desvio padrão percentual** dos preços globais for superior a **25%** e houverem mais de duas propostas;
+	* A diferença percentual entre o preço global da proposta e o preço de mercado;
+- O sistema não deve emitir este relatório se **desvio padrão percentual** for superior a **25%** e houverem menos de três propostas;
 
 ### 7. Registro e Auditoria
 
