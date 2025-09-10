@@ -24,14 +24,23 @@ Este projeto é um sistema web para cadastro, envio e comparação de propostas 
    - Postman (ou similar) para testar os endpoints da aplicação.
 
 **Executando a Aplicação**:
+- API Propostas de Preço:
    1. No terminal entre na pasta `raiz` do projeto e em seguida na pasta `joaoandersonapi`;
    2. Execute o comando abaixo para executar a aplicação:
    ```sh
    mvn spring-boot:run
    ```
    3. A aplicação será iniciada em `http://localhost:8080` por padrão.
+- API de Relatórios:
+   1. No terminal entre na pasta `raiz` do projeto e em seguida na pasta `joaoandersonrelatoriosapi`;
+   2. Execute o comando abaixo para executar a aplicação:
+   ```sh
+   mvn spring-boot:run
+   ```
+   3. A aplicação será iniciada em `http://localhost:8081` por padrão.
 
-## Dependências e Tecnologias Utilizadas
+## Tecnologias Utilizadas
 * Spring Boot 3.5.x
 * Java 21
 * Maven
+* Banco de Dados H2 (em memória)
