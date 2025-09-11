@@ -1,5 +1,10 @@
+gemini:
+    api:
+      url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent
+      key: SUA_API_KEY_AQUI
 spring:
   application:
     name: joaoandersonrelatoriosapi
 server:
   port: 8081
+    
