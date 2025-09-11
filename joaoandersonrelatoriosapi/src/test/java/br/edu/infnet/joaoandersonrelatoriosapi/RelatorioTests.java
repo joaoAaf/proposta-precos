@@ -116,7 +116,7 @@ public class RelatorioTests {
         var relatorio = new Relatorio(Arrays.asList(proposta1, proposta2));
         var resultadoEsperado = Arrays.asList(proposta2);
         // Quando
-        var propostasVantajosas = relatorio.calcularMenorPreco();
+        var propostasVantajosas = relatorio.obterPropostasVantajosas();
         // Então
         assertEquals(resultadoEsperado, propostasVantajosas);
     }
@@ -128,7 +128,7 @@ public class RelatorioTests {
         var relatorio = new Relatorio(Arrays.asList(proposta1, proposta2, proposta2));
         var resultadoEsperado = Arrays.asList(proposta2, proposta2);
         // Quando
-        var propostasVantajosas = relatorio.calcularMenorPreco();
+        var propostasVantajosas = relatorio.obterPropostasVantajosas();
         // Então
         assertEquals(resultadoEsperado, propostasVantajosas);
     }
