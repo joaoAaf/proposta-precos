@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import br.edu.infnet.joaoandersonrelatoriosapi.clients.GeminiFeignClient;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.ComparacaoPropostas;
@@ -26,6 +27,9 @@ public class RelatorioService implements RelatorioUseCases {
 
     @Override
     public ComparacaoPropostas gerarRelatorioComparacaoPropostas(List<Proposta> propostas) {
+        if (!StringUtils.hasText(this.geminiApiKey)) {
+            throw new IllegalStateException("A chave da API Gemini não está configurada.");
+        }
         var relatorio = new ComparacaoPropostas(propostas);
         var prompt = this.montarPromptIA(relatorio);
         var part = new Part(prompt);
