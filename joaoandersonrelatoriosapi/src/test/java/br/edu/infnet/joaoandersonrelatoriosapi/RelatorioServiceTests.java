@@ -1,6 +1,7 @@
 package br.edu.infnet.joaoandersonrelatoriosapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,22 +10,22 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Material;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Proposta;
-import br.edu.infnet.joaoandersonrelatoriosapi.model.service.RelatorioService;
+import br.edu.infnet.joaoandersonrelatoriosapi.use_cases.RelatorioUseCases;
 
+@SpringBootTest
 public class RelatorioServiceTests {
 
-    private final RelatorioService relatorioService;
+    @Autowired
+    private RelatorioUseCases relatorioUseCases;
 
     private Proposta proposta1;
     private Proposta proposta2;
     private Proposta proposta3;
-
-    public RelatorioServiceTests() {
-        this.relatorioService = new RelatorioService();
-    }
 
     @BeforeEach
     void setUp() {
@@ -54,12 +55,13 @@ public class RelatorioServiceTests {
         var desvioPadraoPercentual = BigDecimal.valueOf(7.16).setScale(2, RoundingMode.HALF_EVEN);
         var propostasVantajosas = Arrays.asList(proposta2);
         // Quando
-        var relatorioComparacao = relatorioService.gerarRelatorioComparacaoPropostas(propostas);
+        var relatorioComparacao = relatorioUseCases.gerarRelatorioComparacaoPropostas(propostas);
         // Então
         assertEquals(mediaMediana, relatorioComparacao.getMedia());
         assertEquals(mediaMediana, relatorioComparacao.getMediana());
         assertEquals(desvioPadraoPercentual, relatorioComparacao.getDesvioPadraoPercentual());
         assertEquals(propostasVantajosas, relatorioComparacao.getPropostasVantajosas());
+        assertNotNull(relatorioComparacao.getConclusao());
     }
 
     @DisplayName("Deve gerar relatório de comparação de propostas quando houver mais de duas propostas")
@@ -72,12 +74,13 @@ public class RelatorioServiceTests {
         var desvioPadraoPercentual = BigDecimal.valueOf(12.33).setScale(2, RoundingMode.HALF_EVEN);
         var propostasVantajosas = Arrays.asList(proposta3);
         // Quando
-        var relatorioComparacao = relatorioService.gerarRelatorioComparacaoPropostas(propostas);
+        var relatorioComparacao = relatorioUseCases.gerarRelatorioComparacaoPropostas(propostas);
         // Então
         assertEquals(media, relatorioComparacao.getMedia());
         assertEquals(mediana, relatorioComparacao.getMediana());
         assertEquals(desvioPadraoPercentual, relatorioComparacao.getDesvioPadraoPercentual());
         assertEquals(propostasVantajosas, relatorioComparacao.getPropostasVantajosas());
+        assertNotNull(relatorioComparacao.getConclusao());
     }
 
 }
