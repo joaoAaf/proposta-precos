@@ -156,6 +156,55 @@
 					"response": []
 				},
 				{
+					"name": "listar-materiais",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Cimento CPII\",\n    \"unidade\": \"SC 50Kg\",\n    \"quantidade\": 15.00,\n    \"preco\": 40.50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/material",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar-materiais-por-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/material/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"material",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "atualizar-material-por-id",
 					"request": {
 						"method": "PUT",
@@ -517,6 +566,10 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "relatorio",
+			"item": []
 		}
 	],
 	"variable": [

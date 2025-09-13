@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class RelatorioController {
     }
 
     @GetMapping
-    public ResponseEntity<?> gerarRelatorioComparacaoPropostas(List<Proposta> propostas) {
+    public ResponseEntity<?> gerarRelatorioComparacaoPropostas(@RequestBody List<Proposta> propostas) {
         var relatorio = this.relatorioUseCases.gerarRelatorioComparacaoPropostas(propostas);
         return ResponseEntity.ok(relatorio);
     }
