@@ -9,10 +9,13 @@ import org.springframework.util.StringUtils;
 import br.edu.infnet.joaoandersonrelatoriosapi.clients.GeminiFeignClient;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.ComparacaoPropostas;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Proposta;
+import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.exceptions.GeminiEmptyApiKeyException;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.dto.gemini.Content;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.dto.gemini.GeminiRequest;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.dto.gemini.Part;
 import br.edu.infnet.joaoandersonrelatoriosapi.use_cases.RelatorioUseCases;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 @Service
 public class RelatorioService implements RelatorioUseCases {
@@ -26,9 +29,9 @@ public class RelatorioService implements RelatorioUseCases {
     }
 
     @Override
-    public ComparacaoPropostas gerarRelatorioComparacaoPropostas(List<Proposta> propostas) {
+    public ComparacaoPropostas gerarRelatorioComparacaoPropostas(@NotEmpty @Valid List<Proposta> propostas) {
         if (!StringUtils.hasText(this.geminiApiKey)) {
-            throw new IllegalStateException("A chave da API Gemini não está configurada.");
+            throw new GeminiEmptyApiKeyException("A chave da API Gemini não está configurada.");
         }
         var relatorio = new ComparacaoPropostas(propostas);
         var prompt = this.montarPromptIA(relatorio);
