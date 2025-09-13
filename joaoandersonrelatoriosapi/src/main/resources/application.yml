@@ -1,7 +1,7 @@
 gemini:
     api:
-      url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent
-      key: SUA_API_KEY_AQUI
+      url: https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL_GEMINI}:generateContent
+      key: ${API_KEY_GEMINI}
 spring:
   application:
     name: joaoandersonrelatoriosapi
