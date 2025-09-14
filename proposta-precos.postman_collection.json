@@ -4,7 +4,7 @@
 		"name": "proposta-precos",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "47361745",
-		"_collection_link": "https://joaoaaf-51a68bb6-9213455.postman.co/workspace/Jo%25C3%25A3o-Anderson's-Workspace~0bbc4f06-0094-4598-8518-0bcd7a2aae9d/collection/47361745-af0e1cf7-b7ac-4060-9449-a89d440a2a8c?action=share&source=collection_link&creator=47361745"
+		"_collection_link": "https://joaoaaf-51a68bb6-9213455.postman.co/workspace/Jo%C3%A3o-Anderson's-Workspace~0bbc4f06-0094-4598-8518-0bcd7a2aae9d/collection/47361745-af0e1cf7-b7ac-4060-9449-a89d440a2a8c?action=share&source=collection_link&creator=47361745"
 	},
 	"item": [
 		{
@@ -569,7 +569,35 @@
 		},
 		{
 			"name": "relatorio",
-			"item": []
+			"item": [
+				{
+					"name": "gerar-relatorio-comparacao-propostas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"id\": 1,\n        \"materiais\": [\n            {\n                \"numeroItem\": 1,\n                \"quantidade\": 55.00,\n                \"precoUnitario\": 12.00,\n                \"precoTotal\": 660.0\n            },\n            {\n                \"numeroItem\": 2,\n                \"quantidade\": 2.20,\n                \"precoUnitario\": 104.60,\n                \"precoTotal\": 230.12\n            }\n        ],\n        \"desconto\": 0.00,\n        \"precoGlobal\": 890.12\n    },\n    {\n        \"id\": 2,\n        \"materiais\": [\n            {\n                \"numeroItem\": 1,\n                \"quantidade\": 55.00,\n                \"precoUnitario\": 10.00,\n                \"precoTotal\": 550.0\n            },\n            {\n                \"numeroItem\": 2,\n                \"quantidade\": 2.20,\n                \"precoUnitario\": 100.50,\n                \"precoTotal\": 220.1\n            }\n        ],\n        \"desconto\": 0.00,\n        \"precoGlobal\": 771.1\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/relatorio",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"relatorio"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
