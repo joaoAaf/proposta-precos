@@ -87,7 +87,7 @@ public class Relatorio {
             return this.calcularMedia();
         else if (this.propostas.size() > 2)
             return this.calcularMediana();
-        throw new IllegalArgumentException(
+        throw new DesvioPadraoPermitidoExtrapoladoException(
                 "O desvio padrão percentual dos preços de mercado está em " + desvioPadraoPercentual
                         + "%, o maximo permitido é 25%. Adicione uma nova proposta para compor o preço de mercado.");
     }
