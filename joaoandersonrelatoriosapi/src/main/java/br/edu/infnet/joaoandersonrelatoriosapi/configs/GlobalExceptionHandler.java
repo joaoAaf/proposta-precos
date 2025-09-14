@@ -1,20 +1,18 @@
-package br.edu.infnet.joaoandersonapi.configs;
+package br.edu.infnet.joaoandersonrelatoriosapi.configs;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.edu.infnet.joaoandersonapi.model.domain.exceptions.ErroFormatacaoException;
-import br.edu.infnet.joaoandersonapi.model.domain.exceptions.PropostaInvalidaException;
-import br.edu.infnet.joaoandersonapi.model.domain.exceptions.TokenInvalidoException;
+import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.DesvioPadraoPermitidoExtrapoladoException;
+import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.exceptions.GeminiEmptyApiKeyException;
+import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.exceptions.GeminiErrorResponseException;
 import feign.FeignException;
 import jakarta.validation.ConstraintViolationException;
 
@@ -35,23 +33,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Map<String, String>> handleFeignException(FeignException ex) {
         Map<String, String> error = new HashMap<>();
+        var status = HttpStatus.resolve(ex.status());
+        if (status != null)
+            status = HttpStatus.SERVICE_UNAVAILABLE;
+        error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        error.put("Status", status.toString());
+        error.put("Mensagem", ex.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(GeminiErrorResponseException.class)
+    public ResponseEntity<Map<String, String>> handleGeneralExceptions(GeminiErrorResponseException ex) {
+        Map<String, String> error = new HashMap<>();
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         error.put("Status", HttpStatus.SERVICE_UNAVAILABLE.toString());
-        error.put("Mensagem", "Erro na comunicação com serviço externo");
+        error.put("Mensagem", ex.getMessage());
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(error);
     }
 
-    @ExceptionHandler(ErroFormatacaoException.class)
-    public ResponseEntity<Map<String, String>> handleGeneralExceptions(ErroFormatacaoException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        error.put("Status", HttpStatus.INTERNAL_SERVER_ERROR.toString());
-        error.put("Mensagem", ex.getMessage());
-        return ResponseEntity.internalServerError().body(error);
-    }
-
-    @ExceptionHandler(PropostaInvalidaException.class)
-    public ResponseEntity<Map<String, String>> handleGeneralExceptions(PropostaInvalidaException ex) {
+    @ExceptionHandler(GeminiEmptyApiKeyException.class)
+    public ResponseEntity<Map<String, String>> handleGeneralExceptions(GeminiEmptyApiKeyException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         error.put("Status", HttpStatus.BAD_REQUEST.toString());
@@ -59,13 +60,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
-    @ExceptionHandler(TokenInvalidoException.class)
-    public ResponseEntity<Map<String, String>> handleGeneralExceptions(TokenInvalidoException ex) {
+    @ExceptionHandler(DesvioPadraoPermitidoExtrapoladoException.class)
+    public ResponseEntity<Map<String, String>> handleGeneralExceptions(DesvioPadraoPermitidoExtrapoladoException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        error.put("Status", HttpStatus.UNAUTHORIZED.toString());
+        error.put("Status", HttpStatus.BAD_REQUEST.toString());
         error.put("Mensagem", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        return ResponseEntity.badRequest().body(error);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -74,24 +75,6 @@ public class GlobalExceptionHandler {
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         error.put("Status", HttpStatus.BAD_REQUEST.toString());
         error.put("Mensagem", ex.getMessage());
-        return ResponseEntity.badRequest().body(error);
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Map<String, String>> handleGeneralExceptions(NoSuchElementException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        error.put("Status", HttpStatus.NOT_FOUND.toString());
-        error.put("Mensagem", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Map<String, String>> handleGeneralExceptions(DataIntegrityViolationException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        error.put("Status", HttpStatus.BAD_REQUEST.toString());
-        error.put("Mensagem", ex.getRootCause().getMessage());
         return ResponseEntity.badRequest().body(error);
     }
 

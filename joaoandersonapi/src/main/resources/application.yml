@@ -1,3 +1,6 @@
+relatorios:
+    api:
+      url: http://localhost:8081
 spring:
   application:
     name: joaoandersonapi

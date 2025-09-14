@@ -57,7 +57,7 @@ public class Relatorio {
         return desvioPadraoPercentual.setScale(2, RoundingMode.HALF_EVEN);
     }
 
-    public List<Proposta> calcularMenorPreco() {
+    public List<Proposta> obterPropostasVantajosas() {
         this.verificarPropostas(2);
         var propostasVantajosas = new ArrayList<Proposta>();
         var menorPreco = BigDecimal.ZERO;
@@ -87,9 +87,17 @@ public class Relatorio {
             return this.calcularMedia();
         else if (this.propostas.size() > 2)
             return this.calcularMediana();
-        throw new IllegalArgumentException(
+        throw new DesvioPadraoPermitidoExtrapoladoException(
                 "O desvio padrão percentual dos preços de mercado está em " + desvioPadraoPercentual
                         + "%, o maximo permitido é 25%. Adicione uma nova proposta para compor o preço de mercado.");
+    }
+
+    public LocalDate getDataEmissao() {
+        return dataEmissao;
+    }
+
+    public List<Proposta> getPropostas() {
+        return propostas;
     }
 
 }

@@ -1,5 +1,10 @@
+gemini:
+    api:
+      url: https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL_GEMINI}:generateContent
+      key: ${API_KEY_GEMINI}
 spring:
   application:
     name: joaoandersonrelatoriosapi
 server:
   port: 8081
+    
