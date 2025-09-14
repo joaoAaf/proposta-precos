@@ -33,10 +33,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Map<String, String>> handleFeignException(FeignException ex) {
         Map<String, String> error = new HashMap<>();
+        var status = HttpStatus.resolve(ex.status());
+        if (status != null)
+            status = HttpStatus.SERVICE_UNAVAILABLE;
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        error.put("Status", HttpStatus.SERVICE_UNAVAILABLE.toString());
-        error.put("Mensagem", "Erro na comunicação com serviço externo");
-        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(error);
+        error.put("Status", status.toString());
+        error.put("Mensagem", ex.getMessage());
+        return ResponseEntity.status(status).body(error);
     }
 
     @ExceptionHandler(GeminiErrorResponseException.class)

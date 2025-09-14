@@ -3,7 +3,7 @@ package br.edu.infnet.joaoandersonrelatoriosapi.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +21,9 @@ public class RelatorioController {
         this.relatorioUseCases = relatorioUseCases;
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<?> gerarRelatorioComparacaoPropostas(@RequestBody List<Proposta> propostas) {
-        var relatorio = this.relatorioUseCases.gerarRelatorioComparacaoPropostas(propostas);
-        return ResponseEntity.ok(relatorio);
+        return ResponseEntity.ok(this.relatorioUseCases.gerarRelatorioComparacaoPropostas(propostas));
     }
 
 }
