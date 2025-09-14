@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import br.edu.infnet.joaoandersonapi.model.domain.exceptions.ErroFormatacaoException;
 import br.edu.infnet.joaoandersonapi.model.domain.exceptions.PropostaInvalidaException;
 import br.edu.infnet.joaoandersonapi.model.domain.exceptions.TokenInvalidoException;
+import feign.FeignException;
 import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
@@ -29,6 +30,15 @@ public class GlobalExceptionHandler {
             errors.put("Mensagem", error.getMessage());
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<Map<String, String>> handleFeignException(FeignException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        error.put("Status", HttpStatus.SERVICE_UNAVAILABLE.toString());
+        error.put("Mensagem", "Erro na comunicação com serviço externo");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(error);
     }
 
     @ExceptionHandler(ErroFormatacaoException.class)
