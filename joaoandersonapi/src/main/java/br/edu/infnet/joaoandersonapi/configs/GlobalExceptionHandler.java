@@ -32,13 +32,35 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    // @ExceptionHandler(FeignException.BadRequest.class)
+    // public ResponseEntity<Map<String, String>>
+    // handleFeignException(FeignException.BadRequest ex) {
+    // Map<String, String> error = new HashMap<>();
+    // var status = HttpStatus.resolve(ex.status());
+    // if (status != null)
+    // status = HttpStatus.SERVICE_UNAVAILABLE;
+    // error.put("Data/Hora",
+    // LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd
+    // HH:mm:ss")));
+    // error.put("Status", status.toString());
+    // error.put("Mensagem", ex.getMessage().);
+    // return ResponseEntity.status(status).body(error);
+    // }
+
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Map<String, String>> handleFeignException(FeignException ex) {
         Map<String, String> error = new HashMap<>();
+        var status = HttpStatus.resolve(ex.status());
+        var msg = ex.contentUTF8().isBlank() ? ""
+                : ex.contentUTF8().split("Mensagem\\\":\\\"")[1].replaceAll("\\\"}", "").trim();
+        if (ex.status() == 401 || ex.status() == 403 || ex.status() == 429 || ex.status() >= 500 || status == null) {
+            status = HttpStatus.SERVICE_UNAVAILABLE;
+            msg = "Erro na comunicação com serviço externo";
+        }
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        error.put("Status", HttpStatus.SERVICE_UNAVAILABLE.toString());
-        error.put("Mensagem", "Erro na comunicação com serviço externo");
-        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(error);
+        error.put("Status", status.toString());
+        error.put("Mensagem", msg);
+        return ResponseEntity.status(status).body(error);
     }
 
     @ExceptionHandler(ErroFormatacaoException.class)

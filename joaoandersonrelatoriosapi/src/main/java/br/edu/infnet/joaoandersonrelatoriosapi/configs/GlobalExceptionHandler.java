@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
             status = HttpStatus.SERVICE_UNAVAILABLE;
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         error.put("Status", status.toString());
-        error.put("Mensagem", ex.getMessage());
+        error.put("Mensagem", ex.contentUTF8());
         return ResponseEntity.status(status).body(error);
     }
 
@@ -55,9 +55,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleGeneralExceptions(GeminiEmptyApiKeyException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("Data/Hora", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        error.put("Status", HttpStatus.BAD_REQUEST.toString());
+        error.put("Status", HttpStatus.FORBIDDEN.toString());
         error.put("Mensagem", ex.getMessage());
-        return ResponseEntity.badRequest().body(error);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
     @ExceptionHandler(DesvioPadraoPermitidoExtrapoladoException.class)
