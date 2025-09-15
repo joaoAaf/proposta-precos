@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.DesvioPadraoPermitidoExtrapoladoException;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Material;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Relatorio;
@@ -167,7 +168,7 @@ public class RelatorioTests {
                 "O desvio padrão percentual dos preços de mercado está em " + desvioPadraoPercentual
                         + "%, o maximo permitido é 25%. Adicione uma nova proposta para compor o preço de mercado.");
         // Quando e Então
-        var erro = assertThrows(IllegalArgumentException.class,
+        var erro = assertThrows(DesvioPadraoPermitidoExtrapoladoException.class,
                 () -> relatorio.calcularPorcentagemPrecoMercado(proposta1));
         assertEquals(erroEsperado.getMessage(), erro.getMessage());
     }
