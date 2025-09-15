@@ -1,12 +1,10 @@
 package br.edu.infnet.joaoandersonapi.model.use_cases;
 
-import java.util.List;
-
-import br.edu.infnet.joaoandersonapi.dtos.PropostaRelatorio;
-import br.edu.infnet.joaoandersonapi.model.domain.RelatorioComparacaoPropostas;
+import br.edu.infnet.joaoandersonapi.dtos.comparacao_propostas.ComparacaoPropostasUsuario;
+import br.edu.infnet.joaoandersonapi.dtos.comparacao_propostas.PropostasIds;
 
 public interface RelatorioUseCases {
 
-    RelatorioComparacaoPropostas gerarRelatorioComparacaoPropostas(List<PropostaRelatorio> propostas);
+    ComparacaoPropostasUsuario gerarRelatorioComparacaoPropostas(PropostasIds propostasIds);
 
 }

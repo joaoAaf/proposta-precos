@@ -31,6 +31,13 @@ public class PropostaService implements PropostaUseCases {
             @Positive(message = "ID da proposta deve ser maior que zero") Long id) {
     }
 
+    private void validarParametros(List<Long> ids) {
+        if (ids == null || ids.isEmpty())
+            throw new IllegalArgumentException("Lista de IDs não pode ser nula ou vazia");
+        for (Long id : ids)
+            this.validarParametros(id);
+    }
+
     private void validarId(Long id) {
         if (id != null)
             throw new IllegalArgumentException("O Id da Proposta não pode estar preenchido");
@@ -58,6 +65,18 @@ public class PropostaService implements PropostaUseCases {
     @Override
     public List<Proposta> listar() {
         return propostaRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Proposta> obterPorIds(List<Long> ids) {
+        this.validarParametros(ids);
+        var propostas = propostaRepository.findByIdIn(ids);
+        if (propostas.size() != ids.size()) {
+            ids.removeAll(propostas.stream().map(Proposta::getId).toList());
+            throw new NoSuchElementException("Nenhuma proposta encontrada para os IDs informados: " + ids);
+        }
+        return propostas;
     }
 
     @Transactional

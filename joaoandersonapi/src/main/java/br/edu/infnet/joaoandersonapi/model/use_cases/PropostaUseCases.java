@@ -1,6 +1,7 @@
 package br.edu.infnet.joaoandersonapi.model.use_cases;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import br.edu.infnet.joaoandersonapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonapi.model.use_cases.common.CadastrarT1UseCase;
@@ -12,5 +13,7 @@ public interface PropostaUseCases extends CadastrarT1UseCase<Proposta>, ListarUs
         ObterPorUseCase<Proposta, Long>, RemoverUseCase<Long> {
 
     BigDecimal calcularPrecoGlobal(Proposta proposta);
+
+    List<Proposta> obterPorIds(List<Long> ids);
 
 }
