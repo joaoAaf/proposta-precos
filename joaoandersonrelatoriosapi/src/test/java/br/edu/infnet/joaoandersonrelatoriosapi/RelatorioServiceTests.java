@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Material;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.Proposta;
 import br.edu.infnet.joaoandersonrelatoriosapi.use_cases.RelatorioUseCases;
 
@@ -29,21 +28,9 @@ public class RelatorioServiceTests {
 
     @BeforeEach
     void setUp() {
-        var material1 = new Material(1, 55.0, 12.0, 660.0);
-        var material2 = new Material(2, 2.20, 104.6, 230.12);
-
-        var material3 = new Material(1, 55.0, 10.0, 550.0);
-        var material4 = new Material(2, 2.20, 100.5, 220.1);
-
-        var material5 = new Material(1, 55.0, 8.0, 440.0);
-        var material6 = new Material(2, 2.20, 98.5, 216.7);
-
-        this.proposta1 = new Proposta(Long.valueOf(1), Arrays.asList(material1, material2), 0.0,
-                BigDecimal.valueOf(890.12));
-        this.proposta2 = new Proposta(Long.valueOf(2), Arrays.asList(material3, material4), 0.0,
-                BigDecimal.valueOf(771.1));
-        this.proposta3 = new Proposta(Long.valueOf(3), Arrays.asList(material5, material6), 0.0,
-                BigDecimal.valueOf(656.7));
+        this.proposta1 = new Proposta(Long.valueOf(1), BigDecimal.valueOf(890.12));
+        this.proposta2 = new Proposta(Long.valueOf(2), BigDecimal.valueOf(771.1));
+        this.proposta3 = new Proposta(Long.valueOf(3), BigDecimal.valueOf(656.7));
     }
 
     @DisplayName("Deve gerar relatório de comparação de propostas quando houver duas propostas")

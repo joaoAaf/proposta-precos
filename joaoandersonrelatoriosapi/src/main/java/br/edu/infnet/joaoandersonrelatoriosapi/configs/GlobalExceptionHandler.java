@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.DesvioPadraoPermitidoExtrapoladoException;
+import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.exceptions.DesvioPadraoPermitidoExtrapoladoException;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.exceptions.GeminiEmptyApiKeyException;
 import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.exceptions.GeminiErrorResponseException;
 import feign.FeignException;

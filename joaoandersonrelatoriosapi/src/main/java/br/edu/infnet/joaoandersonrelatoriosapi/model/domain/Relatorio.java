@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.infnet.joaoandersonrelatoriosapi.model.domain.exceptions.DesvioPadraoPermitidoExtrapoladoException;
+
 public class Relatorio {
 
     protected LocalDate dataEmissao = LocalDate.now();
