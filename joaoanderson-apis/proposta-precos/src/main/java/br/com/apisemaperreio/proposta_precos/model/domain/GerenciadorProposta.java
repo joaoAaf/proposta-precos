@@ -59,9 +59,9 @@ public class GerenciadorProposta {
             throw new PropostaInvalidaException("Proposta inválida: IDs de materiais duplicados.");
     }
 
-    public Proposta criarProposta(String token, PropostaRequest propostaRequest) {
-        verificarToken(token);
-        validarProposta(propostaRequest);
+    public void prepararProposta(String token, PropostaRequest propostaRequest) {
+        this.verificarToken(token);
+        this.validarProposta(propostaRequest);
         Map<Long, BigDecimal> precosMateriais = propostaRequest.materiais().stream()
                 .collect(Collectors.toMap(m -> m.id(), m -> m.preco()));
         for (var material : this.proposta.getMateriais()) {
@@ -74,7 +74,7 @@ public class GerenciadorProposta {
         this.proposta.setFornecedor(new Fornecedor(propostaRequest.fornecedor()));
         this.proposta.setDesconto(propostaRequest.desconto());
         this.proposta.setObservacoesFornecedor(propostaRequest.observacoesFornecedor());
-        return this.proposta;
+        this.valido = false;
     }
 
     public void verificarToken(String token) {

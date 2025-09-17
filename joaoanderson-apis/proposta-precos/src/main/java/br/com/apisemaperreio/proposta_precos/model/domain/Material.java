@@ -2,15 +2,11 @@ package br.com.apisemaperreio.proposta_precos.model.domain;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.apisemaperreio.proposta_precos.model.dto.material.MaterialRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Material {
@@ -25,11 +21,6 @@ public class Material {
     private BigDecimal quantidade;
     private BigDecimal preco = BigDecimal.ZERO;
     private boolean adquirido;
-
-    @ManyToOne
-    @JoinColumn(name = "proposta_id")
-    @JsonIgnore
-    private Proposta proposta;
 
     public Material(MaterialRequest materialRequest) {
         this.descricao = materialRequest.descricao();
@@ -100,14 +91,6 @@ public class Material {
         if (adquirido == true && (this.preco == null || this.preco.compareTo(BigDecimal.ZERO) <= 0))
             throw new IllegalArgumentException("O preço do material deve ser maior que zero.");
         this.adquirido = adquirido;
-    }
-
-    public Proposta getProposta() {
-        return proposta;
-    }
-
-    public void setProposta(Proposta proposta) {
-        this.proposta = proposta;
     }
 
     @Override
