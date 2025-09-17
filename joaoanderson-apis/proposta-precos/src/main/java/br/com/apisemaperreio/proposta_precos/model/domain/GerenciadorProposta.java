@@ -1,16 +1,20 @@
 package br.com.apisemaperreio.proposta_precos.model.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.PropostaInvalidaException;
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.TokenInvalidoException;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaRequest;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class GerenciadorProposta {
@@ -18,19 +22,17 @@ public class GerenciadorProposta {
     @Id
     private String token;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "modelo_proposta_id")
-    @Valid
-    @NotNull(message = "O modelo da proposta deve ser informado")
-    private ModeloProposta modeloProposta;
+    private Proposta proposta;
 
     private LocalDateTime dataCriacao;
     private LocalDateTime dataExpiracao;
     private boolean valido = true;
 
-    public GerenciadorProposta(ModeloProposta modeloProposta) {
+    public GerenciadorProposta(PropostaModeloRequest propostaModelo) {
         this.token = UUID.randomUUID().toString();
-        this.modeloProposta = modeloProposta;
+        this.proposta = new Proposta(propostaModelo);
         this.dataCriacao = LocalDateTime.now();
         this.dataExpiracao = calcularDataExpiracao(this.dataCriacao, 5);
     }
@@ -49,16 +51,30 @@ public class GerenciadorProposta {
         return expiracao;
     }
 
-    public void validarProposta(String token, Proposta proposta) {
-        verificarToken(token);
-        var modeloProposta = new ModeloProposta(proposta);
-        if (!this.modeloProposta.equals(modeloProposta))
-            throw new PropostaInvalidaException("Proposta inválida.");
+    public void validarProposta(PropostaRequest propostaRequest) {
+        if (propostaRequest.materiais().size() != this.proposta.getMateriais().size())
+            throw new PropostaInvalidaException("Proposta inválida: número de materiais diferente do esperado.");
+        var idsUnicos = propostaRequest.materiais().stream().map(m -> m.id()).distinct().count();
+        if (idsUnicos != propostaRequest.materiais().size())
+            throw new PropostaInvalidaException("Proposta inválida: IDs de materiais duplicados.");
     }
 
-    public Proposta criarProposta(String token) {
+    public Proposta criarProposta(String token, PropostaRequest propostaRequest) {
         verificarToken(token);
-        return new Proposta(this.modeloProposta);
+        validarProposta(propostaRequest);
+        Map<Long, BigDecimal> precosMateriais = propostaRequest.materiais().stream()
+                .collect(Collectors.toMap(m -> m.id(), m -> m.preco()));
+        for (var material : this.proposta.getMateriais()) {
+            if (!precosMateriais.containsKey(material.getId()))
+                throw new PropostaInvalidaException(
+                        "Proposta inválida: material com ID " + material.getId() + " não encontrado.");
+            material.setPreco(precosMateriais.get(material.getId()));
+        }
+        this.proposta.setDataCriacao();
+        this.proposta.setFornecedor(new Fornecedor(propostaRequest.fornecedor()));
+        this.proposta.setDesconto(propostaRequest.desconto());
+        this.proposta.setObservacoesFornecedor(propostaRequest.observacoesFornecedor());
+        return this.proposta;
     }
 
     public void verificarToken(String token) {
@@ -74,8 +90,8 @@ public class GerenciadorProposta {
         return token;
     }
 
-    public ModeloProposta getModeloProposta() {
-        return modeloProposta;
+    public Proposta getProposta() {
+        return proposta;
     }
 
     public LocalDateTime getDataCriacao() {
@@ -95,7 +111,7 @@ public class GerenciadorProposta {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((token == null) ? 0 : token.hashCode());
-        result = prime * result + ((modeloProposta == null) ? 0 : modeloProposta.hashCode());
+        result = prime * result + ((proposta == null) ? 0 : proposta.hashCode());
         result = prime * result + ((dataCriacao == null) ? 0 : dataCriacao.hashCode());
         result = prime * result + ((dataExpiracao == null) ? 0 : dataExpiracao.hashCode());
         return result;
@@ -115,10 +131,10 @@ public class GerenciadorProposta {
                 return false;
         } else if (!token.equals(other.token))
             return false;
-        if (modeloProposta == null) {
-            if (other.modeloProposta != null)
+        if (proposta == null) {
+            if (other.proposta != null)
                 return false;
-        } else if (!modeloProposta.equals(other.modeloProposta))
+        } else if (!proposta.equals(other.proposta))
             return false;
         if (dataCriacao == null) {
             if (other.dataCriacao != null)
@@ -135,7 +151,7 @@ public class GerenciadorProposta {
 
     @Override
     public String toString() {
-        return "GerenciadorProposta [token=" + token + ", modeloProposta=" + modeloProposta + ", dataCriacao="
+        return "GerenciadorProposta [token=" + token + ", modeloProposta=" + proposta + ", dataCriacao="
                 + dataCriacao + ", dataExpiracao=" + dataExpiracao + ", valido=" + valido + "]";
     }
 

@@ -67,14 +67,12 @@ public class Proposta {
         return precoGlobal.subtract(valorDesconto);
     }
 
-    public void validarMaterialProposta(Material material) {
-        if (material == null)
-            throw new IllegalArgumentException("O Material não pode ser nulo");
-        if (material.getId() != null)
-            throw new IllegalArgumentException("O Id do Material não pode estar preenchido");
-        if (material.getPreco() == null || material.getPreco().compareTo(BigDecimal.ZERO) <= 0)
-            throw new IllegalArgumentException("O preço do Material deve ser maior que zero");
-    }
+    // public void validarMaterialProposta(Material material) {
+    //     if (material == null)
+    //         throw new IllegalArgumentException("O Material não pode ser nulo");
+    //     if (material.getPreco() == null || material.getPreco().compareTo(BigDecimal.ZERO) <= 0)
+    //         throw new IllegalArgumentException("O preço do Material deve ser maior que zero");
+    // }
 
     public Long getId() {
         return id;
@@ -110,13 +108,6 @@ public class Proposta {
 
     public List<Material> getMateriais() {
         return materiais;
-    }
-
-    public void setMateriais() {
-        for (Material material : this.materiais) {
-            validarMaterialProposta(material);
-            material.setProposta(this);
-        }
     }
 
     public BigDecimal getDesconto() {

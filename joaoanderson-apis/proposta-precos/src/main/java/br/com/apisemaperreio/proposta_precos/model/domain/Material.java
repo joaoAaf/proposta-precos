@@ -37,14 +37,6 @@ public class Material {
         this.quantidade = materialRequest.quantidade();
     }
 
-    public Material(Material material) {
-        this.numeroItem = material.numeroItem;
-        this.descricao = material.descricao;
-        this.unidade = material.unidade;
-        this.quantidade = material.quantidade;
-        this.adquirido = material.adquirido;
-    }
-
     public Material() {
     }
 
