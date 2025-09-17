@@ -32,21 +32,29 @@ public class Proposta {
     private Requisitante requisitante;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fornecedor_id")
     private Fornecedor fornecedor;
 
     @OneToMany(mappedBy = "proposta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Material> materiais = new ArrayList<>();
 
-    @Column(nullable = false, columnDefinition = "decimal(5,2) default 0.00")
+    @Column(columnDefinition = "decimal(5,2) default 0.00")
     private BigDecimal desconto;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "endereco_id")
     private Endereco enderecoEntrega;
+    
     private String observacoesRequisitante;
     private String observacoesFornecedor;
 
     public Proposta(PropostaModeloRequest propostaModelo) {
         this.requisitante = new Requisitante(propostaModelo.requisitante());
         this.materiais = propostaModelo.materiais().stream().map(Material::new).collect(Collectors.toList());
+        this.materiais.forEach(material -> {
+            material.setProposta(this);
+            material.setNumeroItem(materiais.indexOf(material) + 1);
+        });
         this.observacoesRequisitante = Optional.ofNullable(propostaModelo.observacoesRequisitante()).orElse(null);
         this.enderecoEntrega = this.requisitante.getInstituicao().getEndereco();
     }

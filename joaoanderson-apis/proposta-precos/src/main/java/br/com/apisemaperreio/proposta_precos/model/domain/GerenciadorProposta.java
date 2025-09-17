@@ -14,7 +14,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class GerenciadorProposta {
@@ -22,8 +22,8 @@ public class GerenciadorProposta {
     @Id
     private String token;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "modelo_proposta_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "proposta_id")
     private Proposta proposta;
 
     private LocalDateTime dataCriacao;
@@ -84,6 +84,10 @@ public class GerenciadorProposta {
 
     public void invalidarToken() {
         this.valido = false;
+    }
+
+    public void desvincularProposta() {
+        this.proposta = null;
     }
 
     public String getToken() {

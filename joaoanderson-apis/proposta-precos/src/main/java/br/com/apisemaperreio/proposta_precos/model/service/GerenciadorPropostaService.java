@@ -3,6 +3,7 @@ package br.com.apisemaperreio.proposta_precos.model.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.GerenciadorProposta;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Service
 public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     private final GerenciadorPropostaRepository gerenciadorPropostaRepository;
@@ -93,7 +95,9 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
     @Transactional
     @Override
     public void removerInvalidosOuExpirados() {
-        gerenciadorPropostaRepository.deleteInvalidosOuExpirados();
+        var removiveis = gerenciadorPropostaRepository.obterInvalidosOuExpirados();
+        removiveis.forEach(GerenciadorProposta::desvincularProposta);
+        gerenciadorPropostaRepository.deleteAllInBatch(removiveis);
     }
 
 }

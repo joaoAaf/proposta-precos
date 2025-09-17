@@ -19,5 +19,4 @@ public interface GerenciadorPropostaUseCases
     void invalidarToken(String token);
 
     void removerInvalidosOuExpirados();
-
 }
