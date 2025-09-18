@@ -37,6 +37,10 @@ public class Material {
         this.quantidade = materialRequest.quantidade();
     }
 
+    public Material(BigDecimal preco) {
+        this.preco = preco;
+    }
+
     public Material() {
     }
 

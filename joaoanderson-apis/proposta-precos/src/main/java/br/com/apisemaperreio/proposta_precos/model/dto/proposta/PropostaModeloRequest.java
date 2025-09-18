@@ -14,9 +14,8 @@ public record PropostaModeloRequest(
         @NotNull(message = "O requisitante deve ser informado")
         RequisitanteRequest requisitante,
 
-        @Valid
         @NotEmpty(message = "A lista de materiais não pode ser nula ou vazia")
-        List<MaterialRequest> materiais,
+        List<@Valid MaterialRequest> materiais,
 
         @Size(max = 255, message = "As observações devem ter no máximo 255 caracteres")
         String observacoesRequisitante) {

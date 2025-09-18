@@ -10,7 +10,7 @@ import br.com.apisemaperreio.proposta_precos.model.domain.GerenciadorProposta;
 import br.com.apisemaperreio.proposta_precos.model.dto.gerenciador_proposta.GerenciadorPropostaResponse;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloResponse;
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroRequest;
 import br.com.apisemaperreio.proposta_precos.model.repository.GerenciadorPropostaRepository;
 import br.com.apisemaperreio.proposta_precos.model.use_cases.GerenciadorPropostaUseCases;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
     }
 
     private void validarParametros(
-            @NotNull(message = "Modelo de proposta não pode ser nulo") @Valid PropostaRequest propostaRequest) {
+            @NotNull(message = "Modelo de proposta não pode ser nulo") @Valid PropostaCadastroRequest propostaRequest) {
     }
 
     @Transactional(readOnly = true)
@@ -73,7 +73,7 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
 
     @Transactional
     @Override
-    public void cadastrarProposta(String token, PropostaRequest propostaRequest) {
+    public void cadastrarProposta(String token, PropostaCadastroRequest propostaRequest) {
         this.validarParametros(token);
         this.validarParametros(propostaRequest);
         var gerenciadorProposta = gerenciadorPropostaRepository.findById(token)

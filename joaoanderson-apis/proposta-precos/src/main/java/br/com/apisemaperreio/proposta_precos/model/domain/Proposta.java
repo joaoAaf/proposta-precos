@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCalculoRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,6 +60,11 @@ public class Proposta {
         this.enderecoEntrega = this.requisitante.getInstituicao().getEndereco();
     }
 
+    public Proposta(PropostaCalculoRequest propostaPrecoRequest) {
+        this.materiais = propostaPrecoRequest.precoMateriais().stream().map(Material::new).toList();
+        this.desconto = propostaPrecoRequest.desconto();
+    }
+
     public Proposta() {
     }
 
@@ -74,13 +80,6 @@ public class Proposta {
         var valorDesconto = precoGlobal.multiply(desconto.divide(BigDecimal.valueOf(100)));
         return precoGlobal.subtract(valorDesconto);
     }
-
-    // public void validarMaterialProposta(Material material) {
-    //     if (material == null)
-    //         throw new IllegalArgumentException("O Material não pode ser nulo");
-    //     if (material.getPreco() == null || material.getPreco().compareTo(BigDecimal.ZERO) <= 0)
-    //         throw new IllegalArgumentException("O preço do Material deve ser maior que zero");
-    // }
 
     public Long getId() {
         return id;

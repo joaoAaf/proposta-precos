@@ -10,7 +10,7 @@ import br.com.apisemaperreio.proposta_precos.model.dto.fornecedor.FornecedorResp
 import br.com.apisemaperreio.proposta_precos.model.dto.material.MaterialResponseRequisitante;
 import br.com.apisemaperreio.proposta_precos.model.dto.requisitante.RequisitanteResponse;
 
-public record PropostaResponse(
+public record PropostaCadastroResponse(
                 Long id,
                 LocalDate dataCriacao,
                 RequisitanteResponse requisitante,
@@ -21,7 +21,7 @@ public record PropostaResponse(
                 String observacoesRequisitante,
                 String observacoesFornecedor) {
 
-        public PropostaResponse(Proposta proposta) {
+        public PropostaCadastroResponse(Proposta proposta) {
                 this(proposta.getId(), proposta.getDataCriacao(),
                                 new RequisitanteResponse(proposta.getRequisitante()),
                                 new FornecedorResponse(proposta.getFornecedor()),

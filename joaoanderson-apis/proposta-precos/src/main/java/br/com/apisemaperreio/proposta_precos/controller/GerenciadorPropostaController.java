@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroRequest;
 import br.com.apisemaperreio.proposta_precos.model.use_cases.GerenciadorPropostaUseCases;
 
 @RestController
@@ -53,7 +53,7 @@ public class GerenciadorPropostaController {
     }
 
     @PutMapping("/{token}/proposta/cadastrar")
-    public ResponseEntity<?> cadastrarProposta(@PathVariable String token, @RequestBody PropostaRequest propostaRequest) {
+    public ResponseEntity<?> cadastrarProposta(@PathVariable String token, @RequestBody PropostaCadastroRequest propostaRequest) {
         gerenciadorPropostaUseCases.cadastrarProposta(token, propostaRequest);
         return ResponseEntity.noContent().build();
     }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.PropostaInvalidaException;
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.TokenInvalidoException;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -51,7 +51,7 @@ public class GerenciadorProposta {
         return expiracao;
     }
 
-    public void validarProposta(PropostaRequest propostaRequest) {
+    public void validarProposta(PropostaCadastroRequest propostaRequest) {
         if (propostaRequest.materiais().size() != this.proposta.getMateriais().size())
             throw new PropostaInvalidaException("Proposta inválida: número de materiais diferente do esperado.");
         var idsUnicos = propostaRequest.materiais().stream().map(m -> m.id()).distinct().count();
@@ -59,7 +59,7 @@ public class GerenciadorProposta {
             throw new PropostaInvalidaException("Proposta inválida: IDs de materiais duplicados.");
     }
 
-    public void prepararProposta(String token, PropostaRequest propostaRequest) {
+    public void prepararProposta(String token, PropostaCadastroRequest propostaRequest) {
         this.verificarToken(token);
         this.validarProposta(propostaRequest);
         Map<Long, BigDecimal> precosMateriais = propostaRequest.materiais().stream()
