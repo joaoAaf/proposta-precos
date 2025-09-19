@@ -1,7 +1,9 @@
 package br.com.apisemaperreio.proposta_precos.model.use_cases;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import br.com.apisemaperreio.proposta_precos.model.domain.Proposta;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroResponse;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCalculoRequest;
 import br.com.apisemaperreio.proposta_precos.model.use_cases.common.ListarUseCase;
@@ -13,6 +15,6 @@ public interface PropostaUseCases
 
     BigDecimal calcularPrecoGlobal(PropostaCalculoRequest propostaPreco);
 
-    // List<Proposta> obterPorIds(List<Long> ids);
+    List<Proposta> obterPorIds(List<Long> ids);
 
 }
