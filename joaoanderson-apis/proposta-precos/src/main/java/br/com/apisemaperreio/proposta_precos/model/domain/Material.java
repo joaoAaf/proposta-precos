@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.apisemaperreio.proposta_precos.model.dto.material.MaterialRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.MaterialCalculoRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,8 +38,9 @@ public class Material {
         this.quantidade = materialRequest.quantidade();
     }
 
-    public Material(BigDecimal preco) {
-        this.preco = preco;
+    public Material(MaterialCalculoRequest material) {
+        this.quantidade = material.quantidade();
+        this.preco = material.preco();
     }
 
     public Material() {

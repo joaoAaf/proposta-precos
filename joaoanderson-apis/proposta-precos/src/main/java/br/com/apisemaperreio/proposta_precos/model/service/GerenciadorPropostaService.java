@@ -96,7 +96,12 @@ public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
     @Override
     public void removerInvalidosOuExpirados() {
         var removiveis = gerenciadorPropostaRepository.obterInvalidosOuExpirados();
-        removiveis.forEach(GerenciadorProposta::desvincularProposta);
+        for (var gerenciador : removiveis) {
+            if (gerenciador.getProposta() == null)
+                continue;
+            if (gerenciador.getProposta().getDataCriacao() != null)
+               gerenciador.desvincularProposta();
+        }
         gerenciadorPropostaRepository.deleteAllInBatch(removiveis);
     }
 

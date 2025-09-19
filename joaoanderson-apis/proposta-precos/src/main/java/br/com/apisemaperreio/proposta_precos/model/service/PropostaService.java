@@ -25,7 +25,8 @@ public class PropostaService implements PropostaUseCases {
         this.propostaRepository = propostaRepository;
     }
 
-    private void validarParametros(@NotNull(message = "Proposta não pode ser nula") @Valid PropostaCalculoRequest proposta) {
+    private void validarParametros(
+            @NotNull(message = "Proposta não pode ser nula") @Valid PropostaCalculoRequest proposta) {
     }
 
     private void validarParametros(
@@ -46,13 +47,15 @@ public class PropostaService implements PropostaUseCases {
         this.validarParametros(id);
         var proposta = propostaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Não existe proposta com o ID " + id));
+        if (proposta.getDataCriacao() == null)
+            throw new UnsupportedOperationException("Proposta com o ID " + id + " não foi preenchida");
         return new PropostaCadastroResponse(proposta);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<PropostaCadastroResponse> listar() {
-        return propostaRepository.findAll().stream().map(PropostaCadastroResponse::new).toList();
+        return propostaRepository.findByDataCriacaoIsNotNull().stream().map(PropostaCadastroResponse::new).toList();
     }
 
     // @Transactional(readOnly = true)
@@ -74,6 +77,7 @@ public class PropostaService implements PropostaUseCases {
         this.validarParametros(id);
         var proposta = propostaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Não existe proposta com o ID " + id));
+        proposta.limparProposta();
         propostaRepository.delete(proposta);
     }
 

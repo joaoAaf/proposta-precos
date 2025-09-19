@@ -42,7 +42,7 @@ public class Proposta {
     @Column(columnDefinition = "decimal(5,2) default 0.00")
     private BigDecimal desconto;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "endereco_id")
     private Endereco enderecoEntrega;
     
@@ -61,7 +61,7 @@ public class Proposta {
     }
 
     public Proposta(PropostaCalculoRequest propostaPrecoRequest) {
-        this.materiais = propostaPrecoRequest.precoMateriais().stream().map(Material::new).toList();
+        this.materiais = propostaPrecoRequest.materiais().stream().map(Material::new).toList();
         this.desconto = propostaPrecoRequest.desconto();
     }
 
@@ -79,6 +79,11 @@ public class Proposta {
             return precoGlobal;
         var valorDesconto = precoGlobal.multiply(desconto.divide(BigDecimal.valueOf(100)));
         return precoGlobal.subtract(valorDesconto);
+    }
+
+    public void limparProposta() {
+        this.requisitante = null;
+        this.fornecedor = null;
     }
 
     public Long getId() {

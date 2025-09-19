@@ -12,4 +12,8 @@ public interface PropostaRepository extends JpaRepository<Proposta, Long> {
 
         List<Proposta> findByIdIn(List<Long> ids);
 
+        List<Proposta> findByDataCriacaoIsNotNull();
+
+        void deleteByDataCriacaoIsNull();
+
 }
