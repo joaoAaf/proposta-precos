@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.Proposta;
+import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.PropostaNaoPreenchidaException;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroResponse;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCalculoRequest;
 import br.com.apisemaperreio.proposta_precos.model.repository.PropostaRepository;
@@ -40,7 +41,7 @@ public class PropostaService implements PropostaUseCases {
         var proposta = propostaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Não existe proposta com o ID " + id));
         if (proposta.getDataCriacao() == null)
-            throw new UnsupportedOperationException("Proposta com o ID " + id + " não foi preenchida");
+            throw new PropostaNaoPreenchidaException("Proposta com o ID " + id + " não foi preenchida");
         return new PropostaCadastroResponse(proposta);
     }
 
@@ -53,7 +54,6 @@ public class PropostaService implements PropostaUseCases {
     @Transactional(readOnly = true)
     @Override
     public List<Proposta> obterPorIds(List<Long> ids) {
-        // this.validarParametros(ids);
         var propostas = propostaRepository.findByIdIn(ids);
         if (propostas.size() != ids.size()) {
             ids.removeAll(propostas.stream().map(Proposta::getId).toList());
