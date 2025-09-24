@@ -19,7 +19,7 @@ public class Instituicao {
     private Endereco endereco;
 
     public Instituicao(String cnpj, String nome, Endereco endereco) {
-        this.cnpj = cnpj;
+        this.cnpj = this.desformatarCnpj(cnpj);
         this.nome = nome;
         this.endereco = endereco;
     }
