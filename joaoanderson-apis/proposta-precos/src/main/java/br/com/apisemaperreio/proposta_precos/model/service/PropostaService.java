@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.apisemaperreio.proposta_precos.model.domain.Material;
 import br.com.apisemaperreio.proposta_precos.model.domain.Proposta;
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.PropostaNaoPreenchidaException;
 import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroResponse;
@@ -75,7 +76,8 @@ public class PropostaService implements PropostaUseCases {
     @Override
     public BigDecimal calcularPrecoGlobal(PropostaCalculoRequest propostaCalculo) {
         this.validarParametros(propostaCalculo);
-        var proposta = new Proposta(propostaCalculo);
+        var materiais = propostaCalculo.materiais().stream().map(m -> new Material(m.quantidade(), m.preco())).toList();        
+        var proposta = new Proposta(materiais, propostaCalculo.desconto());
         return proposta.calcularPrecoGlobal();
     }
 

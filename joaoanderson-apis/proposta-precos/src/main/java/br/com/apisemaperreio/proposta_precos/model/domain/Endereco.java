@@ -1,7 +1,6 @@
 package br.com.apisemaperreio.proposta_precos.model.domain;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.ErroFormatacaoException;
-import br.com.apisemaperreio.proposta_precos.model.dto.endereco.EnderecoRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,13 +19,13 @@ public class Endereco {
     private String uf;
     private String cep;
 
-    public Endereco(EnderecoRequest enderecoRequest) {
-        this.logradouro = enderecoRequest.logradouro();
-        this.numero = enderecoRequest.numero();
-        this.bairro = enderecoRequest.bairro();
-        this.cidade = enderecoRequest.cidade();
-        this.uf = enderecoRequest.uf();
-        this.cep = this.desformatarCep(enderecoRequest.cep());
+    public Endereco(String logradouro, String numero, String bairro, String cidade, String uf, String cep) {
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.cep = this.desformatarCep(cep);
     }
 
     public Endereco() {

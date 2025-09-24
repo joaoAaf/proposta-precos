@@ -1,6 +1,5 @@
 package br.com.apisemaperreio.proposta_precos.model.domain;
 
-import br.com.apisemaperreio.proposta_precos.model.dto.requisitante.RequisitanteRequest;
 import jakarta.persistence.Entity;
 
 @Entity
@@ -8,12 +7,11 @@ public class Requisitante extends Responsavel {
 
     private String setor;
 
-    public Requisitante(RequisitanteRequest requisitanteRequest) {
-        super(new Instituicao(requisitanteRequest.instituicao()), requisitanteRequest.email(),
-                requisitanteRequest.telefone(), requisitanteRequest.responsavel());
-        this.setor = requisitanteRequest.setor();
+    public Requisitante(Instituicao instituicao, String email, String telefone, String nome, String setor) {
+        super(instituicao, email, telefone, nome);
+        this.setor = setor;
     }
-
+    
     public Requisitante() {
         super();
     }

@@ -1,7 +1,6 @@
 package br.com.apisemaperreio.proposta_precos.model.domain;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.ErroFormatacaoException;
-import br.com.apisemaperreio.proposta_precos.model.dto.instituicao.InstituicaoRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,10 +18,10 @@ public class Instituicao {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-    public Instituicao(InstituicaoRequest instituicaoRequest) {
-        this.cnpj = this.desformatarCnpj(instituicaoRequest.cnpj());
-        this.nome = instituicaoRequest.nome();
-        this.endereco = new Endereco(instituicaoRequest.endereco());
+    public Instituicao(String cnpj, String nome, Endereco endereco) {
+        this.cnpj = cnpj;
+        this.nome = nome;
+        this.endereco = endereco;
     }
 
     public Instituicao() {

@@ -2,14 +2,13 @@ package br.com.apisemaperreio.proposta_precos.model.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.PropostaInvalidaException;
 import br.com.apisemaperreio.proposta_precos.model.domain.exceptions.TokenInvalidoException;
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -30,9 +29,9 @@ public class GerenciadorProposta {
     private LocalDateTime dataExpiracao;
     private boolean valido = true;
 
-    public GerenciadorProposta(PropostaModeloRequest propostaModelo) {
+    public GerenciadorProposta(Requisitante requisitante, List<Material> materiais, String observacoesRequisitante) {
         this.token = UUID.randomUUID().toString();
-        this.proposta = new Proposta(propostaModelo);
+        this.proposta = new Proposta(requisitante, materiais, observacoesRequisitante);
         this.dataCriacao = LocalDateTime.now();
         this.dataExpiracao = calcularDataExpiracao(this.dataCriacao, 5);
     }
@@ -51,19 +50,19 @@ public class GerenciadorProposta {
         return expiracao;
     }
 
-    public void validarProposta(PropostaCadastroRequest propostaRequest) {
-        if (propostaRequest.materiais().size() != this.proposta.getMateriais().size())
+    public void validarProposta(Proposta proposta) {
+        if (proposta.getMateriais().size() != this.proposta.getMateriais().size())
             throw new PropostaInvalidaException("Proposta inválida: número de materiais diferente do esperado.");
-        var idsUnicos = propostaRequest.materiais().stream().map(m -> m.id()).distinct().count();
-        if (idsUnicos != propostaRequest.materiais().size())
+        var idsUnicos = proposta.getMateriais().stream().map(m -> m.getId()).distinct().count();
+        if (idsUnicos != proposta.getMateriais().size())
             throw new PropostaInvalidaException("Proposta inválida: IDs de materiais duplicados.");
     }
 
-    public void prepararProposta(String token, PropostaCadastroRequest propostaRequest) {
+    public void prepararProposta(String token, Proposta proposta) {
         this.verificarToken(token);
-        this.validarProposta(propostaRequest);
-        Map<Long, BigDecimal> precosMateriais = propostaRequest.materiais().stream()
-                .collect(Collectors.toMap(m -> m.id(), m -> m.preco()));
+        this.validarProposta(proposta);
+        Map<Long, BigDecimal> precosMateriais = proposta.getMateriais().stream()
+                .collect(Collectors.toMap(m -> m.getId(), m -> m.getPreco()));
         for (var material : this.proposta.getMateriais()) {
             if (!precosMateriais.containsKey(material.getId()))
                 throw new PropostaInvalidaException(
@@ -71,9 +70,9 @@ public class GerenciadorProposta {
             material.setPreco(precosMateriais.get(material.getId()));
         }
         this.proposta.setDataCriacao();
-        this.proposta.setFornecedor(new Fornecedor(propostaRequest.fornecedor()));
-        this.proposta.setDesconto(propostaRequest.desconto());
-        this.proposta.setObservacoesFornecedor(propostaRequest.observacoesFornecedor());
+        this.proposta.setFornecedor(proposta.getFornecedor());
+        this.proposta.setDesconto(proposta.getDesconto());
+        this.proposta.setObservacoesFornecedor(proposta.getObservacoesFornecedor());
         this.valido = false;
     }
 

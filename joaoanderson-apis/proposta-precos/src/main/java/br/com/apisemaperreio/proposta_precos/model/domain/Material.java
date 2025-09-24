@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.apisemaperreio.proposta_precos.model.dto.material.MaterialRequest;
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.MaterialCalculoRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,15 +30,20 @@ public class Material {
     @JsonIgnore
     private Proposta proposta;
 
-    public Material(MaterialRequest materialRequest) {
-        this.descricao = materialRequest.descricao();
-        this.unidade = materialRequest.unidade();
-        this.quantidade = materialRequest.quantidade();
+    public Material(Long id, BigDecimal preco) {
+        this.id = id;
+        this.preco = preco;
     }
 
-    public Material(MaterialCalculoRequest material) {
-        this.quantidade = material.quantidade();
-        this.preco = material.preco();
+    public Material(String descricao, String unidade, BigDecimal quantidade) {
+        this.descricao = descricao;
+        this.unidade = unidade;
+        this.quantidade = quantidade;
+    }
+
+    public Material(BigDecimal quantidade, BigDecimal preco) {
+        this.quantidade = quantidade;
+        this.preco = preco;
     }
 
     public Material() {

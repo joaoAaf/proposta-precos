@@ -5,10 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
-import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCalculoRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,21 +45,29 @@ public class Proposta {
     
     private String observacoesRequisitante;
     private String observacoesFornecedor;
+    
+    public Proposta(Fornecedor fornecedor, List<Material> materiais, BigDecimal desconto,
+            String observacoesFornecedor) {
+        this.fornecedor = fornecedor;
+        this.materiais = materiais;
+        this.desconto = desconto;
+        this.observacoesFornecedor = observacoesFornecedor;
+    }
 
-    public Proposta(PropostaModeloRequest propostaModelo) {
-        this.requisitante = new Requisitante(propostaModelo.requisitante());
-        this.materiais = propostaModelo.materiais().stream().map(Material::new).collect(Collectors.toList());
+    public Proposta(Requisitante requisitante, List<Material> materiais, String observacoesRequisitante) {
+        this.requisitante = requisitante;
+        this.materiais = materiais;
         this.materiais.forEach(material -> {
             material.setProposta(this);
             material.setNumeroItem(materiais.indexOf(material) + 1);
         });
-        this.observacoesRequisitante = Optional.ofNullable(propostaModelo.observacoesRequisitante()).orElse(null);
+        this.observacoesRequisitante = Optional.ofNullable(observacoesRequisitante).orElse(null);
         this.enderecoEntrega = this.requisitante.getInstituicao().getEndereco();
     }
 
-    public Proposta(PropostaCalculoRequest propostaPrecoRequest) {
-        this.materiais = propostaPrecoRequest.materiais().stream().map(Material::new).toList();
-        this.desconto = propostaPrecoRequest.desconto();
+    public Proposta(List<Material> materiais, BigDecimal desconto) {
+        this.materiais = materiais;
+        this.desconto = desconto;
     }
 
     public Proposta() {
