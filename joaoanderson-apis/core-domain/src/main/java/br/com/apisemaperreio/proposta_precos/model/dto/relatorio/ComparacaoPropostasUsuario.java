@@ -3,14 +3,10 @@ package br.com.apisemaperreio.proposta_precos.model.dto.relatorio;
 import java.util.List;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.Proposta;
-import jakarta.validation.constraints.NotEmpty;
 
 public class ComparacaoPropostasUsuario extends ComparacaoPropostas {
 
-    @NotEmpty
     private List<PropostaRelatorioUsuario> propostas;
-
-    @NotEmpty
     private List<PropostaRelatorioUsuario> propostasVantajosas;
 
     public ComparacaoPropostasUsuario(ComparacaoPropostasApi request, List<Proposta> propostas) {
