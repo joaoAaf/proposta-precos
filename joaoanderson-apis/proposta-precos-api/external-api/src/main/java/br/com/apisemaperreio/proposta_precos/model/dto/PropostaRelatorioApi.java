@@ -1,4 +1,4 @@
-package br.com.apisemaperreio.proposta_precos.model.dto.relatorio;
+package br.com.apisemaperreio.proposta_precos.model.dto;
 
 import br.com.apisemaperreio.proposta_precos.model.domain.Proposta;
 

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record PropostasIds(
+public record PropostasIdsRequest(
         @NotEmpty(message = "Lista de IDs não pode ser nula ou vazia")
         List<
             @NotNull(message = "ID da proposta não pode ser nulo")

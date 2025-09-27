@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.apisemaperreio.proposta_precos.model.dto.relatorio.PropostasIds;
+import br.com.apisemaperreio.proposta_precos.model.dto.relatorio.PropostasIdsRequest;
 import br.com.apisemaperreio.proposta_precos.model.use_cases.RelatorioUseCases;
 import jakarta.validation.Valid;
 
@@ -21,7 +21,7 @@ public class RelatorioController {
     }
 
     @PostMapping
-    public ResponseEntity<?> gerarRelatorioComparacaoPropostas(@RequestBody @Valid PropostasIds propostasIds) {
+    public ResponseEntity<?> gerarRelatorioComparacaoPropostas(@RequestBody @Valid PropostasIdsRequest propostasIds) {
         return ResponseEntity.ok(this.relatorioUseCases.gerarRelatorioComparacaoPropostas(propostasIds));
     }
 
