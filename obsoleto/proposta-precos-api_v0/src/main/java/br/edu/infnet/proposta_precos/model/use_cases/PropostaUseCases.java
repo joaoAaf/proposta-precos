@@ -1,0 +1,19 @@
+package br.edu.infnet.proposta_precos.model.use_cases;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import br.edu.infnet.proposta_precos.model.domain.Proposta;
+import br.edu.infnet.proposta_precos.model.use_cases.common.CadastrarT1UseCase;
+import br.edu.infnet.proposta_precos.model.use_cases.common.ListarUseCase;
+import br.edu.infnet.proposta_precos.model.use_cases.common.ObterPorUseCase;
+import br.edu.infnet.proposta_precos.model.use_cases.common.RemoverUseCase;
+
+public interface PropostaUseCases extends CadastrarT1UseCase<Proposta>, ListarUseCase<Proposta>,
+        ObterPorUseCase<Proposta, Long>, RemoverUseCase<Long> {
+
+    BigDecimal calcularPrecoGlobal(Proposta proposta);
+
+    List<Proposta> obterPorIds(List<Long> ids);
+
+}

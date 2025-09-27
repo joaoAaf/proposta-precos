@@ -1,0 +1,140 @@
+package br.com.apisemaperreio.proposta_precos.model.service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import br.com.apisemaperreio.proposta_precos.model.domain.Endereco;
+import br.com.apisemaperreio.proposta_precos.model.domain.Fornecedor;
+import br.com.apisemaperreio.proposta_precos.model.domain.GerenciadorProposta;
+import br.com.apisemaperreio.proposta_precos.model.domain.Instituicao;
+import br.com.apisemaperreio.proposta_precos.model.domain.Material;
+import br.com.apisemaperreio.proposta_precos.model.domain.Proposta;
+import br.com.apisemaperreio.proposta_precos.model.domain.Requisitante;
+import br.com.apisemaperreio.proposta_precos.model.dto.gerenciador_proposta.GerenciadorPropostaResponse;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaCadastroRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloRequest;
+import br.com.apisemaperreio.proposta_precos.model.dto.proposta.PropostaModeloResponse;
+import br.com.apisemaperreio.proposta_precos.model.repository.GerenciadorPropostaRepository;
+import br.com.apisemaperreio.proposta_precos.model.use_cases.GerenciadorPropostaUseCases;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+@Service
+public class GerenciadorPropostaService implements GerenciadorPropostaUseCases {
+
+    private final GerenciadorPropostaRepository gerenciadorPropostaRepository;
+
+    public GerenciadorPropostaService(GerenciadorPropostaRepository gerenciadorPropostaRepository) {
+        this.gerenciadorPropostaRepository = gerenciadorPropostaRepository;
+    }
+
+    private void validarParametros(
+            @NotBlank(message = "Token deve ser informado") String token) {
+    }
+
+    private void validarParametros(
+            @NotNull(message = "Modelo de proposta não pode ser nulo") @Valid PropostaModeloRequest propostaModelo) {
+    }
+
+    private void validarParametros(
+            @NotNull(message = "Modelo de proposta não pode ser nulo") @Valid PropostaCadastroRequest propostaRequest) {
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public GerenciadorPropostaResponse obterPor(String token) {
+        this.validarParametros(token);
+        var gerenciadorProposta = gerenciadorPropostaRepository.findById(token)
+                .orElseThrow(() -> new NoSuchElementException("Token não encontrado."));
+        return new GerenciadorPropostaResponse(gerenciadorProposta);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<GerenciadorPropostaResponse> listar() {
+        var gerenciadores = gerenciadorPropostaRepository.findAll();
+        return gerenciadores.stream().map(GerenciadorPropostaResponse::new).toList();
+    }
+
+    @Transactional
+    @Override
+    public String gerarToken(PropostaModeloRequest propostaModelo) {
+        this.validarParametros(propostaModelo);
+        var endereco = new Endereco(propostaModelo.requisitante().instituicao().endereco().logradouro(),
+                propostaModelo.requisitante().instituicao().endereco().numero(),
+                propostaModelo.requisitante().instituicao().endereco().bairro(),
+                propostaModelo.requisitante().instituicao().endereco().cidade(),
+                propostaModelo.requisitante().instituicao().endereco().uf(),
+                propostaModelo.requisitante().instituicao().endereco().cep());
+        var instituicao = new Instituicao(propostaModelo.requisitante().instituicao().cnpj(),
+                propostaModelo.requisitante().instituicao().nome(), endereco);
+        var requisitante = new Requisitante(instituicao, propostaModelo.requisitante().email(),
+                propostaModelo.requisitante().telefone(), propostaModelo.requisitante().responsavel(),
+                propostaModelo.requisitante().setor());
+        var materiais = propostaModelo.materiais().stream()
+                .map(m -> new Material(m.descricao(), m.unidade(), m.quantidade())).toList();
+        var gerenciadorProposta = new GerenciadorProposta(requisitante, materiais, propostaModelo.observacoesRequisitante());
+        return gerenciadorPropostaRepository.save(gerenciadorProposta).getToken();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public PropostaModeloResponse obterPropostaModelo(String token) {
+        this.validarParametros(token);
+        var gerenciadorProposta = gerenciadorPropostaRepository.findById(token)
+                .orElseThrow(() -> new NoSuchElementException("Token não encontrado."));
+        return new PropostaModeloResponse(gerenciadorProposta.getProposta());
+    }
+
+    @Transactional
+    @Override
+    public void cadastrarProposta(String token, PropostaCadastroRequest propostaRequest) {
+        this.validarParametros(token);
+        this.validarParametros(propostaRequest);
+        var gerenciadorProposta = gerenciadorPropostaRepository.findById(token)
+                .orElseThrow(() -> new NoSuchElementException("Token não encontrado."));
+        var endereco = new Endereco(propostaRequest.fornecedor().instituicao().endereco().logradouro(),
+                propostaRequest.fornecedor().instituicao().endereco().numero(),
+                propostaRequest.fornecedor().instituicao().endereco().bairro(),
+                propostaRequest.fornecedor().instituicao().endereco().cidade(),
+                propostaRequest.fornecedor().instituicao().endereco().uf(),
+                propostaRequest.fornecedor().instituicao().endereco().cep());
+        var instituição = new Instituicao(propostaRequest.fornecedor().instituicao().cnpj(),
+                propostaRequest.fornecedor().instituicao().nome(), endereco);
+        var fornecedor = new Fornecedor(instituição, propostaRequest.fornecedor().email(),
+                propostaRequest.fornecedor().telefone(), propostaRequest.fornecedor().responsavel());
+        var materiais = propostaRequest.materiais().stream().map(m -> new Material(m.id(), m.preco())).toList();
+        var proposta = new Proposta(fornecedor, materiais, propostaRequest.desconto(),
+                propostaRequest.observacoesFornecedor());
+        gerenciadorProposta.prepararProposta(token, proposta);
+        gerenciadorPropostaRepository.save(gerenciadorProposta);
+    }
+
+    @Transactional
+    @Override
+    public void invalidarToken(String token) {
+        this.validarParametros(token);
+        var gerenciadorProposta = gerenciadorPropostaRepository.findById(token)
+                .orElseThrow(() -> new NoSuchElementException("Token não encontrado."));
+        gerenciadorProposta.invalidarToken();
+        gerenciadorPropostaRepository.save(gerenciadorProposta);
+    }
+
+    @Transactional
+    @Override
+    public void removerInvalidosOuExpirados() {
+        var removiveis = gerenciadorPropostaRepository.obterInvalidosOuExpirados();
+        for (var gerenciador : removiveis) {
+            if (gerenciador.getProposta() == null)
+                continue;
+            if (gerenciador.getProposta().getDataCriacao() != null)
+                gerenciador.desvincularProposta();
+        }
+        gerenciadorPropostaRepository.deleteAllInBatch(removiveis);
+    }
+
+}
