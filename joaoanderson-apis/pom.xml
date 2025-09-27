@@ -61,11 +61,14 @@
 
 	<build>
 		<plugins>
-			<plugin>    
+			<!-- Para obter suporte a recursos modernos do Java -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>    
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>21</source> <!-- Identificar a versão desejada aqui -->
+					<source>21</source> <!-- Identificar a versão do Java desejada aqui -->
 					<target>21</target>
+					<parameters>true</parameters> <!-- instrui o compilador a manter os nomes dos parâmetros no bytecode -->
 				</configuration>
 			</plugin>
 		</plugins>
