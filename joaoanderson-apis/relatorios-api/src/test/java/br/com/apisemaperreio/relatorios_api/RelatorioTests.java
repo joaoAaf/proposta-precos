@@ -1,4 +1,4 @@
-package br.edu.infnet.joaoandersonrelatoriosapi;
+package br.com.apisemaperreio.relatorios_api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
