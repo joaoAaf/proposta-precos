@@ -1,6 +1,7 @@
 package br.com.apisemaperreio.proposta_precos.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class RelatorioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> gerarRelatorioComparacaoPropostas(@RequestBody @Valid PropostasIdsRequest propostasIds) {
         return ResponseEntity.ok(this.relatorioUseCases.gerarRelatorioComparacaoPropostas(propostasIds));
     }
