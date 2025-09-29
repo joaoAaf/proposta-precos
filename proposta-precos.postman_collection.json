@@ -1,345 +1,52 @@
 {
 	"info": {
-		"_postman_id": "af0e1cf7-b7ac-4060-9449-a89d440a2a8c",
-		"name": "proposta-precos",
+		"_postman_id": "34cd4182-fb51-4af2-8460-d536820f698a",
+		"name": "proposta-precos-refatorado",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "47361745",
-		"_collection_link": "https://joaoaaf-51a68bb6-9213455.postman.co/workspace/Jo%C3%A3o-Anderson's-Workspace~0bbc4f06-0094-4598-8518-0bcd7a2aae9d/collection/47361745-af0e1cf7-b7ac-4060-9449-a89d440a2a8c?action=share&source=collection_link&creator=47361745"
+		"_collection_link": "https://joaoaaf-51a68bb6-9213455.postman.co/workspace/Jo%C3%A3o-Anderson's-Workspace~0bbc4f06-0094-4598-8518-0bcd7a2aae9d/collection/47361745-34cd4182-fb51-4af2-8460-d536820f698a?action=share&source=collection_link&creator=47361745"
 	},
 	"item": [
-		{
-			"name": "modelo-proposta",
-			"item": [
-				{
-					"name": "cadastrar-modelo-proposta",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"requisitante\": {\n        \"instituicao\": {\n            \"cnpj\": \"09876543201000\",\n            \"nome\": \"Infnet\",\n            \"endereco\": {\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"90\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010020\"\n            }\n        },\n        \"email\": \"example23@example.com\",\n        \"telefone\": \"2121228800\",\n        \"nome\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/modelo-proposta",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"modelo-proposta"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "listar-modelos-proposta",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/modelo-proposta",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"modelo-proposta"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "obter-modelo-proposta-por-id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/modelo-proposta/5",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"modelo-proposta",
-								"5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atualizar-modelo-proposta",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"requisitante\": {\n        \"id\": 5,\n        \"instituicao\": {\n            \"cnpj\": \"09.876.543/2010-00\",\n            \"nome\": \"Infnet\",\n            \"endereco\": {\n                \"id\": 5,\n                \"logradouro\": \"Rua São José\",\n                \"numero\": \"91\",\n                \"bairro\": \"Centro\",\n                \"cidade\": \"Rio de Janeiro\",\n                \"uf\": \"RJ\",\n                \"cep\": \"20010-020\"\n            }\n        },\n        \"email\": \"example23@example.com\",\n        \"telefone\": \"(21) 2122-8801\",\n        \"nome\": \"Fulano de Tal\",\n        \"setor\": \"Aquisições\"\n    },\n    \"observacoes\": \"Incluir frete no preço dos materiais\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/modelo-proposta/5",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"modelo-proposta",
-								"5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "remover-modelo-proposta-por-id",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/modelo-proposta/5",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"modelo-proposta",
-								"5"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "material",
-			"item": [
-				{
-					"name": "cadastrar-material-modelo-proposta",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"descricao\": \"Argamassa ACIII\",\n    \"unidade\": \"SC 15Kg\",\n    \"quantidade\": 20.00\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/material/modelo-proposta/3",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"material",
-								"modelo-proposta",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "listar-materiais",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"descricao\": \"Cimento CPII\",\n    \"unidade\": \"SC 50Kg\",\n    \"quantidade\": 15.00,\n    \"preco\": 40.50\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/material",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"material"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "listar-materiais-por-id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/material/4",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"material",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atualizar-material-por-id",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"descricao\": \"Argamassa ACIII\",\n    \"unidade\": \"SC 15Kg\",\n    \"quantidade\": 22.00\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/material/4",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"material",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deletar-material-por-id",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/material/4",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"material",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "calcular-preco-total-material",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"descricao\": \"Cimento CPII\",\n    \"unidade\": \"SC 50Kg\",\n    \"quantidade\": 15.00,\n    \"preco\": 40.50\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/material/preco-total",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"material",
-								"preco-total"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "marcar-material-adquirido",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/material/2/adquirido",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"material",
-								"2",
-								"adquirido"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "gerenciador-proposta",
 			"item": [
 				{
 					"name": "gerar-token-proposta",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{admin-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requisitante\": {\r\n        \"instituicao\": {\r\n            \"cnpj\": \"11.111.111/1111-10\",\r\n            \"nome\": \"Cooperativa de Trabalho\",\r\n            \"endereco\": {\r\n                \"logradouro\": \"Rua da Indústria\",\r\n                \"numero\": \"303\",\r\n                \"bairro\": \"Bairro das Indústrias\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000-000\"\r\n            }\r\n        },\r\n        \"email\": \"example5@example.com\",\r\n        \"telefone\": \"(11) 1111-1100\",\r\n        \"responsavel\": \"Pedro Costa\",\r\n        \"setor\": \"Setor C\"\r\n    },\r\n    \"materiais\": [\r\n        {\r\n            \"descricao\": \"Cimento CPII\",\r\n            \"unidade\": \"SC 50Kg\",\r\n            \"quantidade\": 10.00\r\n        },\r\n        {\r\n            \"descricao\": \"Areia Média\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 2.00\r\n        },\r\n        {\r\n            \"descricao\": \"Brita Nº 1\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 1.00\r\n        }\r\n    ],\r\n    \"observacoesRequisitante\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/api/gerenciador-proposta/modelo-proposta/3/gerar-token",
+							"raw": "{{baseURL}}/api/gerenciador-proposta/gerar-token",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"gerenciador-proposta",
-								"modelo-proposta",
-								"3",
 								"gerar-token"
 							]
 						}
@@ -349,6 +56,21 @@
 				{
 					"name": "obter-gerenciador-proposta",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{user-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -368,6 +90,21 @@
 				{
 					"name": "listar-gerenciadores-proposta",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{user-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -384,12 +121,12 @@
 					"response": []
 				},
 				{
-					"name": "criar-proposta",
+					"name": "obter-proposta-modelo",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/gerenciador-proposta/{token}/proposta/criar",
+							"raw": "{{baseURL}}/api/gerenciador-proposta/{token}/proposta/modelo",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -398,20 +135,50 @@
 								"gerenciador-proposta",
 								"{token}",
 								"proposta",
-								"criar"
+								"modelo"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "cadastrar-proposta",
+					"name": "cadastrar-proposta-1",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"requisitante\": {\r\n        \"id\": 3,\r\n        \"instituicao\": {\r\n            \"cnpj\": \"11.111.111/1111-10\",\r\n            \"nome\": \"Cooperativa de Trabalho\",\r\n            \"endereco\": {\r\n                \"id\": 3,\r\n                \"logradouro\": \"Rua da Indústria\",\r\n                \"numero\": \"303\",\r\n                \"bairro\": \"Bairro das Indústrias\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000-000\"\r\n            }\r\n        },\r\n        \"email\": \"example5@example.com\",\r\n        \"telefone\": \"(11) 1111-1100\",\r\n        \"nome\": \"Pedro Costa\",\r\n        \"setor\": \"Setor C\"\r\n    },\r\n    \"fornecedor\": {\r\n        \"instituicao\": {\r\n            \"cnpj\": \"11298734612983\",\r\n            \"nome\": \"Zé Material de Construção\",\r\n            \"endereco\": {\r\n                \"logradouro\": \"Rua da Construção\",\r\n                \"numero\": \"303\",\r\n                \"bairro\": \"Bom Nome\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000000\"\r\n            }\r\n        },\r\n        \"email\": \"example50@example.com\",\r\n        \"telefone\": \"8834573476\",\r\n        \"nome\": \"Zé Fulano\"\r\n    },\r\n    \"materiais\": [\r\n        {\r\n            \"numeroItem\": 1,\r\n            \"descricao\": \"Cimento CPII\",\r\n            \"unidade\": \"SC 50Kg\",\r\n            \"quantidade\": 10.00,\r\n            \"preco\": 36,\r\n            \"adquirido\": false\r\n        },\r\n        {\r\n            \"numeroItem\": 2,\r\n            \"descricao\": \"Areia Média\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 2.00,\r\n            \"preco\": 75,\r\n            \"adquirido\": false\r\n        },\r\n        {\r\n            \"numeroItem\": 3,\r\n            \"descricao\": \"Brita Nº 1\",\r\n            \"unidade\": \"M3\",\r\n            \"quantidade\": 1.00,\r\n            \"preco\": 105.55,\r\n            \"adquirido\": false\r\n        }\r\n    ],\r\n    \"desconto\": 0,\r\n    \"enderecoEntrega\": {\r\n        \"id\": 3,\r\n        \"logradouro\": \"Rua da Indústria\",\r\n        \"numero\": \"303\",\r\n        \"bairro\": \"Bairro das Indústrias\",\r\n        \"cidade\": \"Limoeiro do Norte\",\r\n        \"uf\": \"CE\",\r\n        \"cep\": \"29000-000\"\r\n    },\r\n    \"observacoesRequisitante\": null,\r\n    \"observacoesFornecedor\": null\r\n}",
+							"raw": "{\r\n    \"fornecedor\": {\r\n        \"instituicao\": {\r\n            \"cnpj\": \"11298734612990\",\r\n            \"nome\": \"Zé Material de Construção\",\r\n            \"endereco\": {\r\n                \"logradouro\": \"Rua da Construção\",\r\n                \"numero\": \"303\",\r\n                \"bairro\": \"Bom Nome\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000000\"\r\n            }\r\n        },\r\n        \"email\": \"example50@example.com\",\r\n        \"telefone\": \"8834573476\",\r\n        \"nome\": \"Zé Fulano\"\r\n    },\r\n    \"materiais\": [\r\n        {\r\n            \"id\": 4,\r\n            \"preco\": 36\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"preco\": 75\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"preco\": 105.55\r\n        }\r\n    ],\r\n    \"desconto\": 0,\r\n    \"observacoesFornecedor\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/gerenciador-proposta/{token}/proposta/cadastrar",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"gerenciador-proposta",
+								"{token}",
+								"proposta",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cadastrar-proposta-2",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fornecedor\": {\r\n        \"instituicao\": {\r\n            \"cnpj\": \"11298734612983\",\r\n            \"nome\": \"Chico Material de Construção\",\r\n            \"endereco\": {\r\n                \"logradouro\": \"Rua da Construção\",\r\n                \"numero\": \"300\",\r\n                \"bairro\": \"Bom Nome\",\r\n                \"cidade\": \"Limoeiro do Norte\",\r\n                \"uf\": \"CE\",\r\n                \"cep\": \"29000000\"\r\n            }\r\n        },\r\n        \"email\": \"example1000@example.com\",\r\n        \"telefone\": \"8834573480\",\r\n        \"nome\": \"Chico Beltrano\"\r\n    },\r\n    \"materiais\": [\r\n        {\r\n            \"id\": 7,\r\n            \"preco\": 40\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"preco\": 80.65\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"preco\": 99.50\r\n        }\r\n    ],\r\n    \"desconto\": 0,\r\n    \"observacoesFornecedor\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -437,6 +204,21 @@
 				{
 					"name": "invalidar-token",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{admin-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"url": {
@@ -457,6 +239,21 @@
 				{
 					"name": "limpar-gerenciadores-proposta",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{admin-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -481,6 +278,21 @@
 				{
 					"name": "listar-propostas",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{user-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -499,6 +311,21 @@
 				{
 					"name": "obter-proposta-por-id",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{user-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -521,11 +348,26 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{user-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"dataCriacao\": \"2025-08-24\",\n    \"requisitante\": {\n        \"id\": 3,\n        \"instituicao\": {\n            \"cnpj\": \"1111111111111\",\n            \"nome\": \"Cooperativa de Trabalho\",\n            \"endereco\": {\n                \"id\": 3,\n                \"logradouro\": \"Rua da Indústria\",\n                \"numero\": \"303\",\n                \"bairro\": \"Bairro das Indústrias\",\n                \"cidade\": \"Limoeiro do Norte\",\n                \"uf\": \"CE\",\n                \"cep\": \"29000000\"\n            }\n        },\n        \"email\": \"example5@example.com\",\n        \"telefone\": \"11111111\",\n        \"nome\": \"Pedro Costa\",\n        \"setor\": \"Setor C\"\n    },\n    \"fornecedor\": {\n        \"id\": 1,\n        \"instituicao\": {\n            \"cnpj\": \"1129873461298376\",\n            \"nome\": \"Zé Material de Construção\",\n            \"endereco\": {\n                \"id\": 5,\n                \"logradouro\": \"Rua da Construção\",\n                \"numero\": \"303\",\n                \"bairro\": \"Bom Nome\",\n                \"cidade\": \"Limoeiro do Norte\",\n                \"uf\": \"CE\",\n                \"cep\": \"29000000\"\n            }\n        },\n        \"email\": \"example50@example.com\",\n        \"telefone\": \"34573476\",\n        \"nome\": \"Zé\"\n    },\n    \"materiais\": [\n        {\n            \"id\": 4,\n            \"numeroItem\": 1,\n            \"descricao\": \"Cimento CPII\",\n            \"unidade\": \"SC 50Kg\",\n            \"quantidade\": 10.00,\n            \"preco\": 36.00,\n            \"adquirido\": false\n        },\n        {\n            \"id\": 5,\n            \"numeroItem\": 2,\n            \"descricao\": \"Areia Média\",\n            \"unidade\": \"M3\",\n            \"quantidade\": 2.00,\n            \"preco\": 75.00,\n            \"adquirido\": false\n        },\n        {\n            \"id\": 6,\n            \"numeroItem\": 3,\n            \"descricao\": \"Brita Nº 1\",\n            \"unidade\": \"M3\",\n            \"quantidade\": 1.00,\n            \"preco\": 105.55,\n            \"adquirido\": false\n        }\n    ],\n    \"desconto\": 0.00,\n    \"enderecoEntrega\": {\n        \"id\": 3,\n        \"logradouro\": \"Rua da Indústria\",\n        \"numero\": \"303\",\n        \"bairro\": \"Bairro das Indústrias\",\n        \"cidade\": \"Limoeiro do Norte\",\n        \"uf\": \"CE\",\n        \"cep\": \"29000000\"\n    },\n    \"observacoesRequisitante\": null,\n    \"observacoesFornecedor\": null\n}",
+							"raw": "{\n    \"materiais\": [\n        {\n            \"quantidade\": 10,\n            \"preco\": 36\n        },\n        {\n            \"quantidade\": 2,\n            \"preco\": 75\n        },\n        {\n            \"quantidade\": 1,\n            \"preco\": 105.55\n        }\n    ],\n    \"desconto\": 0.00\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -549,6 +391,21 @@
 				{
 					"name": "deletar-proposta",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{admin-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -573,11 +430,26 @@
 				{
 					"name": "gerar-relatorio-comparacao-propostas",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{user-pass}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n    {\n        \"id\": 1,\n        \"materiais\": [\n            {\n                \"numeroItem\": 1,\n                \"quantidade\": 55.00,\n                \"precoUnitario\": 12.00,\n                \"precoTotal\": 660.0\n            },\n            {\n                \"numeroItem\": 2,\n                \"quantidade\": 2.20,\n                \"precoUnitario\": 104.60,\n                \"precoTotal\": 230.12\n            }\n        ],\n        \"desconto\": 0.00,\n        \"precoGlobal\": 890.12\n    },\n    {\n        \"id\": 2,\n        \"materiais\": [\n            {\n                \"numeroItem\": 1,\n                \"quantidade\": 55.00,\n                \"precoUnitario\": 10.00,\n                \"precoTotal\": 550.0\n            },\n            {\n                \"numeroItem\": 2,\n                \"quantidade\": 2.20,\n                \"precoUnitario\": 100.50,\n                \"precoTotal\": 220.1\n            }\n        ],\n        \"desconto\": 0.00,\n        \"precoGlobal\": 771.1\n    }\n]",
+							"raw": "//Certifique-se de que existam pelo menos duas propostas para emitir o relatório\n{\n    \"ids\": [1, 2, 3]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -600,10 +472,42 @@
 			]
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "baseURL",
 			"value": "http://localhost:8080",
+			"type": "default"
+		},
+		{
+			"key": "user-pass",
+			"value": "userPass",
+			"type": "default"
+		},
+		{
+			"key": "admin-pass",
+			"value": "adminPass",
 			"type": "default"
 		}
 	]
